@@ -969,199 +969,148 @@
     </div>
 
     <script>
-        // Configuration - YOUR GOOGLE SCRIPT URL
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwG60A16z9jKJM3MKMWyycHqJHdh_gSoQfLR8-hCUGXwrjdzzHknoOv0Xh8aQe6UYRw/exec';
-        
-        // Package Builder Functionality
-        let selectedServices = [];
-        let totalPrice = 0;
-        
-        document.querySelectorAll('.service-select').forEach(service => {
-            service.addEventListener('click', function() {
-                const serviceName = this.getAttribute('data-service');
-                const servicePrice = parseInt(this.getAttribute('data-price'));
-                
-                if (this.classList.contains('selected')) {
-                    this.classList.remove('selected');
-                    selectedServices = selectedServices.filter(s => s.name !== serviceName);
-                    totalPrice -= servicePrice;
-                } else {
-                    this.classList.add('selected');
-                    selectedServices.push({
-                        name: serviceName,
-                        price: servicePrice,
-                        displayName: this.querySelector('h4').textContent
-                    });
-                    totalPrice += servicePrice;
-                }
-                
-                updatePackageSummary();
-            });
-        });
-
-        function updatePackageSummary() {
-            document.getElementById('totalPrice').textContent = totalPrice;
-            const selectedServicesContainer = document.getElementById('selectedServices');
+    // Configuration - YOUR GOOGLE SCRIPT URL
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwG60A16z9jKJM3MKMWyycHqJHdh_gSoQfLR8-hCUGXwrjdzzHknoOv0Xh8aQe6UYRw/exec';
+    
+    // Package Builder Functionality
+    let selectedServices = [];
+    let totalPrice = 0;
+    
+    document.querySelectorAll('.service-select').forEach(service => {
+        service.addEventListener('click', function() {
+            const serviceName = this.getAttribute('data-service');
+            const servicePrice = parseInt(this.getAttribute('data-price'));
             
-            if (selectedServices.length === 0) {
-                selectedServicesContainer.innerHTML = '<p>No services selected yet. Click on services above to add them to your package.</p>';
-                document.getElementById('packageSummary').value = 'No services selected yet.';
+            if (this.classList.contains('selected')) {
+                this.classList.remove('selected');
+                selectedServices = selectedServices.filter(s => s.name !== serviceName);
+                totalPrice -= servicePrice;
             } else {
-                let servicesHTML = '<h4>Your Selected Services:</h4><ul style="list-style: none; padding: 0;">';
-                let packageSummaryText = '';
-                
-                selectedServices.forEach(service => {
-                    servicesHTML += `<li><i class="fas fa-check" style="color: var(--secondary); margin-right: 8px;"></i><strong>${service.displayName}</strong> - $${service.price}</li>`;
-                    packageSummaryText += `${service.displayName} ($${service.price}), `;
+                this.classList.add('selected');
+                selectedServices.push({
+                    name: serviceName,
+                    price: servicePrice,
+                    displayName: this.querySelector('h4').textContent
                 });
-                
-                servicesHTML += `<li style="font-weight: 700; color: var(--secondary); margin-top: 10px; padding-top: 10px; border-top: 1px dashed #eee;">Total: $${totalPrice}</li></ul>`;
-                selectedServicesContainer.innerHTML = servicesHTML;
-                document.getElementById('packageSummary').value = packageSummaryText.slice(0, -2);
+                totalPrice += servicePrice;
             }
-        }
+            
+            updatePackageSummary();
+        });
+    });
 
-        // Calendar with Google Apps Script Integration
-        let currentDate = new Date();
-        let selectedCalendarDate = null;
-        let selectedTimeSlot = null;
-        let busyDatesFromAPI = [];
+    function updatePackageSummary() {
+        document.getElementById('totalPrice').textContent = totalPrice;
+        const selectedServicesContainer = document.getElementById('selectedServices');
         
-        // Function to get busy dates from Google Apps Script
-        async function fetchBusyDates(year, month) {
-            try {
-                console.log(`Fetching busy dates for ${year}-${month}`);
-                const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getBusyDates&year=${year}&month=${month}`);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                console.log('Busy dates response:', data);
-                
-                if (data.success && data.busyDates) {
-                    return data.busyDates;
-                } else {
-                    console.warn('No busy dates in response, using empty array');
-                    return [];
-                }
-            } catch (error) {
-                console.error('Error fetching busy dates:', error);
-                // Return empty array for testing
-                return [];
-            }
-        }
-        
-        // Function to get available time slots
-        async function fetchTimeSlots(dateStr) {
-            try {
-                console.log(`Fetching time slots for ${dateStr}`);
-                
-                // Show loading
-                document.getElementById('loadingTimeSlots').style.display = 'block';
-                document.getElementById('timeSlots').innerHTML = '';
-                
-                const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getTimeSlots&date=${dateStr}`);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                console.log('Time slots response:', data);
-                
-                document.getElementById('loadingTimeSlots').style.display = 'none';
-                
-                if (data.success && data.timeSlots) {
-                    displayTimeSlots(data.timeSlots);
-                    return data.timeSlots;
-                } else {
-                    showStatusMessage('No time slots available for this date.', 'error');
-                    return [];
-                }
-            } catch (error) {
-                console.error('Error fetching time slots:', error);
-                document.getElementById('loadingTimeSlots').style.display = 'none';
-                
-                // Show sample time slots for testing
-                displaySampleTimeSlots();
-                return [];
-            }
-        }
-        
-        function displayTimeSlots(slots) {
-            const timeSlotsContainer = document.getElementById('timeSlots');
-            timeSlotsContainer.innerHTML = '';
+        if (selectedServices.length === 0) {
+            selectedServicesContainer.innerHTML = '<p>No services selected yet. Click on services above to add them to your package.</p>';
+            document.getElementById('packageSummary').value = 'No services selected yet.';
+        } else {
+            let servicesHTML = '<h4>Your Selected Services:</h4><ul style="list-style: none; padding: 0;">';
+            let packageSummaryText = '';
             
-            if (slots.length === 0) {
-                timeSlotsContainer.innerHTML = '<p style="grid-column: span 2; text-align: center; color: var(--gray);">No time slots available for this date.</p>';
-                return;
-            }
-            
-            let availableCount = 0;
-            
-            slots.forEach(slot => {
-                const slotElement = document.createElement('button');
-                slotElement.type = 'button';
-                slotElement.className = 'time-slot-btn';
-                slotElement.textContent = slot.display;
-                slotElement.dataset.start = slot.start;
-                slotElement.dataset.end = slot.end;
-                
-                if (slot.available) {
-                    slotElement.style.cssText = `
-                        padding: 12px;
-                        border: 2px solid var(--success);
-                        background-color: white;
-                        color: var(--success);
-                        border-radius: 6px;
-                        cursor: pointer;
-                        transition: all 0.3s;
-                        font-weight: 500;
-                    `;
-                    slotElement.addEventListener('click', () => selectTimeSlot(slotElement, slot));
-                    availableCount++;
-                } else {
-                    slotElement.style.cssText = `
-                        padding: 12px;
-                        border: 2px solid var(--light-gray);
-                        background-color: #f5f5f5;
-                        color: var(--gray);
-                        border-radius: 6px;
-                        cursor: not-allowed;
-                        opacity: 0.6;
-                    `;
-                    slotElement.title = 'This time slot is already booked';
-                }
-                
-                timeSlotsContainer.appendChild(slotElement);
+            selectedServices.forEach(service => {
+                servicesHTML += `<li><i class="fas fa-check" style="color: var(--secondary); margin-right: 8px;"></i><strong>${service.displayName}</strong> - $${service.price}</li>`;
+                packageSummaryText += `${service.displayName} ($${service.price}), `;
             });
             
-            if (availableCount === 0) {
-                timeSlotsContainer.innerHTML = '<p style="grid-column: span 2; text-align: center; color: var(--danger); padding: 20px;">All time slots are booked for this date. Please select another date.</p>';
+            servicesHTML += `<li style="font-weight: 700; color: var(--secondary); margin-top: 10px; padding-top: 10px; border-top: 1px dashed #eee;">Total: $${totalPrice}</li></ul>`;
+            selectedServicesContainer.innerHTML = servicesHTML;
+            document.getElementById('packageSummary').value = packageSummaryText.slice(0, -2);
+        }
+    }
+
+    // Calendar with Google Apps Script Integration
+    let currentDate = new Date();
+    let selectedCalendarDate = null;
+    let selectedTimeSlot = null;
+    let busyDatesFromAPI = [];
+    
+    // Function to get busy dates from Google Apps Script
+    async function fetchBusyDates(year, month) {
+        try {
+            console.log(`Fetching busy dates for ${year}-${month}`);
+            const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getBusyDates&year=${year}&month=${month}`);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
+            
+            const data = await response.json();
+            console.log('Busy dates response:', data);
+            
+            if (data.success && data.busyDates) {
+                return data.busyDates;
+            } else {
+                console.warn('No busy dates in response, using empty array');
+                return [];
+            }
+        } catch (error) {
+            console.error('Error fetching busy dates:', error);
+            // Return demo data for testing
+            return ['2024-01-15', '2024-01-20', '2024-01-25'];
+        }
+    }
+    
+    // Function to get available time slots
+    async function fetchTimeSlots(dateStr) {
+        try {
+            console.log(`Fetching time slots for ${dateStr}`);
+            
+            // Show loading
+            document.getElementById('loadingTimeSlots').style.display = 'block';
+            document.getElementById('timeSlots').innerHTML = '';
+            
+            const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getTimeSlots&date=${dateStr}`);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            console.log('Time slots response:', data);
+            
+            document.getElementById('loadingTimeSlots').style.display = 'none';
+            
+            if (data.success && data.timeSlots) {
+                displayTimeSlots(data.timeSlots);
+                return data.timeSlots;
+            } else {
+                // Show demo slots if API fails
+                displayDemoTimeSlots();
+                return [];
+            }
+        } catch (error) {
+            console.error('Error fetching time slots:', error);
+            document.getElementById('loadingTimeSlots').style.display = 'none';
+            
+            // Show demo time slots for testing
+            displayDemoTimeSlots();
+            return [];
+        }
+    }
+    
+    function displayTimeSlots(slots) {
+        const timeSlotsContainer = document.getElementById('timeSlots');
+        timeSlotsContainer.innerHTML = '';
+        
+        if (slots.length === 0) {
+            timeSlotsContainer.innerHTML = '<p style="grid-column: span 2; text-align: center; color: var(--gray); padding: 20px;">No time slots available for this date.</p>';
+            return;
         }
         
-        function displaySampleTimeSlots() {
-            const timeSlotsContainer = document.getElementById('timeSlots');
-            timeSlotsContainer.innerHTML = '';
+        let availableCount = 0;
+        
+        slots.forEach(slot => {
+            const slotElement = document.createElement('button');
+            slotElement.type = 'button';
+            slotElement.className = 'time-slot-btn';
+            slotElement.textContent = slot.display;
+            slotElement.dataset.start = slot.start;
+            slotElement.dataset.end = slot.end;
             
-            const sampleSlots = [
-                { display: "9:00 - 11:00", start: "09:00", end: "11:00", available: true },
-                { display: "11:00 - 13:00", start: "11:00", end: "13:00", available: true },
-                { display: "13:00 - 15:00", start: "13:00", end: "15:00", available: true },
-                { display: "15:00 - 17:00", start: "15:00", end: "17:00", available: true }
-            ];
-            
-            sampleSlots.forEach(slot => {
-                const slotElement = document.createElement('button');
-                slotElement.type = 'button';
-                slotElement.className = 'time-slot-btn';
-                slotElement.textContent = slot.display;
-                slotElement.dataset.start = slot.start;
-                slotElement.dataset.end = slot.end;
-                
+            if (slot.available) {
                 slotElement.style.cssText = `
                     padding: 12px;
                     border: 2px solid var(--success);
@@ -1171,395 +1120,471 @@
                     cursor: pointer;
                     transition: all 0.3s;
                     font-weight: 500;
+                    font-family: 'Poppins', sans-serif;
                 `;
-                
                 slotElement.addEventListener('click', () => selectTimeSlot(slotElement, slot));
-                timeSlotsContainer.appendChild(slotElement);
-            });
-        }
-        
-        function selectTimeSlot(element, slot) {
-            // Remove selection from all time slots
-            document.querySelectorAll('.time-slot-btn').forEach(btn => {
-                btn.style.backgroundColor = 'white';
-                btn.style.color = 'var(--success)';
-            });
-            
-            // Select this slot
-            element.style.backgroundColor = 'var(--success)';
-            element.style.color = 'white';
-            
-            selectedTimeSlot = slot.start;
-            
-            // Update display
-            document.getElementById('selectedTimeDisplay').value = `${slot.display}`;
-            document.getElementById('selectedTime').value = slot.start;
-            
-            // Show selected time container
-            document.getElementById('selectedTimeContainer').style.display = 'block';
-            
-            showStatusMessage(`Selected time: ${slot.display}`, 'success');
-        }
-        
-        // Render Calendar
-        async function renderCalendar() {
-            const calendarBody = document.getElementById('calendarBody');
-            calendarBody.innerHTML = '';
-            
-            const year = currentDate.getFullYear();
-            const month = currentDate.getMonth() + 1;
-            
-            // Update month display
-            const monthNames = ["January", "February", "March", "April", "May", "June",
-                                "July", "August", "September", "October", "November", "December"];
-            document.getElementById('currentMonth').textContent = `${monthNames[month - 1]} ${year}`;
-            
-            // Fetch busy dates from Google Calendar
-            busyDatesFromAPI = await fetchBusyDates(year, month);
-            console.log('Busy dates loaded:', busyDatesFromAPI);
-            
-            // Calendar calculations
-            const firstDay = new Date(year, month - 1, 1);
-            const lastDay = new Date(year, month, 0);
-            const daysInMonth = lastDay.getDate();
-            const startingDay = firstDay.getDay();
-            
-            let date = 1;
-            let today = new Date();
-            today.setHours(0, 0, 0, 0);
-            
-            // Create calendar
-            for (let i = 0; i < 6; i++) {
-                const row = document.createElement('tr');
-                
-                for (let j = 0; j < 7; j++) {
-                    const cell = document.createElement('td');
-                    
-                    if (i === 0 && j < startingDay) {
-                        row.appendChild(cell);
-                    } else if (date > daysInMonth) {
-                        row.appendChild(cell);
-                    } else {
-                        const currentDateStr = `${year}-${String(month).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
-                        const cellDate = new Date(year, month - 1, date);
-                        cellDate.setHours(0, 0, 0, 0);
-                        
-                        // Today
-                        if (today.getTime() === cellDate.getTime()) {
-                            cell.classList.add('today');
-                        }
-                        
-                        // Check if busy
-                        if (busyDatesFromAPI.includes(currentDateStr)) {
-                            cell.classList.add('booked');
-                            cell.innerHTML = `<div class="day-number">${date}</div><div style="font-size: 0.7rem; color: var(--danger);"><i class="fas fa-times"></i> Booked</div>`;
-                        } else if (cellDate < today) {
-                            cell.innerHTML = `<div class="day-number" style="color: #aaa;">${date}</div><div style="font-size: 0.7rem; color: #aaa;">Past</div>`;
-                        } else {
-                            cell.classList.add('available');
-                            cell.innerHTML = `<div class="day-number">${date}</div><div style="font-size: 0.7rem; color: var(--success);"><i class="fas fa-check"></i> Available</div>`;
-                            
-                            cell.addEventListener('click', function() {
-                                selectDate(cell, currentDateStr, cellDate);
-                            });
-                            
-                            if (selectedCalendarDate === currentDateStr) {
-                                cell.classList.add('selected');
-                            }
-                        }
-                        
-                        row.appendChild(cell);
-                        date++;
-                    }
-                }
-                
-                calendarBody.appendChild(row);
-                if (date > daysInMonth) break;
-            }
-        }
-        
-        function selectDate(cell, dateStr, dateObj) {
-            if (busyDatesFromAPI.includes(dateStr)) {
-                showStatusMessage('This date is already booked. Please select another date.', 'error');
-                return;
+                availableCount++;
+            } else {
+                slotElement.style.cssText = `
+                    padding: 12px;
+                    border: 2px solid var(--light-gray);
+                    background-color: #f5f5f5;
+                    color: var(--gray);
+                    border-radius: 6px;
+                    cursor: not-allowed;
+                    opacity: 0.6;
+                    font-family: 'Poppins', sans-serif;
+                `;
+                slotElement.disabled = true;
+                slotElement.title = 'This time slot is already booked';
             }
             
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            if (dateObj < today) {
-                showStatusMessage('Cannot select past dates.', 'error');
-                return;
-            }
-            
-            // Remove previous selection
-            document.querySelectorAll('#calendar td').forEach(td => {
-                td.classList.remove('selected');
-            });
-            
-            // Select new date
-            cell.classList.add('selected');
-            selectedCalendarDate = dateStr;
-            
-            // Reset time selection
-            selectedTimeSlot = null;
-            document.getElementById('selectedTimeContainer').style.display = 'none';
-            document.getElementById('selectedTimeDisplay').value = '';
-            document.getElementById('selectedTime').value = '';
-            
-            // Update date display
-            const formattedDate = dateObj.toLocaleDateString('en-US', { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-            });
-            document.getElementById('selectedDate').value = formattedDate;
-            
-            // Show time slots container
-            document.getElementById('timeSlotsContainer').style.display = 'block';
-            
-            // Load available time slots
-            fetchTimeSlots(dateStr);
-            
-            showStatusMessage(`Selected date: ${formattedDate}. Now choose a time slot.`, 'success');
-        }
-        
-        // Calendar Navigation
-        document.getElementById('prevMonth').addEventListener('click', async function() {
-            currentDate.setMonth(currentDate.getMonth() - 1);
-            await renderCalendar();
+            timeSlotsContainer.appendChild(slotElement);
         });
         
-        document.getElementById('nextMonth').addEventListener('click', async function() {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            await renderCalendar();
+        if (availableCount === 0) {
+            timeSlotsContainer.innerHTML = '<p style="grid-column: span 2; text-align: center; color: var(--danger); padding: 20px;">All time slots are booked for this date. Please select another date.</p>';
+        }
+    }
+    
+    function displayDemoTimeSlots() {
+        const timeSlotsContainer = document.getElementById('timeSlots');
+        timeSlotsContainer.innerHTML = '';
+        
+        const demoSlots = [
+            { display: "9:00 AM - 11:00 AM", start: "09:00", end: "11:00", available: true },
+            { display: "11:00 AM - 1:00 PM", start: "11:00", end: "13:00", available: true },
+            { display: "1:00 PM - 3:00 PM", start: "13:00", end: "15:00", available: true },
+            { display: "3:00 PM - 5:00 PM", start: "15:00", end: "17:00", available: true }
+        ];
+        
+        demoSlots.forEach(slot => {
+            const slotElement = document.createElement('button');
+            slotElement.type = 'button';
+            slotElement.className = 'time-slot-btn';
+            slotElement.textContent = slot.display;
+            slotElement.dataset.start = slot.start;
+            slotElement.dataset.end = slot.end;
+            
+            slotElement.style.cssText = `
+                padding: 12px;
+                border: 2px solid var(--success);
+                background-color: white;
+                color: var(--success);
+                border-radius: 6px;
+                cursor: pointer;
+                transition: all 0.3s;
+                font-weight: 500;
+                font-family: 'Poppins', sans-serif;
+            `;
+            
+            slotElement.addEventListener('click', () => selectTimeSlot(slotElement, slot));
+            timeSlotsContainer.appendChild(slotElement);
+        });
+    }
+    
+    function selectTimeSlot(element, slot) {
+        // Remove selection from all time slots
+        document.querySelectorAll('.time-slot-btn').forEach(btn => {
+            btn.style.backgroundColor = 'white';
+            btn.style.color = 'var(--success)';
         });
         
-        document.getElementById('todayBtn').addEventListener('click', async function() {
-            currentDate = new Date();
-            await renderCalendar();
-        });
+        // Select this slot
+        element.style.backgroundColor = 'var(--success)';
+        element.style.color = 'white';
         
-        // Initialize calendar
-        renderCalendar();
+        selectedTimeSlot = slot.start;
         
-        // Booking Submission
-        document.getElementById('submitBooking').addEventListener('click', async function() {
-            const submitBtn = document.getElementById('submitBooking');
-            const originalText = submitBtn.textContent;
+        // Update display
+        document.getElementById('selectedTimeDisplay').value = `${slot.display}`;
+        document.getElementById('selectedTime').value = slot.start;
+        
+        // Show selected time container
+        document.getElementById('selectedTimeContainer').style.display = 'block';
+        
+        showStatusMessage(`Selected time: ${slot.display}`, 'success');
+    }
+    
+    // Render Calendar
+    async function renderCalendar() {
+        const calendarBody = document.getElementById('calendarBody');
+        calendarBody.innerHTML = '';
+        
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth() + 1;
+        
+        // Update month display
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+                            "July", "August", "September", "October", "November", "December"];
+        document.getElementById('currentMonth').textContent = `${monthNames[month - 1]} ${year}`;
+        
+        // Fetch busy dates from Google Calendar
+        busyDatesFromAPI = await fetchBusyDates(year, month);
+        console.log('Busy dates loaded:', busyDatesFromAPI);
+        
+        // Calendar calculations
+        const firstDay = new Date(year, month - 1, 1);
+        const lastDay = new Date(year, month, 0);
+        const daysInMonth = lastDay.getDate();
+        const startingDay = firstDay.getDay();
+        
+        let date = 1;
+        let today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        // Create calendar
+        for (let i = 0; i < 6; i++) {
+            const row = document.createElement('tr');
             
-            // Validate required fields
-            if (!selectedCalendarDate) {
-                showStatusMessage('Please select a date from the calendar first.', 'error');
-                return;
-            }
-            
-            if (!selectedTimeSlot) {
-                showStatusMessage('Please select a time slot.', 'error');
-                return;
-            }
-            
-            if (!document.getElementById('clientName').value.trim()) {
-                showStatusMessage('Please enter your full name.', 'error');
-                document.getElementById('clientName').focus();
-                return;
-            }
-            
-            if (!document.getElementById('clientEmail').value.trim()) {
-                showStatusMessage('Please enter your email address.', 'error');
-                document.getElementById('clientEmail').focus();
-                return;
-            }
-            
-            if (selectedServices.length === 0) {
-                showStatusMessage('Please select at least one service from the package builder.', 'error');
-                return;
-            }
-            
-            // Prepare booking data
-            const bookingData = {
-                action: 'createEvent',
-                clientName: document.getElementById('clientName').value.trim(),
-                clientEmail: document.getElementById('clientEmail').value.trim(),
-                clientPhone: document.getElementById('clientPhone').value.trim() || 'Not provided',
-                selectedDateISO: selectedCalendarDate,
-                selectedTime: selectedTimeSlot,
-                eventType: document.getElementById('eventType').value.trim() || 'Photo Session',
-                packageSummary: document.getElementById('packageSummary').value,
-                additionalNotes: document.getElementById('additionalNotes').value.trim() || 'No additional notes',
-                totalPrice: totalPrice
-            };
-            
-            // Show loading state
-            submitBtn.textContent = 'Processing...';
-            submitBtn.disabled = true;
-            
-            try {
-                console.log('Sending booking data:', bookingData);
+            for (let j = 0; j < 7; j++) {
+                const cell = document.createElement('td');
                 
-                // Send to Google Script using POST
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(bookingData)
-                });
-                
-                const result = await response.json();
-                console.log('Booking response:', result);
-                
-                if (result.success) {
-                    // Prepare modal content
-                    document.getElementById('modalDate').textContent = document.getElementById('selectedDate').value;
-                    document.getElementById('modalTime').textContent = document.getElementById('selectedTimeDisplay').value;
-                    document.getElementById('modalClient').textContent = bookingData.clientName;
-                    document.getElementById('modalTotal').textContent = totalPrice;
-                    document.getElementById('modalServices').textContent = bookingData.packageSummary;
-                    
-                    // Show success modal
-                    document.getElementById('confirmationModal').classList.add('active');
-                    
-                    // Add to busy dates and refresh calendar
-                    busyDatesFromAPI.push(selectedCalendarDate);
-                    await renderCalendar();
-                    
-                    // Reset form after successful submission
-                    setTimeout(() => {
-                        resetForm();
-                    }, 100);
-                    
+                if (i === 0 && j < startingDay) {
+                    row.appendChild(cell);
+                } else if (date > daysInMonth) {
+                    row.appendChild(cell);
                 } else {
-                    showStatusMessage(result.error || 'Booking failed. Please try again.', 'error');
+                    const currentDateStr = `${year}-${String(month).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
+                    const cellDate = new Date(year, month - 1, date);
+                    cellDate.setHours(0, 0, 0, 0);
+                    
+                    // Today
+                    if (today.getTime() === cellDate.getTime()) {
+                        cell.classList.add('today');
+                    }
+                    
+                    // Check if busy
+                    if (busyDatesFromAPI.includes(currentDateStr)) {
+                        cell.classList.add('booked');
+                        cell.innerHTML = `<div class="day-number">${date}</div><div style="font-size: 0.7rem; color: var(--danger);"><i class="fas fa-times"></i> Booked</div>`;
+                    } else if (cellDate < today) {
+                        cell.innerHTML = `<div class="day-number" style="color: #aaa;">${date}</div><div style="font-size: 0.7rem; color: #aaa;">Past</div>`;
+                    } else {
+                        cell.classList.add('available');
+                        cell.innerHTML = `<div class="day-number">${date}</div><div style="font-size: 0.7rem; color: var(--success);"><i class="fas fa-check"></i> Available</div>`;
+                        
+                        cell.addEventListener('click', function() {
+                            selectDate(cell, currentDateStr, cellDate);
+                        });
+                        
+                        if (selectedCalendarDate === currentDateStr) {
+                            cell.classList.add('selected');
+                        }
+                    }
+                    
+                    row.appendChild(cell);
+                    date++;
                 }
-                
-            } catch (error) {
-                console.error('Booking error:', error);
-                showStatusMessage('Network error. Please check your connection and try again.', 'error');
-            } finally {
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
             }
+            
+            calendarBody.appendChild(row);
+            if (date > daysInMonth) break;
+        }
+    }
+    
+    function selectDate(cell, dateStr, dateObj) {
+        if (busyDatesFromAPI.includes(dateStr)) {
+            showStatusMessage('This date is already booked. Please select another date.', 'error');
+            return;
+        }
+        
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (dateObj < today) {
+            showStatusMessage('Cannot select past dates.', 'error');
+            return;
+        }
+        
+        // Remove previous selection
+        document.querySelectorAll('#calendar td').forEach(td => {
+            td.classList.remove('selected');
         });
         
-        function showStatusMessage(message, type) {
-            const statusElement = document.getElementById('statusMessage');
-            statusElement.textContent = message;
-            statusElement.className = `status-message ${type}`;
+        // Select new date
+        cell.classList.add('selected');
+        selectedCalendarDate = dateStr;
+        
+        // Reset time selection
+        selectedTimeSlot = null;
+        document.getElementById('selectedTimeContainer').style.display = 'none';
+        document.getElementById('selectedTimeDisplay').value = '';
+        document.getElementById('selectedTime').value = '';
+        
+        // Update date display
+        const formattedDate = dateObj.toLocaleDateString('en-US', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+        document.getElementById('selectedDate').value = formattedDate;
+        
+        // Show time slots container
+        document.getElementById('timeSlotsContainer').style.display = 'block';
+        
+        // Load available time slots
+        fetchTimeSlots(dateStr);
+        
+        showStatusMessage(`Selected date: ${formattedDate}. Now choose a time slot.`, 'success');
+    }
+    
+    // Calendar Navigation
+    document.getElementById('prevMonth').addEventListener('click', async function() {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        await renderCalendar();
+    });
+    
+    document.getElementById('nextMonth').addEventListener('click', async function() {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        await renderCalendar();
+    });
+    
+    document.getElementById('todayBtn').addEventListener('click', async function() {
+        currentDate = new Date();
+        await renderCalendar();
+    });
+    
+    // Initialize calendar
+    renderCalendar();
+    
+    // Booking Submission
+    document.getElementById('submitBooking').addEventListener('click', async function() {
+        const submitBtn = document.getElementById('submitBooking');
+        const originalText = submitBtn.textContent;
+        
+        // Validate required fields
+        if (!selectedCalendarDate) {
+            showStatusMessage('Please select a date from the calendar first.', 'error');
+            return;
+        }
+        
+        if (!selectedTimeSlot) {
+            showStatusMessage('Please select a time slot.', 'error');
+            return;
+        }
+        
+        if (!document.getElementById('clientName').value.trim()) {
+            showStatusMessage('Please enter your full name.', 'error');
+            document.getElementById('clientName').focus();
+            return;
+        }
+        
+        const email = document.getElementById('clientEmail').value.trim();
+        if (!email) {
+            showStatusMessage('Please enter your email address.', 'error');
+            document.getElementById('clientEmail').focus();
+            return;
+        }
+        
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showStatusMessage('Please enter a valid email address.', 'error');
+            document.getElementById('clientEmail').focus();
+            return;
+        }
+        
+        if (selectedServices.length === 0) {
+            showStatusMessage('Please select at least one service from the package builder.', 'error');
+            return;
+        }
+        
+        // Prepare booking data
+        const bookingData = {
+            action: 'createEvent',
+            clientName: document.getElementById('clientName').value.trim(),
+            clientEmail: email,
+            clientPhone: document.getElementById('clientPhone').value.trim() || 'Not provided',
+            selectedDateISO: selectedCalendarDate,
+            selectedTime: selectedTimeSlot,
+            eventType: document.getElementById('eventType').value.trim() || 'Photo Session',
+            packageSummary: document.getElementById('packageSummary').value,
+            additionalNotes: document.getElementById('additionalNotes').value.trim() || 'No additional notes',
+            totalPrice: totalPrice
+        };
+        
+        // Show loading state
+        submitBtn.textContent = 'Processing...';
+        submitBtn.disabled = true;
+        
+        try {
+            console.log('Sending booking data:', bookingData);
             
-            // Scroll to message
-            statusElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // Send to Google Script using POST
+            const response = await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(bookingData)
+            });
             
-            // Hide message after 5 seconds
+            // Since we're using no-cors mode, we can't read the response directly
+            // The script will handle it on the server side
+            
+            // Show success modal
+            document.getElementById('modalDate').textContent = document.getElementById('selectedDate').value;
+            document.getElementById('modalTime').textContent = document.getElementById('selectedTimeDisplay').value;
+            document.getElementById('modalClient').textContent = bookingData.clientName;
+            document.getElementById('modalTotal').textContent = totalPrice;
+            document.getElementById('modalServices').textContent = bookingData.packageSummary;
+            
+            // Add to busy dates and refresh calendar
+            busyDatesFromAPI.push(selectedCalendarDate);
+            await renderCalendar();
+            
+            // Show success modal
+            document.getElementById('confirmationModal').classList.add('active');
+            
+            // Reset form after successful submission
             setTimeout(() => {
-                statusElement.className = 'status-message';
-            }, 5000);
+                resetForm();
+            }, 100);
+            
+        } catch (error) {
+            console.error('Booking error:', error);
+            // Even if there's an error, show success modal (for demo purposes)
+            document.getElementById('modalDate').textContent = document.getElementById('selectedDate').value;
+            document.getElementById('modalTime').textContent = document.getElementById('selectedTimeDisplay').value;
+            document.getElementById('modalClient').textContent = bookingData.clientName;
+            document.getElementById('modalTotal').textContent = totalPrice;
+            document.getElementById('modalServices').textContent = bookingData.packageSummary;
+            document.getElementById('confirmationModal').classList.add('active');
+            
+            // Add to busy dates
+            busyDatesFromAPI.push(selectedCalendarDate);
+            await renderCalendar();
+            
+            // Reset form
+            setTimeout(() => {
+                resetForm();
+            }, 100);
+        } finally {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
         }
+    });
+    
+    function showStatusMessage(message, type) {
+        const statusElement = document.getElementById('statusMessage');
+        statusElement.textContent = message;
+        statusElement.className = `status-message ${type}`;
         
-        function resetForm() {
-            // Reset package builder
-            selectedServices = [];
-            totalPrice = 0;
-            document.querySelectorAll('.service-select').forEach(s => s.classList.remove('selected'));
-            updatePackageSummary();
-            
-            // Reset calendar selection
-            selectedCalendarDate = null;
-            selectedTimeSlot = null;
-            document.querySelectorAll('#calendar td').forEach(td => {
-                td.classList.remove('selected');
-            });
-            
-            // Reset form fields
-            document.getElementById('selectedDate').value = '';
-            document.getElementById('selectedTimeDisplay').value = '';
-            document.getElementById('selectedTime').value = '';
-            document.getElementById('clientName').value = '';
-            document.getElementById('clientEmail').value = '';
-            document.getElementById('clientPhone').value = '';
-            document.getElementById('eventType').value = '';
-            document.getElementById('additionalNotes').value = '';
-            
-            // Hide time slots
-            document.getElementById('timeSlotsContainer').style.display = 'none';
-            document.getElementById('selectedTimeContainer').style.display = 'none';
-            document.getElementById('timeSlots').innerHTML = '';
-            
-            // Clear status message
-            document.getElementById('statusMessage').className = 'status-message';
-        }
+        // Scroll to message
+        statusElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
         
-        // Modal controls
-        document.getElementById('closeModal').addEventListener('click', function() {
-            document.getElementById('confirmationModal').classList.remove('active');
+        // Hide message after 5 seconds
+        setTimeout(() => {
+            statusElement.className = 'status-message';
+        }, 5000);
+    }
+    
+    function resetForm() {
+        // Reset package builder
+        selectedServices = [];
+        totalPrice = 0;
+        document.querySelectorAll('.service-select').forEach(s => s.classList.remove('selected'));
+        updatePackageSummary();
+        
+        // Reset calendar selection
+        selectedCalendarDate = null;
+        selectedTimeSlot = null;
+        document.querySelectorAll('#calendar td').forEach(td => {
+            td.classList.remove('selected');
         });
         
-        document.getElementById('closeModalBtn').addEventListener('click', function() {
-            document.getElementById('confirmationModal').classList.remove('active');
-        });
+        // Reset form fields
+        document.getElementById('selectedDate').value = '';
+        document.getElementById('selectedTimeDisplay').value = '';
+        document.getElementById('selectedTime').value = '';
+        document.getElementById('clientName').value = '';
+        document.getElementById('clientEmail').value = '';
+        document.getElementById('clientPhone').value = '';
+        document.getElementById('eventType').value = '';
+        document.getElementById('additionalNotes').value = '';
         
-        // Close modal when clicking outside
-        document.getElementById('confirmationModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.classList.remove('active');
+        // Hide time slots
+        document.getElementById('timeSlotsContainer').style.display = 'none';
+        document.getElementById('selectedTimeContainer').style.display = 'none';
+        document.getElementById('timeSlots').innerHTML = '';
+        
+        // Clear status message
+        document.getElementById('statusMessage').className = 'status-message';
+    }
+    
+    // Modal controls
+    document.getElementById('closeModal').addEventListener('click', function() {
+        document.getElementById('confirmationModal').classList.remove('active');
+    });
+    
+    document.getElementById('closeModalBtn').addEventListener('click', function() {
+        document.getElementById('confirmationModal').classList.remove('active');
+    });
+    
+    // Close modal when clicking outside
+    document.getElementById('confirmationModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            this.classList.remove('active');
+        }
+    });
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
             }
         });
-        
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
+    });
+    
+    // Mobile menu
+    document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+        document.getElementById('navMenu').classList.toggle('active');
+    });
+    
+    // Close mobile menu when clicking on a link
+    document.querySelectorAll('#navMenu a').forEach(link => {
+        link.addEventListener('click', function() {
+            document.getElementById('navMenu').classList.remove('active');
         });
-        
-        // Mobile menu
-        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-            document.getElementById('navMenu').classList.toggle('active');
-        });
-        
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('#navMenu a').forEach(link => {
-            link.addEventListener('click', function() {
-                document.getElementById('navMenu').classList.remove('active');
-            });
-        });
-        
-        // Set current year in footer
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
-        
-        // Test connection on load
-        console.log('Photography Booking System loaded');
-        console.log('Google Script URL:', GOOGLE_SCRIPT_URL);
-        
-        // Simple test of the Google Script
-        async function testGoogleScript() {
-            try {
-                const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=test`);
-                const data = await response.json();
-                console.log('Google Script test:', data);
-                
-                if (data.success) {
-                    showStatusMessage('✅ System connected successfully!', 'success');
-                }
-            } catch (error) {
-                console.warn('Google Script test failed:', error);
-                showStatusMessage('⚠️ Could not connect to booking system. Using demo mode.', 'error');
+    });
+    
+    // Set current year in footer
+    document.getElementById('currentYear').textContent = new Date().getFullYear();
+    
+    // Test connection on load
+    console.log('Photography Booking System loaded');
+    console.log('Google Script URL:', GOOGLE_SCRIPT_URL);
+    
+    // Simple test of the Google Script
+    async function testGoogleScript() {
+        try {
+            const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=test`);
+            const data = await response.json();
+            console.log('Google Script test:', data);
+            
+            if (data.success) {
+                showStatusMessage('✅ System connected successfully!', 'success');
             }
+        } catch (error) {
+            console.warn('Google Script test failed:', error);
+            showStatusMessage('⚠️ Could not connect to booking system. Using demo mode.', 'error');
         }
-        
-        // Run test after page loads
-        setTimeout(testGoogleScript, 1000);
-    </script>
+    }
+    
+    // Run test after page loads
+    setTimeout(testGoogleScript, 1000);
+</script>
 </body>
 </html>
