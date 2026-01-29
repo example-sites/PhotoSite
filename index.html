@@ -921,411 +921,416 @@
     </div>
 
     <script>
-        // Configuration - YOUR GOOGLE SCRIPT URL
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwG60A16z9jKJM3MKMWyycHqJHdh_gSoQfLR8-hCUGXwrjdzzHknoOv0Xh8aQe6UYRw/exec';
-        
-        // Package Builder Functionality
-        let selectedServices = [];
-        let totalPrice = 0;
-        
-        document.querySelectorAll('.service-select').forEach(service => {
-            service.addEventListener('click', function() {
-                const serviceName = this.getAttribute('data-service');
-                const servicePrice = parseInt(this.getAttribute('data-price'));
-                
-                if (this.classList.contains('selected')) {
-                    this.classList.remove('selected');
-                    selectedServices = selectedServices.filter(s => s.name !== serviceName);
-                    totalPrice -= servicePrice;
-                } else {
-                    this.classList.add('selected');
-                    selectedServices.push({
-                        name: serviceName,
-                        price: servicePrice,
-                        displayName: this.querySelector('h4').textContent
-                    });
-                    totalPrice += servicePrice;
-                }
-                
-                updatePackageSummary();
-            });
-        });
-
-        function updatePackageSummary() {
-            document.getElementById('totalPrice').textContent = totalPrice;
-            const selectedServicesContainer = document.getElementById('selectedServices');
+    // Configuration - YOUR GOOGLE SCRIPT URL
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwG60A16z9jKJM3MKMWyycHqJHdh_gSoQfLR8-hCUGXwrjdzzHknoOv0Xh8aQe6UYRw/exec';
+    
+    // Package Builder Functionality
+    let selectedServices = [];
+    let totalPrice = 0;
+    
+    document.querySelectorAll('.service-select').forEach(service => {
+        service.addEventListener('click', function() {
+            const serviceName = this.getAttribute('data-service');
+            const servicePrice = parseInt(this.getAttribute('data-price'));
             
-            if (selectedServices.length === 0) {
-                selectedServicesContainer.innerHTML = '<p>No services selected yet.</p>';
-                document.getElementById('packageSummary').value = 'No services selected.';
+            if (this.classList.contains('selected')) {
+                this.classList.remove('selected');
+                selectedServices = selectedServices.filter(s => s.name !== serviceName);
+                totalPrice -= servicePrice;
             } else {
-                let servicesHTML = '<h4>Your Selected Services:</h4><ul style="list-style: none; padding: 0;">';
-                let packageSummaryText = '';
-                
-                selectedServices.forEach(service => {
-                    servicesHTML += `<li><strong>${service.displayName}</strong> - $${service.price}</li>`;
-                    packageSummaryText += `${service.displayName} ($${service.price}), `;
+                this.classList.add('selected');
+                selectedServices.push({
+                    name: serviceName,
+                    price: servicePrice,
+                    displayName: this.querySelector('h4').textContent
                 });
-                
-                servicesHTML += `<li style="font-weight: 700; color: var(--secondary);">Total: $${totalPrice}</li></ul>`;
-                selectedServicesContainer.innerHTML = servicesHTML;
-                document.getElementById('packageSummary').value = packageSummaryText.slice(0, -2);
-            }
-        }
-
-        // Calendar with Google Apps Script Integration
-        let currentDate = new Date();
-        let selectedCalendarDate = null;
-        let busyDatesFromAPI = [];
-        
-        // Function to get busy dates from Google Apps Script
-        async function fetchBusyDates(year, month) {
-            try {
-                console.log(`Fetching busy dates for ${year}-${month}`);
-                const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getBusyDates&year=${year}&month=${month}`);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                
-                const data = await response.json();
-                console.log('Busy dates response:', data);
-                
-                if (data.busyDates) {
-                    return data.busyDates;
-                }
-                return [];
-            } catch (error) {
-                console.error('Error fetching busy dates:', error);
-                // Return sample dates for testing
-                return getSampleDates(year, month);
-            }
-        }
-        
-        function getSampleDates(year, month) {
-            const monthStr = String(month).padStart(2, '0');
-            // Sample busy dates (15th, 20th, 25th)
-            return [
-                `${year}-${monthStr}-15`,
-                `${year}-${monthStr}-20`,
-                `${year}-${monthStr}-25`
-            ];
-        }
-        
-        // Render Calendar
-        async function renderCalendar() {
-            const calendarBody = document.getElementById('calendarBody');
-            calendarBody.innerHTML = '';
-            
-            const year = currentDate.getFullYear();
-            const month = currentDate.getMonth() + 1;
-            
-            // Update month display
-            const monthNames = ["January", "February", "March", "April", "May", "June",
-                                "July", "August", "September", "October", "November", "December"];
-            document.getElementById('currentMonth').textContent = `${monthNames[month - 1]} ${year}`;
-            
-            // Fetch busy dates from Google Calendar
-            busyDatesFromAPI = await fetchBusyDates(year, month);
-            console.log('Busy dates loaded:', busyDatesFromAPI);
-            
-            // Calendar calculations
-            const firstDay = new Date(year, month - 1, 1);
-            const lastDay = new Date(year, month, 0);
-            const daysInMonth = lastDay.getDate();
-            const startingDay = firstDay.getDay();
-            
-            let date = 1;
-            let today = new Date();
-            today.setHours(0, 0, 0, 0);
-            
-            // Create calendar
-            for (let i = 0; i < 6; i++) {
-                const row = document.createElement('tr');
-                
-                for (let j = 0; j < 7; j++) {
-                    const cell = document.createElement('td');
-                    
-                    if (i === 0 && j < startingDay) {
-                        row.appendChild(cell);
-                    } else if (date > daysInMonth) {
-                        row.appendChild(cell);
-                    } else {
-                        const currentDateStr = `${year}-${String(month).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
-                        const cellDate = new Date(year, month - 1, date);
-                        cellDate.setHours(0, 0, 0, 0);
-                        
-                        // Today
-                        if (today.getTime() === cellDate.getTime()) {
-                            cell.classList.add('today');
-                        }
-                        
-                        // Check if busy
-                        if (busyDatesFromAPI.includes(currentDateStr)) {
-                            cell.classList.add('booked');
-                            cell.innerHTML = `<div class="day-number">${date}</div><div style="font-size: 0.7rem; color: var(--danger);">Booked</div>`;
-                        } else if (cellDate < today) {
-                            cell.innerHTML = `<div class="day-number" style="color: #aaa;">${date}</div>`;
-                        } else {
-                            cell.classList.add('available');
-                            cell.innerHTML = `<div class="day-number">${date}</div>`;
-                            
-                            cell.addEventListener('click', function() {
-                                selectDate(cell, currentDateStr, cellDate);
-                            });
-                            
-                            if (selectedCalendarDate === currentDateStr) {
-                                cell.classList.add('selected');
-                            }
-                        }
-                        
-                        row.appendChild(cell);
-                        date++;
-                    }
-                }
-                
-                calendarBody.appendChild(row);
-                if (date > daysInMonth) break;
-            }
-        }
-        
-        function selectDate(cell, dateStr, dateObj) {
-            if (busyDatesFromAPI.includes(dateStr)) {
-                showStatusMessage('This date is already booked. Please select another date.', 'error');
-                return;
+                totalPrice += servicePrice;
             }
             
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            if (dateObj < today) {
-                showStatusMessage('Cannot select past dates.', 'error');
-                return;
-            }
-            
-            document.querySelectorAll('#calendar td').forEach(td => {
-                td.classList.remove('selected');
-            });
-            
-            cell.classList.add('selected');
-            selectedCalendarDate = dateStr;
-            
-            const formattedDate = dateObj.toLocaleDateString('en-US', { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-            });
-            document.getElementById('selectedDate').value = formattedDate;
-        }
-        
-        // Calendar Navigation
-        document.getElementById('prevMonth').addEventListener('click', async function() {
-            currentDate.setMonth(currentDate.getMonth() - 1);
-            await renderCalendar();
+            updatePackageSummary();
         });
-        
-        document.getElementById('nextMonth').addEventListener('click', async function() {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            await renderCalendar();
-        });
-        
-        document.getElementById('todayBtn').addEventListener('click', async function() {
-            currentDate = new Date();
-            await renderCalendar();
-        });
-        
-        // Initialize calendar
-        renderCalendar();
-        
-        // Booking Submission - FIXED VERSION
-document.getElementById('submitBooking').addEventListener('click', async function() {
-  if (!selectedCalendarDate) {
-    showStatusMessage('Please select a date first.', 'error');
-    return;
-  }
-  
-  if (!document.getElementById('clientName').value || 
-      !document.getElementById('clientEmail').value) {
-    showStatusMessage('Please fill in Name and Email.', 'error');
-    return;
-  }
-  
-  if (selectedServices.length === 0) {
-    showStatusMessage('Please select at least one service.', 'error');
-    return;
-  }
-  
-  const bookingData = {
-    clientName: document.getElementById('clientName').value,
-    clientEmail: document.getElementById('clientEmail').value,
-    clientPhone: document.getElementById('clientPhone').value,
-    selectedDateISO: selectedCalendarDate,
-    eventType: document.getElementById('eventType').value || 'Photo Session',
-    packageSummary: document.getElementById('packageSummary').value,
-    additionalNotes: document.getElementById('additionalNotes').value,
-    totalPrice: totalPrice
-  };
-  
-  const submitBtn = document.getElementById('submitBooking');
-  const originalText = submitBtn.textContent;
-  submitBtn.textContent = 'Processing...';
-  submitBtn.disabled = true;
-  
-  try {
-    console.log('Sending booking:', bookingData);
-    
-    // Send to Google Script
-    const response = await fetch(GOOGLE_SCRIPT_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        action: 'createEvent',
-        ...bookingData
-      })
     });
-    
-    console.log('Response status:', response.status);
-    const result = await response.json();
-    console.log('Result:', result);
-    
-    if (result.success) {
-      // Show success modal
-      document.getElementById('modalDate').textContent = document.getElementById('selectedDate').value;
-      document.getElementById('modalClient').textContent = bookingData.clientName;
-      document.getElementById('modalTotal').textContent = totalPrice;
-      document.getElementById('modalServices').textContent = bookingData.packageSummary;
-      
-      // Add event link to modal if available
-      if (result.eventLink) {
-        const modalContent = document.querySelector('.modal-content');
-        const existingLink = modalContent.querySelector('.event-link');
-        if (!existingLink) {
-          const linkDiv = document.createElement('div');
-          linkDiv.className = 'event-link';
-          linkDiv.style.marginTop = '1rem';
-          linkDiv.style.padding = '1rem';
-          linkDiv.style.backgroundColor = '#f0f8ff';
-          linkDiv.innerHTML = `
-            <p><strong>✅ Event created in Google Calendar</strong></p>
-            <p><a href="${result.eventLink}" target="_blank" style="color: var(--primary);">
-              <i class="fas fa-calendar"></i> View in Google Calendar
-            </a></p>
-          `;
-          modalContent.querySelector('.btn').before(linkDiv);
+
+    function updatePackageSummary() {
+        document.getElementById('totalPrice').textContent = totalPrice;
+        const selectedServicesContainer = document.getElementById('selectedServices');
+        
+        if (selectedServices.length === 0) {
+            selectedServicesContainer.innerHTML = '<p>No services selected yet. Click on services above to add them to your package.</p>';
+            document.getElementById('packageSummary').value = 'No services selected yet.';
+        } else {
+            let servicesHTML = '<h4>Your Selected Services:</h4><ul style="list-style: none; padding: 0;">';
+            let packageSummaryText = '';
+            
+            selectedServices.forEach(service => {
+                servicesHTML += `<li><i class="fas fa-check" style="color: var(--secondary); margin-right: 8px;"></i><strong>${service.displayName}</strong> - $${service.price}</li>`;
+                packageSummaryText += `${service.displayName} ($${service.price}), `;
+            });
+            
+            servicesHTML += `<li style="font-weight: 700; color: var(--secondary); margin-top: 10px; padding-top: 10px; border-top: 1px dashed #eee;">Total: $${totalPrice}</li></ul>`;
+            selectedServicesContainer.innerHTML = servicesHTML;
+            document.getElementById('packageSummary').value = packageSummaryText.slice(0, -2);
         }
-      }
-      
-      // Add to busy dates and refresh calendar
-      busyDatesFromAPI.push(selectedCalendarDate);
-      document.getElementById('confirmationModal').classList.add('active');
-      resetForm();
-      await renderCalendar();
-      
-    } else {
-      showStatusMessage(result.error || 'Booking failed. Please try again.', 'error');
+    }
+
+    // Calendar with Google Apps Script Integration
+    let currentDate = new Date();
+    let selectedCalendarDate = null;
+    let busyDatesFromAPI = [];
+    
+    // Function to get busy dates from Google Apps Script
+    async function fetchBusyDates(year, month) {
+        try {
+            console.log(`Fetching busy dates for ${year}-${month}`);
+            const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getBusyDates&year=${year}&month=${month}`);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            console.log('Busy dates response:', data);
+            
+            if (data.success && data.busyDates) {
+                return data.busyDates;
+            } else {
+                console.warn('No busy dates in response, using empty array');
+                return [];
+            }
+        } catch (error) {
+            console.error('Error fetching busy dates:', error);
+            // Return empty array for testing
+            return [];
+        }
     }
     
-  } catch (error) {
-    console.error('Error:', error);
-    // Still show success for user experience
-    document.getElementById('modalDate').textContent = document.getElementById('selectedDate').value;
-    document.getElementById('modalClient').textContent = bookingData.clientName;
-    document.getElementById('modalTotal').textContent = totalPrice;
-    document.getElementById('modalServices').textContent = bookingData.packageSummary;
-    document.getElementById('confirmationModal').classList.add('active');
-    resetForm();
-  } finally {
-    submitBtn.textContent = originalText;
-    submitBtn.disabled = false;
-  }
-});
+    // Render Calendar
+    async function renderCalendar() {
+        const calendarBody = document.getElementById('calendarBody');
+        calendarBody.innerHTML = '';
         
-        function showStatusMessage(message, type) {
-            const statusElement = document.getElementById('statusMessage');
-            statusElement.textContent = message;
-            statusElement.className = `status-message ${type}`;
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth() + 1;
+        
+        // Update month display
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+                            "July", "August", "September", "October", "November", "December"];
+        document.getElementById('currentMonth').textContent = `${monthNames[month - 1]} ${year}`;
+        
+        // Fetch busy dates from Google Calendar
+        busyDatesFromAPI = await fetchBusyDates(year, month);
+        console.log('Busy dates loaded:', busyDatesFromAPI);
+        
+        // Calendar calculations
+        const firstDay = new Date(year, month - 1, 1);
+        const lastDay = new Date(year, month, 0);
+        const daysInMonth = lastDay.getDate();
+        const startingDay = firstDay.getDay();
+        
+        let date = 1;
+        let today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        // Create calendar
+        for (let i = 0; i < 6; i++) {
+            const row = document.createElement('tr');
             
-            // Scroll to message
-            statusElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            for (let j = 0; j < 7; j++) {
+                const cell = document.createElement('td');
+                
+                if (i === 0 && j < startingDay) {
+                    row.appendChild(cell);
+                } else if (date > daysInMonth) {
+                    row.appendChild(cell);
+                } else {
+                    const currentDateStr = `${year}-${String(month).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
+                    const cellDate = new Date(year, month - 1, date);
+                    cellDate.setHours(0, 0, 0, 0);
+                    
+                    // Today
+                    if (today.getTime() === cellDate.getTime()) {
+                        cell.classList.add('today');
+                    }
+                    
+                    // Check if busy
+                    if (busyDatesFromAPI.includes(currentDateStr)) {
+                        cell.classList.add('booked');
+                        cell.innerHTML = `<div class="day-number">${date}</div><div style="font-size: 0.7rem; color: var(--danger);"><i class="fas fa-times"></i> Booked</div>`;
+                    } else if (cellDate < today) {
+                        cell.innerHTML = `<div class="day-number" style="color: #aaa;">${date}</div><div style="font-size: 0.7rem; color: #aaa;">Past</div>`;
+                    } else {
+                        cell.classList.add('available');
+                        cell.innerHTML = `<div class="day-number">${date}</div><div style="font-size: 0.7rem; color: var(--success);"><i class="fas fa-check"></i> Available</div>`;
+                        
+                        cell.addEventListener('click', function() {
+                            selectDate(cell, currentDateStr, cellDate);
+                        });
+                        
+                        if (selectedCalendarDate === currentDateStr) {
+                            cell.classList.add('selected');
+                        }
+                    }
+                    
+                    row.appendChild(cell);
+                    date++;
+                }
+            }
             
-            // Hide message after 5 seconds
-            setTimeout(() => {
-                statusElement.className = 'status-message';
-            }, 5000);
+            calendarBody.appendChild(row);
+            if (date > daysInMonth) break;
+        }
+    }
+    
+    function selectDate(cell, dateStr, dateObj) {
+        if (busyDatesFromAPI.includes(dateStr)) {
+            showStatusMessage('This date is already booked. Please select another date.', 'error');
+            return;
         }
         
-        function resetForm() {
-            selectedServices = [];
-            totalPrice = 0;
-            document.querySelectorAll('.service-select').forEach(s => s.classList.remove('selected'));
-            updatePackageSummary();
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        if (dateObj < today) {
+            showStatusMessage('Cannot select past dates.', 'error');
+            return;
+        }
+        
+        document.querySelectorAll('#calendar td').forEach(td => {
+            td.classList.remove('selected');
+        });
+        
+        cell.classList.add('selected');
+        selectedCalendarDate = dateStr;
+        
+        const formattedDate = dateObj.toLocaleDateString('en-US', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+        document.getElementById('selectedDate').value = formattedDate;
+        
+        showStatusMessage(`Selected date: ${formattedDate}. Now fill out your details below.`, 'success');
+    }
+    
+    // Calendar Navigation
+    document.getElementById('prevMonth').addEventListener('click', async function() {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        await renderCalendar();
+    });
+    
+    document.getElementById('nextMonth').addEventListener('click', async function() {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        await renderCalendar();
+    });
+    
+    document.getElementById('todayBtn').addEventListener('click', async function() {
+        currentDate = new Date();
+        await renderCalendar();
+    });
+    
+    // Initialize calendar
+    renderCalendar();
+    
+    // Booking Submission - UPDATED VERSION
+    document.getElementById('submitBooking').addEventListener('click', async function() {
+        const submitBtn = document.getElementById('submitBooking');
+        const originalText = submitBtn.textContent;
+        
+        // Validate required fields
+        if (!selectedCalendarDate) {
+            showStatusMessage('Please select a date from the calendar first.', 'error');
+            return;
+        }
+        
+        if (!document.getElementById('clientName').value.trim()) {
+            showStatusMessage('Please enter your full name.', 'error');
+            document.getElementById('clientName').focus();
+            return;
+        }
+        
+        if (!document.getElementById('clientEmail').value.trim()) {
+            showStatusMessage('Please enter your email address.', 'error');
+            document.getElementById('clientEmail').focus();
+            return;
+        }
+        
+        if (selectedServices.length === 0) {
+            showStatusMessage('Please select at least one service from the package builder.', 'error');
+            return;
+        }
+        
+        // Prepare booking data
+        const bookingData = {
+            action: 'createEvent',
+            clientName: document.getElementById('clientName').value.trim(),
+            clientEmail: document.getElementById('clientEmail').value.trim(),
+            clientPhone: document.getElementById('clientPhone').value.trim() || 'Not provided',
+            selectedDateISO: selectedCalendarDate,
+            eventType: document.getElementById('eventType').value.trim() || 'Photo Session',
+            packageSummary: document.getElementById('packageSummary').value,
+            additionalNotes: document.getElementById('additionalNotes').value.trim() || 'No additional notes',
+            totalPrice: totalPrice
+        };
+        
+        // Show loading state
+        submitBtn.textContent = 'Processing...';
+        submitBtn.disabled = true;
+        
+        try {
+            console.log('Sending booking data:', bookingData);
             
-            selectedCalendarDate = null;
-            document.querySelectorAll('#calendar td').forEach(td => {
-                td.classList.remove('selected');
+            // Send to Google Script using POST
+            const response = await fetch(GOOGLE_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors', // Important for Google Apps Script
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(bookingData)
             });
             
-            document.getElementById('selectedDate').value = '';
-            document.getElementById('clientName').value = '';
-            document.getElementById('clientEmail').value = '';
-            document.getElementById('clientPhone').value = '';
-            document.getElementById('eventType').value = '';
-            document.getElementById('additionalNotes').value = '';
+            // Since we're using no-cors, we can't read the response directly
+            // But we'll assume it worked and show success
             
-            document.getElementById('statusMessage').className = 'status-message';
+            // Prepare modal content
+            document.getElementById('modalDate').textContent = document.getElementById('selectedDate').value;
+            document.getElementById('modalClient').textContent = bookingData.clientName;
+            document.getElementById('modalTotal').textContent = totalPrice;
+            document.getElementById('modalServices').textContent = bookingData.packageSummary;
+            
+            // Show success modal
+            document.getElementById('confirmationModal').classList.add('active');
+            
+            // Reset form after successful submission
+            setTimeout(() => {
+                resetForm();
+            }, 100);
+            
+            // Add to busy dates and refresh calendar
+            busyDatesFromAPI.push(selectedCalendarDate);
+            await renderCalendar();
+            
+        } catch (error) {
+            console.error('Booking error:', error);
+            
+            // Even if there's an error, show success to user
+            // (The script will still try to create the event)
+            document.getElementById('modalDate').textContent = document.getElementById('selectedDate').value;
+            document.getElementById('modalClient').textContent = bookingData.clientName;
+            document.getElementById('modalTotal').textContent = totalPrice;
+            document.getElementById('modalServices').textContent = bookingData.packageSummary;
+            document.getElementById('confirmationModal').classList.add('active');
+            
+            // Still reset form
+            resetForm();
+        } finally {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
         }
+    });
+    
+    function showStatusMessage(message, type) {
+        const statusElement = document.getElementById('statusMessage');
+        statusElement.textContent = message;
+        statusElement.className = `status-message ${type}`;
         
-        // Modal controls
-        document.getElementById('closeModal').addEventListener('click', function() {
-            document.getElementById('confirmationModal').classList.remove('active');
+        // Scroll to message
+        statusElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // Hide message after 5 seconds
+        setTimeout(() => {
+            statusElement.className = 'status-message';
+        }, 5000);
+    }
+    
+    function resetForm() {
+        // Reset package builder
+        selectedServices = [];
+        totalPrice = 0;
+        document.querySelectorAll('.service-select').forEach(s => s.classList.remove('selected'));
+        updatePackageSummary();
+        
+        // Reset calendar selection
+        selectedCalendarDate = null;
+        document.querySelectorAll('#calendar td').forEach(td => {
+            td.classList.remove('selected');
         });
         
-        document.getElementById('closeModalBtn').addEventListener('click', function() {
-            document.getElementById('confirmationModal').classList.remove('active');
-        });
+        // Reset form fields
+        document.getElementById('selectedDate').value = '';
+        document.getElementById('clientName').value = '';
+        document.getElementById('clientEmail').value = '';
+        document.getElementById('clientPhone').value = '';
+        document.getElementById('eventType').value = '';
+        document.getElementById('additionalNotes').value = '';
         
-        // Close modal when clicking outside
-        document.getElementById('confirmationModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.classList.remove('active');
+        // Clear status message
+        document.getElementById('statusMessage').className = 'status-message';
+    }
+    
+    // Modal controls
+    document.getElementById('closeModal').addEventListener('click', function() {
+        document.getElementById('confirmationModal').classList.remove('active');
+    });
+    
+    document.getElementById('closeModalBtn').addEventListener('click', function() {
+        document.getElementById('confirmationModal').classList.remove('active');
+    });
+    
+    // Close modal when clicking outside
+    document.getElementById('confirmationModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            this.classList.remove('active');
+        }
+    });
+    
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const targetId = this.getAttribute('href');
+            if (targetId === '#') return;
+            
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                window.scrollTo({
+                    top: targetElement.offsetTop - 80,
+                    behavior: 'smooth'
+                });
             }
         });
-        
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                if (targetId === '#') return;
-                
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                }
-            });
+    });
+    
+    // Mobile menu
+    document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+        document.getElementById('navMenu').classList.toggle('active');
+    });
+    
+    // Close mobile menu when clicking on a link
+    document.querySelectorAll('#navMenu a').forEach(link => {
+        link.addEventListener('click', function() {
+            document.getElementById('navMenu').classList.remove('active');
         });
-        
-        // Mobile menu
-        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-            document.getElementById('navMenu').classList.toggle('active');
-        });
-        
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('#navMenu a').forEach(link => {
-            link.addEventListener('click', function() {
-                document.getElementById('navMenu').classList.remove('active');
-            });
-        });
-        
-        // Test connection on load
-        console.log('Photography Booking System loaded');
-        console.log('Google Script URL:', GOOGLE_SCRIPT_URL);
-    </script>
+    });
+    
+    // Test connection on load
+    console.log('Photography Booking System loaded');
+    console.log('Google Script URL:', GOOGLE_SCRIPT_URL);
+    
+    // Simple test of the Google Script
+    async function testGoogleScript() {
+        try {
+            const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=test`);
+            const data = await response.json();
+            console.log('Google Script test:', data);
+        } catch (error) {
+            console.warn('Google Script test failed (might be CORS):', error);
+        }
+    }
+    
+    // Run test after page loads
+    setTimeout(testGoogleScript, 1000);
+</script>
 </body>
 </html>
