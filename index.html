@@ -1027,7 +1027,7 @@
     let selectedTimeSlot = null;
     let busyDatesFromAPI = [];
     
-    // Function to get busy dates from Google Apps Script
+    // Function to get busy dates from Google Calendar
     async function fetchBusyDates(year, month) {
         try {
             console.log(`Fetching busy dates for ${year}-${month}`);
@@ -1043,13 +1043,13 @@
             if (data.success && data.busyDates) {
                 return data.busyDates;
             } else {
-                console.warn('No busy dates in response, using empty array');
+                console.warn('No busy dates in response');
                 return [];
             }
         } catch (error) {
             console.error('Error fetching busy dates:', error);
-            // Return demo data for testing
-            return ['2024-01-15', '2024-01-20', '2024-01-25'];
+            // Return empty array if fetch fails
+            return [];
         }
     }
     
@@ -1073,12 +1073,29 @@
             
             document.getElementById('loadingTimeSlots').style.display = 'none';
             
-            if (data.success && data.timeSlots) {
-                displayTimeSlots(data.timeSlots);
-                return data.timeSlots;
+            if (data.success) {
+                if (data.wholeDayBusy) {
+                    document.getElementById('timeSlots').innerHTML = `
+                        <div style="grid-column: span 2; text-align: center; padding: 30px; background-color: #fff3cd; border-radius: 8px; border: 1px solid #ffeaa7;">
+                            <i class="fas fa-calendar-times" style="font-size: 2rem; color: #f39c12; margin-bottom: 15px;"></i>
+                            <h4 style="color: #e67e22; margin-bottom: 10px;">Day Unavailable</h4>
+                            <p>This day is marked as "Busy" or "Occupied" in the calendar.</p>
+                            <p style="font-size: 0.9rem; color: #7d6608; margin-top: 10px;">Please select another date.</p>
+                        </div>
+                    `;
+                    showStatusMessage('This day is marked as unavailable in the calendar.', 'error');
+                } else if (data.timeSlots && data.timeSlots.length > 0) {
+                    displayTimeSlots(data.timeSlots);
+                } else {
+                    document.getElementById('timeSlots').innerHTML = `
+                        <div style="grid-column: span 2; text-align: center; color: var(--gray); padding: 20px;">
+                            <p>No time slots available for this date.</p>
+                        </div>
+                    `;
+                }
+                return data.timeSlots || [];
             } else {
-                // Show demo slots if API fails
-                displayDemoTimeSlots();
+                showStatusMessage(data.error || 'No time slots available for this date.', 'error');
                 return [];
             }
         } catch (error) {
@@ -1143,7 +1160,13 @@
         });
         
         if (availableCount === 0) {
-            timeSlotsContainer.innerHTML = '<p style="grid-column: span 2; text-align: center; color: var(--danger); padding: 20px;">All time slots are booked for this date. Please select another date.</p>';
+            timeSlotsContainer.innerHTML = `
+                <div style="grid-column: span 2; text-align: center; color: var(--danger); padding: 20px;">
+                    <i class="fas fa-clock" style="font-size: 2rem; margin-bottom: 10px;"></i>
+                    <p>All time slots are booked for this date.</p>
+                    <p style="font-size: 0.9rem;">Please select another date.</p>
+                </div>
+            `;
         }
     }
     
@@ -1188,11 +1211,13 @@
         document.querySelectorAll('.time-slot-btn').forEach(btn => {
             btn.style.backgroundColor = 'white';
             btn.style.color = 'var(--success)';
+            btn.style.fontWeight = '500';
         });
         
         // Select this slot
         element.style.backgroundColor = 'var(--success)';
         element.style.color = 'white';
+        element.style.fontWeight = '600';
         
         selectedTimeSlot = slot.start;
         
@@ -1219,9 +1244,9 @@
                             "July", "August", "September", "October", "November", "December"];
         document.getElementById('currentMonth').textContent = `${monthNames[month - 1]} ${year}`;
         
-        // Fetch busy dates from Google Calendar
+        // Fetch busy dates from Google Calendar (REAL-TIME)
         busyDatesFromAPI = await fetchBusyDates(year, month);
-        console.log('Busy dates loaded:', busyDatesFromAPI);
+        console.log('Real-time busy dates loaded:', busyDatesFromAPI);
         
         // Calendar calculations
         const firstDay = new Date(year, month - 1, 1);
@@ -1250,15 +1275,22 @@
                     cellDate.setHours(0, 0, 0, 0);
                     
                     // Today
-                    if (today.getTime() === cellDate.getTime()) {
+                    const isToday = today.getTime() === cellDate.getTime();
+                    if (isToday) {
                         cell.classList.add('today');
                     }
                     
-                    // Check if busy
-                    if (busyDatesFromAPI.includes(currentDateStr)) {
+                    // Check if past date
+                    const isPastDate = cellDate < today;
+                    
+                    // Check if busy (from Google Calendar)
+                    const isBusyDate = busyDatesFromAPI.includes(currentDateStr);
+                    
+                    if (isBusyDate) {
                         cell.classList.add('booked');
-                        cell.innerHTML = `<div class="day-number">${date}</div><div style="font-size: 0.7rem; color: var(--danger);"><i class="fas fa-times"></i> Booked</div>`;
-                    } else if (cellDate < today) {
+                        cell.innerHTML = `<div class="day-number">${date}</div><div style="font-size: 0.7rem; color: var(--danger);"><i class="fas fa-times"></i> Busy</div>`;
+                        cell.title = "This day is marked as 'Busy' or 'Occupied' in calendar";
+                    } else if (isPastDate) {
                         cell.innerHTML = `<div class="day-number" style="color: #aaa;">${date}</div><div style="font-size: 0.7rem; color: #aaa;">Past</div>`;
                     } else {
                         cell.classList.add('available');
@@ -1273,6 +1305,22 @@
                         }
                     }
                     
+                    // Add today indicator
+                    if (isToday) {
+                        const todayIndicator = document.createElement('div');
+                        todayIndicator.style.cssText = `
+                            position: absolute;
+                            top: 5px;
+                            right: 5px;
+                            width: 6px;
+                            height: 6px;
+                            background-color: var(--secondary);
+                            border-radius: 50%;
+                        `;
+                        cell.style.position = 'relative';
+                        cell.appendChild(todayIndicator);
+                    }
+                    
                     row.appendChild(cell);
                     date++;
                 }
@@ -1281,11 +1329,55 @@
             calendarBody.appendChild(row);
             if (date > daysInMonth) break;
         }
+        
+        // Update calendar legend with current date
+        updateCalendarLegend(today);
+    }
+    
+    function updateCalendarLegend(today) {
+        const legend = document.querySelector('.calendar-legend');
+        const todayFormatted = today.toLocaleDateString('en-US', { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+        
+        legend.innerHTML = `
+            <div style="margin-bottom: 1rem;">
+                <p style="color: var(--primary); font-weight: 500; margin-bottom: 0.5rem;">
+                    <i class="fas fa-calendar-alt"></i> Today: ${todayFormatted}
+                </p>
+            </div>
+            <div style="display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                <div style="display: flex; align-items: center;">
+                    <div style="width: 20px; height: 20px; background-color: rgba(76, 175, 80, 0.3); margin-right: 8px; border-radius: 4px;"></div>
+                    <span>Selected Date</span>
+                </div>
+                <div style="display: flex; align-items: center;">
+                    <div style="width: 20px; height: 20px; background-color: rgba(244, 67, 54, 0.2); margin-right: 8px; border-radius: 4px;"></div>
+                    <span>Unavailable (Busy/Booked)</span>
+                </div>
+                <div style="display: flex; align-items: center;">
+                    <div style="width: 20px; height: 20px; background-color: rgba(212, 175, 55, 0.1); margin-right: 8px; border-radius: 4px;"></div>
+                    <span>Today</span>
+                </div>
+                <div style="display: flex; align-items: center;">
+                    <div style="width: 20px; height: 20px; background-color: #f5f5f5; margin-right: 8px; border-radius: 4px; border: 1px solid #ddd;"></div>
+                    <span>Past Date</span>
+                </div>
+            </div>
+            <p style="font-size: 0.9rem; color: var(--gray);">
+                <i class="fas fa-info-circle"></i> 
+                Days marked as "Busy", "Occupied", or with photo sessions in your Google Calendar will appear as unavailable.
+            </p>
+        `;
     }
     
     function selectDate(cell, dateStr, dateObj) {
+        // Check if date is busy
         if (busyDatesFromAPI.includes(dateStr)) {
-            showStatusMessage('This date is already booked. Please select another date.', 'error');
+            showStatusMessage('This day is marked as "Busy" or "Occupied" in the calendar. Please select another date.', 'error');
             return;
         }
         
@@ -1323,7 +1415,7 @@
         // Show time slots container
         document.getElementById('timeSlotsContainer').style.display = 'block';
         
-        // Load available time slots
+        // Load available time slots (REAL-TIME from Google Calendar)
         fetchTimeSlots(dateStr);
         
         showStatusMessage(`Selected date: ${formattedDate}. Now choose a time slot.`, 'success');
@@ -1345,8 +1437,14 @@
         await renderCalendar();
     });
     
-    // Initialize calendar
+    // Initialize calendar with real-time data
     renderCalendar();
+    
+    // Auto-refresh calendar every 5 minutes to get latest availability
+    setInterval(async () => {
+        console.log('Auto-refreshing calendar data...');
+        await renderCalendar();
+    }, 300000); // 5 minutes
     
     // Booking Submission
     document.getElementById('submitBooking').addEventListener('click', async function() {
@@ -1414,53 +1512,42 @@
             // Send to Google Script using POST
             const response = await fetch(GOOGLE_SCRIPT_URL, {
                 method: 'POST',
-                mode: 'no-cors',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(bookingData)
             });
             
-            // Since we're using no-cors mode, we can't read the response directly
-            // The script will handle it on the server side
+            const result = await response.json();
+            console.log('Booking response:', result);
             
-            // Show success modal
-            document.getElementById('modalDate').textContent = document.getElementById('selectedDate').value;
-            document.getElementById('modalTime').textContent = document.getElementById('selectedTimeDisplay').value;
-            document.getElementById('modalClient').textContent = bookingData.clientName;
-            document.getElementById('modalTotal').textContent = totalPrice;
-            document.getElementById('modalServices').textContent = bookingData.packageSummary;
-            
-            // Add to busy dates and refresh calendar
-            busyDatesFromAPI.push(selectedCalendarDate);
-            await renderCalendar();
-            
-            // Show success modal
-            document.getElementById('confirmationModal').classList.add('active');
-            
-            // Reset form after successful submission
-            setTimeout(() => {
-                resetForm();
-            }, 100);
+            if (result.success) {
+                // Show success modal
+                document.getElementById('modalDate').textContent = document.getElementById('selectedDate').value;
+                document.getElementById('modalTime').textContent = document.getElementById('selectedTimeDisplay').value;
+                document.getElementById('modalClient').textContent = bookingData.clientName;
+                document.getElementById('modalTotal').textContent = totalPrice;
+                document.getElementById('modalServices').textContent = bookingData.packageSummary;
+                
+                // Add to busy dates and refresh calendar (REAL-TIME update)
+                busyDatesFromAPI.push(selectedCalendarDate);
+                await renderCalendar();
+                
+                // Show success modal
+                document.getElementById('confirmationModal').classList.add('active');
+                
+                // Reset form after successful submission
+                setTimeout(() => {
+                    resetForm();
+                }, 100);
+                
+            } else {
+                showStatusMessage(result.error || 'Booking failed. Please try again.', 'error');
+            }
             
         } catch (error) {
             console.error('Booking error:', error);
-            // Even if there's an error, show success modal (for demo purposes)
-            document.getElementById('modalDate').textContent = document.getElementById('selectedDate').value;
-            document.getElementById('modalTime').textContent = document.getElementById('selectedTimeDisplay').value;
-            document.getElementById('modalClient').textContent = bookingData.clientName;
-            document.getElementById('modalTotal').textContent = totalPrice;
-            document.getElementById('modalServices').textContent = bookingData.packageSummary;
-            document.getElementById('confirmationModal').classList.add('active');
-            
-            // Add to busy dates
-            busyDatesFromAPI.push(selectedCalendarDate);
-            await renderCalendar();
-            
-            // Reset form
-            setTimeout(() => {
-                resetForm();
-            }, 100);
+            showStatusMessage('Network error. Please check your connection and try again.', 'error');
         } finally {
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;
@@ -1565,6 +1652,7 @@
     
     // Test connection on load
     console.log('Photography Booking System loaded');
+    console.log('Today:', new Date().toLocaleDateString());
     console.log('Google Script URL:', GOOGLE_SCRIPT_URL);
     
     // Simple test of the Google Script
@@ -1575,7 +1663,7 @@
             console.log('Google Script test:', data);
             
             if (data.success) {
-                showStatusMessage('✅ System connected successfully!', 'success');
+                showStatusMessage('✅ System connected successfully! Calendar is synced in real-time.', 'success');
             }
         } catch (error) {
             console.warn('Google Script test failed:', error);
