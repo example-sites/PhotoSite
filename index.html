@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ro">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LensCraft Photography | Professional Photography Services</title>
+    <title>Daniel Popescu Fotograf | Fotografie și Video Profesională</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap">
     <style>
         * {
             margin: 0;
@@ -14,22 +14,25 @@
         }
         
         :root {
-            --primary: #2a2d43;
+            --primary: #1a365d;
             --secondary: #d4af37;
-            --accent: #8b5a2b;
-            --light: #f8f8f8;
-            --dark: #1a1c2b;
-            --success: #4CAF50;
-            --danger: #f44336;
-            --gray: #777;
-            --light-gray: #eaeaea;
+            --accent: #2d3748;
+            --light: #f8f9fa;
+            --dark: #1a202c;
+            --success: #38a169;
+            --danger: #e53e3e;
+            --gray: #718096;
+            --light-gray: #e2e8f0;
+            --gold: #d4af37;
+            --blue: #2b6cb0;
         }
         
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             line-height: 1.6;
-            color: #333;
-            background-color: #f9f9f9;
+            color: #2d3748;
+            background-color: #f7fafc;
+            overflow-x: hidden;
         }
         
         h1, h2, h3, h4, h5 {
@@ -47,13 +50,12 @@
         
         /* Header & Navigation */
         header {
-            background-color: var(--primary);
-            color: white;
-            padding: 1rem 0;
+            background-color: white;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
             position: sticky;
             top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 1rem 0;
         }
         
         .header-container {
@@ -64,176 +66,297 @@
         
         .logo {
             font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
-            font-weight: 600;
-            color: white;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
             display: flex;
             align-items: center;
+            gap: 10px;
+        }
+        
+        .logo span {
+            color: var(--gold);
         }
         
         .logo i {
-            color: var(--secondary);
-            margin-right: 10px;
+            color: var(--gold);
+            font-size: 1.8rem;
         }
         
         nav ul {
             display: flex;
             list-style: none;
-        }
-        
-        nav ul li {
-            margin-left: 2rem;
+            gap: 2rem;
         }
         
         nav ul li a {
-            color: white;
+            color: var(--primary);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.3s;
+            font-size: 1rem;
+            transition: all 0.3s;
+            padding: 0.5rem 0;
+            position: relative;
         }
         
         nav ul li a:hover {
-            color: var(--secondary);
+            color: var(--gold);
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--gold);
+            transition: width 0.3s;
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
         }
         
         .mobile-menu-btn {
             display: none;
             background: none;
             border: none;
-            color: white;
+            color: var(--primary);
             font-size: 1.5rem;
             cursor: pointer;
         }
         
         /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://images.unsplash.com/photo-1542038784456-1ea8e935640e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background: linear-gradient(135deg, rgba(26, 54, 93, 0.9) 0%, rgba(42, 67, 101, 0.8) 100%), url('https://images.unsplash.com/photo-1542038784456-1ea8e935640e?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
             background-size: cover;
             background-position: center;
             color: white;
             text-align: center;
-            padding: 6rem 1rem;
+            padding: 5rem 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://images.unsplash.com/photo-1554048612-b6a482bc67e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3;
+            z-index: -1;
         }
         
         .hero h1 {
-            font-size: 3.5rem;
+            font-size: 3.2rem;
             margin-bottom: 1rem;
             color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
         
         .hero p {
             font-size: 1.2rem;
             max-width: 700px;
             margin: 0 auto 2rem;
+            opacity: 0.9;
         }
         
         .btn {
-            display: inline-block;
-            background-color: var(--secondary);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background-color: var(--gold);
             color: var(--primary);
-            padding: 0.8rem 1.8rem;
-            border-radius: 4px;
+            padding: 0.9rem 2.2rem;
+            border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s;
             border: none;
             cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
         }
         
         .btn:hover {
             background-color: #e6b826;
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: white;
+            color: var(--primary);
         }
         
         /* Services Section */
         .section-title {
             text-align: center;
-            margin: 4rem 0 2rem;
+            margin: 4rem 0 3rem;
             position: relative;
         }
         
-        .section-title:after {
-            content: '';
-            display: block;
-            width: 80px;
-            height: 3px;
-            background-color: var(--secondary);
-            margin: 10px auto;
+        .section-title h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
         }
         
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .title-decoration {
+            width: 60px;
+            height: 4px;
+            background-color: var(--gold);
+            margin: 0.5rem auto;
+            border-radius: 2px;
+        }
+        
+        /* Price Cards */
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
             margin-bottom: 4rem;
         }
         
-        .service-card {
-            background-color: white;
-            border-radius: 8px;
+        .price-card {
+            background: white;
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            border: 1px solid var(--light-gray);
         }
         
-        .service-card:hover {
+        .price-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
         }
         
-        .service-img {
-            height: 200px;
-            width: 100%;
-            object-fit: cover;
+        .price-card.featured {
+            border: 2px solid var(--gold);
+            transform: scale(1.05);
         }
         
-        .service-content {
-            padding: 1.5rem;
+        .price-card.featured:hover {
+            transform: scale(1.05) translateY(-10px);
         }
         
-        .service-content h3 {
+        .featured-badge {
+            position: absolute;
+            top: 20px;
+            right: -30px;
+            background: var(--gold);
+            color: var(--primary);
+            padding: 0.5rem 2rem;
+            transform: rotate(45deg);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .card-header {
+            padding: 2rem 2rem 1rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #2d4a7c 100%);
+            color: white;
+            text-align: center;
+        }
+        
+        .card-header h3 {
+            color: white;
+            font-size: 1.5rem;
             margin-bottom: 0.5rem;
         }
         
+        .card-header p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+        
+        .card-content {
+            padding: 2rem;
+        }
+        
         .price {
-            color: var(--secondary);
-            font-size: 1.5rem;
+            font-size: 2.5rem;
             font-weight: 700;
-            margin: 1rem 0;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
         }
         
-        .service-features {
+        .price span {
+            font-size: 1rem;
+            color: var(--gray);
+            font-weight: 400;
+        }
+        
+        .old-price {
+            text-decoration: line-through;
+            color: var(--gray) !important;
+            font-size: 1.5rem !important;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .discount {
+            color: var(--success);
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: block;
+            margin-bottom: 1rem;
+        }
+        
+        .features-list {
             list-style: none;
-            margin: 1rem 0;
+            margin: 1.5rem 0;
         }
         
-        .service-features li {
-            padding: 0.3rem 0;
-            border-bottom: 1px dashed #eee;
+        .features-list li {
+            padding: 0.8rem 0;
+            border-bottom: 1px dashed var(--light-gray);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
-        .service-features li:last-child {
+        .features-list li:last-child {
             border-bottom: none;
         }
         
-        .service-features li i {
-            color: var(--secondary);
-            margin-right: 8px;
+        .features-list li i {
+            color: var(--gold);
         }
         
         /* Package Builder */
         .package-builder {
-            background-color: var(--light);
-            padding: 3rem 0;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            padding: 4rem 0;
             margin: 3rem 0;
+            border-radius: 20px;
         }
         
         .package-container {
-            background-color: white;
-            border-radius: 8px;
-            padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         }
         
         .package-header {
@@ -241,12 +364,18 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
         
         .total-price {
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 700;
             color: var(--primary);
+            background: var(--light);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            border: 2px dashed var(--gold);
         }
         
         .services-selector {
@@ -258,70 +387,99 @@
         
         .service-select {
             border: 2px solid var(--light-gray);
-            border-radius: 8px;
-            padding: 1rem;
+            border-radius: 12px;
+            padding: 1.5rem;
             cursor: pointer;
             transition: all 0.3s;
+            background: white;
+        }
+        
+        .service-select:hover {
+            border-color: var(--gold);
+            transform: translateY(-3px);
         }
         
         .service-select.selected {
-            border-color: var(--secondary);
+            border-color: var(--gold);
             background-color: rgba(212, 175, 55, 0.05);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.1);
         }
         
         .service-select-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
+            align-items: flex-start;
+            margin-bottom: 0.8rem;
         }
         
         .service-select-header h4 {
             margin: 0;
+            font-size: 1.2rem;
         }
         
         .service-select-price {
             font-weight: 700;
-            color: var(--secondary);
+            color: var(--gold);
+            font-size: 1.3rem;
         }
         
+        .selected-services {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        /* Calendar & Booking Section */
         .calendar-section {
-            margin-top: 4rem;
+            padding: 4rem 0;
         }
         
-        /* Calendar Styling */
         .calendar-container {
-            background-color: white;
-            border-radius: 8px;
+            background: white;
+            border-radius: 16px;
             padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
         }
         
         .calendar-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .calendar-navigation {
+            display: flex;
+            gap: 0.5rem;
         }
         
         .calendar-navigation button {
             background-color: var(--primary);
             color: white;
             border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
+            padding: 0.7rem 1.2rem;
+            border-radius: 8px;
             cursor: pointer;
-            margin: 0 0.3rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
         
         .calendar-navigation button:hover {
-            background-color: #3a3f5f;
+            background-color: #2d4a7c;
+            transform: translateY(-2px);
         }
         
         #calendar {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 5px;
         }
         
         #calendar th {
@@ -329,106 +487,239 @@
             color: white;
             padding: 1rem;
             text-align: center;
+            font-weight: 500;
+            border-radius: 8px;
         }
         
         #calendar td {
             width: 14.28%;
             height: 100px;
-            border: 1px solid #eee;
-            padding: 0.5rem;
+            border: 2px solid transparent;
+            padding: 0.8rem;
             vertical-align: top;
             position: relative;
+            background: var(--light);
+            border-radius: 12px;
+            transition: all 0.3s;
+        }
+        
+        #calendar td:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
         
         #calendar td.today {
-            background-color: rgba(212, 175, 55, 0.1);
+            background: linear-gradient(135deg, #fff9e6 0%, #fff0cc 100%);
+            border: 2px solid var(--gold);
         }
         
         #calendar td.booked {
-            background-color: rgba(244, 67, 54, 0.2);
+            background: linear-gradient(135deg, #fed7d7 0%, #feb2b2 100%);
+            border: 2px solid var(--danger);
             cursor: not-allowed;
+            opacity: 0.7;
         }
         
         #calendar td.available {
+            background: linear-gradient(135deg, #c6f6d5 0%, #9ae6b4 100%);
+            border: 2px solid var(--success);
             cursor: pointer;
         }
         
-        #calendar td.available:hover {
-            background-color: rgba(76, 175, 80, 0.1);
-        }
-        
         #calendar td.selected {
-            background-color: rgba(76, 175, 80, 0.3);
+            background: linear-gradient(135deg, #bee3f8 0%, #90cdf4 100%);
+            border: 2px solid var(--blue);
+            transform: scale(1.02);
         }
         
         .day-number {
             font-weight: 700;
+            font-size: 1.2rem;
             margin-bottom: 0.5rem;
+            color: var(--primary);
         }
         
-        /* Time Slots Styling */
+        .day-status {
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 2px 8px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+        
+        .available .day-status {
+            background: var(--success);
+            color: white;
+        }
+        
+        .booked .day-status {
+            background: var(--danger);
+            color: white;
+        }
+        
+        /* Time Slots */
+        .time-slots-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+        
         .time-slot-btn {
-            padding: 12px;
+            padding: 14px;
             border: 2px solid var(--success);
-            background-color: white;
+            background: white;
             color: var(--success);
-            border-radius: 6px;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s;
-            font-weight: 500;
-            font-family: 'Poppins', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
         }
         
         .time-slot-btn:hover {
-            background-color: var(--success);
+            background: var(--success);
             color: white;
             transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(56, 161, 105, 0.3);
+        }
+        
+        .time-slot-btn.selected {
+            background: var(--blue);
+            border-color: var(--blue);
+            color: white;
+            transform: scale(1.05);
         }
         
         .time-slot-btn:disabled {
             border: 2px solid var(--light-gray);
-            background-color: #f5f5f5;
+            background: #f7fafc;
             color: var(--gray);
             cursor: not-allowed;
             opacity: 0.6;
         }
         
+        /* Booking Form */
         .booking-form {
-            background-color: white;
-            border-radius: 8px;
-            padding: 2rem;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             margin-top: 2rem;
         }
         
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.8rem;
         }
         
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            font-weight: 500;
+            font-weight: 600;
+            color: var(--primary);
         }
         
         .form-group input,
-        .form-group textarea {
+        .form-group textarea,
+        .form-group select {
             width: 100%;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-family: 'Poppins', sans-serif;
+            padding: 1rem;
+            border: 2px solid var(--light-gray);
+            border-radius: 10px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
         }
         
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            gap: 1.5rem;
+        }
+        
+        /* Social Media & Contact */
+        .social-contact {
+            background: linear-gradient(135deg, var(--primary) 0%, #2d4a7c 100%);
+            color: white;
+            padding: 4rem 0;
+            margin-top: 4rem;
+            border-radius: 20px;
+        }
+        
+        .social-contact h3 {
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+        
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        
+        .social-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: white;
+            color: var(--primary);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .social-btn.whatsapp {
+            background: #25D366;
+            color: white;
+        }
+        
+        .social-btn.instagram {
+            background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+            color: white;
+        }
+        
+        .social-btn.facebook {
+            background: #1877F2;
+            color: white;
+        }
+        
+        .social-btn i {
+            font-size: 1.2rem;
+        }
+        
+        .contact-info {
+            text-align: center;
+            margin-top: 2rem;
+        }
+        
+        .contact-info p {
+            margin-bottom: 0.5rem;
+            opacity: 0.9;
         }
         
         /* Footer */
         footer {
-            background-color: var(--primary);
+            background: var(--dark);
             color: white;
             padding: 3rem 0 1.5rem;
         }
@@ -443,14 +734,19 @@
         .footer-logo {
             font-family: 'Playfair Display', serif;
             font-size: 1.8rem;
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 1rem;
+        }
+        
+        .footer-logo span {
+            color: var(--gold);
         }
         
         .footer-links h4,
         .footer-contact h4 {
             margin-bottom: 1.5rem;
-            color: var(--secondary);
+            color: var(--gold);
+            font-size: 1.2rem;
         }
         
         .footer-links ul {
@@ -462,109 +758,21 @@
         }
         
         .footer-links ul li a {
-            color: #ddd;
+            color: #cbd5e0;
             text-decoration: none;
             transition: color 0.3s;
         }
         
         .footer-links ul li a:hover {
-            color: var(--secondary);
+            color: var(--gold);
         }
         
         .copyright {
             text-align: center;
             padding-top: 1.5rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: #aaa;
+            color: #a0aec0;
             font-size: 0.9rem;
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 992px) {
-            .hero h1 {
-                font-size: 2.8rem;
-            }
-            
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            nav ul {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background-color: var(--primary);
-                flex-direction: column;
-                padding: 1rem 0;
-                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-            }
-            
-            nav ul.active {
-                display: flex;
-            }
-            
-            nav ul li {
-                margin: 0;
-                text-align: center;
-                padding: 0.8rem 0;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .hero h1 {
-                font-size: 2.2rem;
-            }
-            
-            .hero p {
-                font-size: 1rem;
-            }
-            
-            .calendar-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .calendar-navigation {
-                margin-top: 1rem;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .hero {
-                padding: 4rem 1rem;
-            }
-            
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-            
-            .section-title {
-                font-size: 1.8rem;
-            }
-            
-            .package-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .total-price {
-                margin-top: 1rem;
-            }
-            
-            #calendar td {
-                height: 70px;
-                font-size: 0.9rem;
-            }
-            
-            #timeSlots {
-                grid-template-columns: 1fr;
-            }
         }
         
         /* Modal */
@@ -579,6 +787,7 @@
             z-index: 1000;
             justify-content: center;
             align-items: center;
+            padding: 1rem;
         }
         
         .modal.active {
@@ -587,12 +796,13 @@
         
         .modal-content {
             background-color: white;
-            border-radius: 8px;
-            padding: 2rem;
+            border-radius: 16px;
+            padding: 2.5rem;
             max-width: 500px;
-            width: 90%;
+            width: 100%;
             max-height: 90vh;
             overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
         }
         
         .modal-header {
@@ -605,29 +815,235 @@
         .close-modal {
             background: none;
             border: none;
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             cursor: pointer;
             color: var(--gray);
+            transition: color 0.3s;
+        }
+        
+        .close-modal:hover {
+            color: var(--primary);
         }
         
         .status-message {
-            padding: 1rem;
-            border-radius: 4px;
-            margin-bottom: 1rem;
+            padding: 1.2rem;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
             text-align: center;
             display: none;
+            font-weight: 500;
         }
         
         .status-message.success {
-            background-color: rgba(76, 175, 80, 0.1);
+            background-color: rgba(56, 161, 105, 0.1);
             color: var(--success);
+            border: 1px solid rgba(56, 161, 105, 0.3);
             display: block;
         }
         
         .status-message.error {
-            background-color: rgba(244, 67, 54, 0.1);
+            background-color: rgba(229, 62, 62, 0.1);
             color: var(--danger);
+            border: 1px solid rgba(229, 62, 62, 0.3);
             display: block;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .calendar-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .calendar-navigation {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                padding: 1rem 0;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+                z-index: 999;
+            }
+            
+            nav ul.active {
+                display: flex;
+            }
+            
+            nav ul li {
+                margin: 0;
+                text-align: center;
+                padding: 1rem 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .hero {
+                padding: 4rem 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1rem;
+            }
+            
+            .section-title h2 {
+                font-size: 2rem;
+            }
+            
+            .price-card.featured {
+                transform: none;
+            }
+            
+            .price-card.featured:hover {
+                transform: translateY(-10px);
+            }
+            
+            #calendar td {
+                height: 80px;
+                font-size: 0.9rem;
+            }
+            
+            .time-slots-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 425px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .hero {
+                padding: 3rem 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .price-card {
+                margin: 0 10px;
+            }
+            
+            .package-container,
+            .calendar-container,
+            .booking-form {
+                padding: 1.5rem;
+            }
+            
+            .calendar-navigation {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .calendar-navigation button {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            #calendar {
+                border-spacing: 3px;
+            }
+            
+            #calendar th,
+            #calendar td {
+                padding: 0.5rem;
+                font-size: 0.85rem;
+            }
+            
+            #calendar td {
+                height: 70px;
+            }
+            
+            .day-number {
+                font-size: 1rem;
+            }
+            
+            .day-status {
+                font-size: 0.7rem;
+                padding: 1px 5px;
+            }
+            
+            .time-slots-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .social-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .social-btn {
+                width: 100%;
+                max-width: 250px;
+                justify-content: center;
+            }
+            
+            .modal-content {
+                padding: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 375px) {
+            .hero h1 {
+                font-size: 1.6rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .price {
+                font-size: 2rem;
+            }
+            
+            .card-header {
+                padding: 1.5rem 1rem 1rem;
+            }
+            
+            #calendar td {
+                height: 60px;
+                padding: 0.3rem;
+            }
+            
+            .day-number {
+                font-size: 0.9rem;
+                margin-bottom: 0.3rem;
+            }
         }
     </style>
 </head>
@@ -637,17 +1053,17 @@
         <div class="container header-container">
             <div class="logo">
                 <i class="fas fa-camera"></i>
-                LensCraft Photography
+                Daniel <span>Popescu</span>
             </div>
             <button class="mobile-menu-btn" id="mobileMenuBtn">
                 <i class="fas fa-bars"></i>
             </button>
             <nav>
                 <ul id="navMenu">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#package-builder">Package Builder</a></li>
-                    <li><a href="#booking">Book Now</a></li>
+                    <li><a href="#home">Acasă</a></li>
+                    <li><a href="#services">Servicii</a></li>
+                    <li><a href="#package-builder">Pachete</a></li>
+                    <li><a href="#booking">Rezervă</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
             </nav>
@@ -657,76 +1073,162 @@
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="container">
-            <h1>Capture Your Precious Moments</h1>
-            <p>Professional photography services for weddings, portraits, events, and more. Create your perfect package and book your session online.</p>
-            <a href="#package-builder" class="btn">Build Your Package</a>
+            <h1>Daniel Popescu - Fotograf Profesionist</h1>
+            <p>Transform momentele tale speciale în amintiri de neuitat. Fotografie și video de cea mai înaltă calitate pentru evenimentele tale importante.</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
+                <a href="#booking" class="btn">
+                    <i class="fas fa-calendar-check"></i> Rezervă Acum
+                </a>
+                <a href="#contact" class="btn btn-secondary">
+                    <i class="fas fa-phone-alt"></i> Contactează-mă
+                </a>
+            </div>
         </div>
     </section>
 
     <!-- Services Section -->
     <section class="container" id="services">
-        <h2 class="section-title">Our Photography Services</h2>
+        <div class="section-title">
+            <h2>Serviciile Mele</h2>
+            <div class="title-decoration"></div>
+            <p>Ofer servicii complete de fotografie și video pentru toate ocaziile speciale din viața ta</p>
+        </div>
+        
         <div class="services-grid">
-            <!-- Wedding Photography -->
-            <div class="service-card">
-                <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80" alt="Wedding Photography" class="service-img">
-                <div class="service-content">
-                    <h3>Wedding Photography</h3>
-                    <p class="price">$1,200+</p>
-                    <p>Capture your special day with beautiful, timeless photographs that tell your love story.</p>
-                    <ul class="service-features">
-                        <li><i class="fas fa-check"></i> Full day coverage (up to 10 hours)</li>
-                        <li><i class="fas fa-check"></i> Professional editing of 500+ photos</li>
-                        <li><i class="fas fa-check"></i> Online gallery with download rights</li>
-                        <li><i class="fas fa-check"></i> Engagement session included</li>
+            <!-- Nunta -->
+            <div class="price-card featured">
+                <div class="featured-badge">RECOMANDAT</div>
+                <div class="card-header">
+                    <h3>Nuntă Completa</h3>
+                    <p>Fotografie + Video + Album</p>
+                </div>
+                <div class="card-content">
+                    <div class="price">
+                        <span class="old-price">5000 RON</span>
+                        <span class="discount">Reducere 2000 RON!</span>
+                        3000 RON
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Fotografie întreagă ziua (12 ore)</li>
+                        <li><i class="fas fa-check"></i> Video 4K profesional</li>
+                        <li><i class="fas fa-check"></i> Album foto premium (50 pagini)</li>
+                        <li><i class="fas fa-check"></i> Teaser film (1-2 minute)</li>
+                        <li><i class="fas fa-check"></i> Toate fotografiile editate</li>
+                        <li><i class="fas fa-check"></i> Film complet (60-90 minute)</li>
                     </ul>
                 </div>
             </div>
 
-            <!-- Cabin Studio Session -->
-            <div class="service-card">
-                <img src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Cabin Studio" class="service-img">
-                <div class="service-content">
-                    <h3>Cabin Studio Session</h3>
-                    <p class="price">$350</p>
-                    <p>Cozy cabin setting perfect for intimate portraits, family photos, or creative projects.</p>
-                    <ul class="service-features">
-                        <li><i class="fas fa-check"></i> 2-hour studio session</li>
-                        <li><i class="fas fa-check"></i> Professional lighting setup</li>
-                        <li><i class="fas fa-check"></i> 50+ edited digital photos</li>
-                        <li><i class="fas fa-check"></i> Access to props and backdrops</li>
+            <!-- Botez -->
+            <div class="price-card">
+                <div class="card-header">
+                    <h3>Botez</h3>
+                    <p>Fotografie Profesională</p>
+                </div>
+                <div class="card-content">
+                    <div class="price">
+                        <span class="old-price">4000 RON</span>
+                        <span class="discount">Reducere 1000 RON!</span>
+                        3000 RON
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Acoperire completă (4-6 ore)</li>
+                        <li><i class="fas fa-check"></i> Fotografie în biserică și restaurant</li>
+                        <li><i class="fas fa-check"></i> Album foto (30 pagini)</li>
+                        <li><i class="fas fa-check"></i> 100+ fotografii editate</li>
+                        <li><i class="fas fa-check"></i> Fotografii de familie</li>
+                        <li><i class="fas fa-check"></i> Livrare în 7 zile</li>
                     </ul>
                 </div>
             </div>
 
-            <!-- Corporate Events -->
-            <div class="service-card">
-                <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Corporate Events" class="service-img">
-                <div class="service-content">
-                    <h3>Corporate Events</h3>
-                    <p class="price">$800</p>
-                    <p>Professional photography for conferences, team buildings, product launches, and corporate gatherings.</p>
-                    <ul class="service-features">
-                        <li><i class="fas fa-check"></i> 4-hour event coverage</li>
-                        <li><i class="fas fa-check"></i> 200+ professionally edited photos</li>
-                        <li><i class="fas fa-check"></i> Fast turnaround (48 hours)</li>
-                        <li><i class="fas fa-check"></i> Brand-consistent editing</li>
+            <!-- Cununie -->
+            <div class="price-card">
+                <div class="card-header">
+                    <h3>Cununie Civilă</h3>
+                    <p>Fotografie Elegantă</p>
+                </div>
+                <div class="card-content">
+                    <div class="price">
+                        <span class="old-price">4000 RON</span>
+                        <span class="discount">Reducere 1000 RON!</span>
+                        3000 RON
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Fotografie la primărie (3-4 ore)</li>
+                        <li><i class="fas fa-check"></i> Fotografii artistice de nuntă</li>
+                        <li><i class="fas fa-check"></i> Album foto (25 pagini)</li>
+                        <li><i class="fas fa-check"></i> 80+ fotografii editate</li>
+                        <li><i class="fas fa-check"></i> Session foto în aer liber</li>
+                        <li><i class="fas fa-check"></i> Toate fotografiile pe stick</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Second Row -->
+        <div class="services-grid">
+            <!-- Carduri Majorare -->
+            <div class="price-card">
+                <div class="card-header">
+                    <h3>Carduri Majorare</h3>
+                    <p>Foto/Video/Audio</p>
+                </div>
+                <div class="card-content">
+                    <div class="price">
+                        <span class="old-price">4000 RON</span>
+                        <span class="discount">Reducere 1000 RON!</span>
+                        3000 RON
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Fotografie profesională</li>
+                        <li><i class="fas fa-check"></i> Filmare video 4K</li>
+                        <li><i class="fas fa-check"></i> Înregistrare audio calitate</li>
+                        <li><i class="fas fa-check"></i> Editare video profesionistă</li>
+                        <li><i class="fas fa-check"></i> Album foto digital</li>
+                        <li><i class="fas fa-check"></i> Toate materialele incluse</li>
                     </ul>
                 </div>
             </div>
 
-            <!-- Family Portraits -->
-            <div class="service-card">
-                <img src="https://images.unsplash.com/photo-1529254479751-fbacb4c7a587?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Family Portraits" class="service-img">
-                <div class="service-content">
-                    <h3>Family Portraits</h3>
-                    <p class="price">$450</p>
-                    <p>Beautiful outdoor or studio family portraits to capture your family's unique personality.</p>
-                    <ul class="service-features">
-                        <li><i class="fas fa-check"></i> 90-minute photo session</li>
-                        <li><i class="fas fa-check"></i> Choice of location (outdoor/studio)</li>
-                        <li><i class="fas fa-check"></i> 75+ edited digital photos</li>
-                        <li><i class="fas fa-check"></i> Print release for personal use</li>
+            <!-- Sedinte de Craciun -->
+            <div class="price-card">
+                <div class="card-header">
+                    <h3>Ședințe de Crăciun</h3>
+                    <p>Fotografie Tematică</p>
+                </div>
+                <div class="card-content">
+                    <div class="price">
+                        300 RON
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Ședință foto de 1 oră</li>
+                        <li><i class="fas fa-check"></i> Decor tematic Crăciun</li>
+                        <li><i class="fas fa-check"></i> 25+ fotografii editate</li>
+                        <li><i class="fas fa-check"></i> Ideal pentru familie/cuplu</li>
+                        <li><i class="fas fa-check"></i> Cadou digital pentru sărbători</li>
+                        <li><i class="fas fa-check"></i> Livrare în 3 zile</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Portrete -->
+            <div class="price-card">
+                <div class="card-header">
+                    <h3>Portrete & Familie</h3>
+                    <p>Ședințe Foto Personale</p>
+                </div>
+                <div class="card-content">
+                    <div class="price">
+                        500 RON
+                    </div>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Ședință foto de 2 ore</li>
+                        <li><i class="fas fa-check"></i> Alege locația (studio/natură)</li>
+                        <li><i class="fas fa-check"></i> 40+ fotografii editate</li>
+                        <li><i class="fas fa-check"></i> Ghidaj profesional</li>
+                        <li><i class="fas fa-check"></i> Poses naturale</li>
+                        <li><i class="fas fa-check"></i> Toate fotografiile în format digital</li>
                     </ul>
                 </div>
             </div>
@@ -736,49 +1238,70 @@
     <!-- Package Builder -->
     <section class="package-builder" id="package-builder">
         <div class="container">
-            <h2 class="section-title">Build Your Personalized Package</h2>
+            <div class="section-title">
+                <h2>Creează-ți Pachetul Personalizat</h2>
+                <div class="title-decoration"></div>
+                <p>Combinează serviciile dorite și obține cel mai bun preț</p>
+            </div>
+            
             <div class="package-container">
                 <div class="package-header">
-                    <h3>Selected Services</h3>
-                    <div class="total-price">Total: $<span id="totalPrice">0</span></div>
+                    <h3>Servicii Selectate</h3>
+                    <div class="total-price">Total: <span id="totalPrice">0</span> RON</div>
                 </div>
                 
                 <div class="services-selector">
-                    <div class="service-select" data-service="wedding" data-price="1200">
+                    <div class="service-select" data-service="nunta" data-price="3000">
                         <div class="service-select-header">
-                            <h4>Wedding Photography</h4>
-                            <div class="service-select-price">$1,200</div>
+                            <h4>Nuntă Completa</h4>
+                            <div class="service-select-price">3000 RON</div>
                         </div>
-                        <p>Full day coverage with professional editing</p>
+                        <p>Fotografie + Video + Album (reducere 2000 RON)</p>
                     </div>
                     
-                    <div class="service-select" data-service="cabin" data-price="350">
+                    <div class="service-select" data-service="botez" data-price="3000">
                         <div class="service-select-header">
-                            <h4>Cabin Studio Session</h4>
-                            <div class="service-select-price">$350</div>
+                            <h4>Botez</h4>
+                            <div class="service-select-price">3000 RON</div>
                         </div>
-                        <p>2-hour studio session in our cozy cabin</p>
+                        <p>Fotografie profesională (reducere 1000 RON)</p>
                     </div>
                     
-                    <div class="service-select" data-service="corporate" data-price="800">
+                    <div class="service-select" data-service="cununie" data-price="3000">
                         <div class="service-select-header">
-                            <h4>Corporate Events</h4>
-                            <div class="service-select-price">$800</div>
+                            <h4>Cununie Civilă</h4>
+                            <div class="service-select-price">3000 RON</div>
                         </div>
-                        <p>4-hour coverage for corporate gatherings</p>
+                        <p>Fotografie elegantă (reducere 1000 RON)</p>
                     </div>
                     
-                    <div class="service-select" data-service="family" data-price="450">
+                    <div class="service-select" data-service="carduri" data-price="3000">
                         <div class="service-select-header">
-                            <h4>Family Portraits</h4>
-                            <div class="service-select-price">$450</div>
+                            <h4>Carduri Majorare</h4>
+                            <div class="service-select-price">3000 RON</div>
                         </div>
-                        <p>90-minute family photo session</p>
+                        <p>Foto/Video/Audio (reducere 1000 RON)</p>
+                    </div>
+                    
+                    <div class="service-select" data-service="craciun" data-price="300">
+                        <div class="service-select-header">
+                            <h4>Ședințe de Crăciun</h4>
+                            <div class="service-select-price">300 RON</div>
+                        </div>
+                        <p>Fotografie tematică de sărbători</p>
+                    </div>
+                    
+                    <div class="service-select" data-service="portrete" data-price="500">
+                        <div class="service-select-header">
+                            <h4>Portrete & Familie</h4>
+                            <div class="service-select-price">500 RON</div>
+                        </div>
+                        <p>Ședințe foto personale (2 ore)</p>
                     </div>
                 </div>
                 
                 <div class="selected-services" id="selectedServices">
-                    <p>No services selected yet. Click on services above to add them to your package.</p>
+                    <p style="text-align: center; color: var(--gray); padding: 2rem;">Niciun serviciu selectat încă. Apasă pe serviciile de mai sus pentru a le adăuga în pachetul tău.</p>
                 </div>
             </div>
         </div>
@@ -786,31 +1309,39 @@
 
     <!-- Calendar & Booking Section -->
     <section class="container calendar-section" id="booking">
-        <h2 class="section-title">Book Your Session</h2>
+        <div class="section-title">
+            <h2>Rezervă Ședința Ta Foto</h2>
+            <div class="title-decoration"></div>
+            <p>Alege data și ora care ți se potrivește cel mai bine</p>
+        </div>
         
         <div class="calendar-container">
             <div class="calendar-header">
-                <h3 id="currentMonth">June 2023</h3>
+                <h3 id="currentMonth">Ianuarie 2024</h3>
                 <div class="calendar-navigation">
-                    <button id="prevMonth"><i class="fas fa-chevron-left"></i> Previous</button>
-                    <button id="todayBtn">Today</button>
-                    <button id="nextMonth">Next <i class="fas fa-chevron-right"></i></button>
+                    <button id="prevMonth"><i class="fas fa-chevron-left"></i> Luna Precedenta</button>
+                    <button id="todayBtn"><i class="fas fa-calendar-day"></i> Astăzi</button>
+                    <button id="nextMonth">Luna Următoare <i class="fas fa-chevron-right"></i></button>
                 </div>
             </div>
             
             <div class="calendar-legend">
                 <div style="display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
-                    <div style="display: flex; align-items: center;">
-                        <div style="width: 20px; height: 20px; background-color: rgba(76, 175, 80, 0.3); margin-right: 8px;"></div>
-                        <span>Selected Date</span>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 20px; height: 20px; border: 2px solid var(--gold); border-radius: 6px;"></div>
+                        <span>Astăzi</span>
                     </div>
-                    <div style="display: flex; align-items: center;">
-                        <div style="width: 20px; height: 20px; background-color: rgba(244, 67, 54, 0.2); margin-right: 8px;"></div>
-                        <span>Unavailable (Booked)</span>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 20px; height: 20px; background: linear-gradient(135deg, #c6f6d5 0%, #9ae6b4 100%); border: 2px solid var(--success); border-radius: 6px;"></div>
+                        <span>Disponibil</span>
                     </div>
-                    <div style="display: flex; align-items: center;">
-                        <div style="width: 20px; height: 20px; background-color: rgba(212, 175, 55, 0.1); margin-right: 8px;"></div>
-                        <span>Today</span>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 20px; height: 20px; background: linear-gradient(135deg, #fed7d7 0%, #feb2b2 100%); border: 2px solid var(--danger); border-radius: 6px;"></div>
+                        <span>Ocupat</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div style="width: 20px; height: 20px; background: linear-gradient(135deg, #bee3f8 0%, #90cdf4 100%); border: 2px solid var(--blue); border-radius: 6px;"></div>
+                        <span>Selectat</span>
                     </div>
                 </div>
             </div>
@@ -818,13 +1349,13 @@
             <table id="calendar">
                 <thead>
                     <tr>
-                        <th>Sun</th>
-                        <th>Mon</th>
-                        <th>Tue</th>
-                        <th>Wed</th>
-                        <th>Thu</th>
-                        <th>Fri</th>
-                        <th>Sat</th>
+                        <th>Dum</th>
+                        <th>Lun</th>
+                        <th>Mar</th>
+                        <th>Mie</th>
+                        <th>Joi</th>
+                        <th>Vin</th>
+                        <th>Sâm</th>
                     </tr>
                 </thead>
                 <tbody id="calendarBody">
@@ -834,112 +1365,137 @@
         </div>
         
         <div class="booking-form">
-            <h3>Booking Details</h3>
+            <h3 style="margin-bottom: 2rem;">Detalii Rezervare</h3>
             <div id="statusMessage" class="status-message"></div>
             
             <div class="form-group">
-                <label for="selectedDate">Selected Date</label>
-                <input type="text" id="selectedDate" readonly placeholder="Click on an available date in the calendar">
+                <label for="selectedDate">Data Selectată</label>
+                <input type="text" id="selectedDate" readonly placeholder="Apasă pe o dată disponibilă în calendar">
             </div>
             
             <div class="form-group" id="timeSlotsContainer" style="display: none;">
-                <label for="timeSlots">Select Time Slot *</label>
-                <div id="timeSlots" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px;">
-                    <!-- Time slots will be loaded here -->
-                </div>
+                <label for="timeSlots">Alege Intervalul Orar *</label>
                 <div id="loadingTimeSlots" style="display: none; text-align: center; padding: 20px;">
-                    <i class="fas fa-spinner fa-spin"></i> Loading available time slots...
+                    <i class="fas fa-spinner fa-spin"></i> Se încarcă intervalele disponibile...
+                </div>
+                <div id="timeSlots" class="time-slots-grid">
+                    <!-- Time slots will be loaded here -->
                 </div>
             </div>
             
             <div class="form-group" id="selectedTimeContainer" style="display: none;">
-                <label>Selected Time</label>
+                <label>Ora Selectată</label>
                 <input type="text" id="selectedTimeDisplay" readonly>
                 <input type="hidden" id="selectedTime">
             </div>
             
             <div class="form-row">
                 <div class="form-group">
-                    <label for="clientName">Full Name *</label>
-                    <input type="text" id="clientName" required>
+                    <label for="clientName">Numele tău complet *</label>
+                    <input type="text" id="clientName" required placeholder="Introdu numele tău">
                 </div>
                 <div class="form-group">
-                    <label for="clientEmail">Email Address *</label>
-                    <input type="email" id="clientEmail" required>
+                    <label for="clientEmail">Adresa de Email *</label>
+                    <input type="email" id="clientEmail" required placeholder="exemplu@email.com">
                 </div>
             </div>
             
             <div class="form-row">
                 <div class="form-group">
-                    <label for="clientPhone">Phone Number</label>
-                    <input type="tel" id="clientPhone">
+                    <label for="clientPhone">Număr de Telefon *</label>
+                    <input type="tel" id="clientPhone" required placeholder="07xxxxxxxx">
                 </div>
                 <div class="form-group">
-                    <label for="eventType">Event Type</label>
-                    <input type="text" id="eventType" placeholder="e.g., Wedding, Family Photos, etc.">
+                    <label for="eventType">Tipul Evenimentului *</label>
+                    <select id="eventType" required>
+                        <option value="">Alege tipul evenimentului</option>
+                        <option value="nunta">Nuntă</option>
+                        <option value="botez">Botez</option>
+                        <option value="cununie">Cununie Civilă</option>
+                        <option value="carduri">Carduri Majorare</option>
+                        <option value="craciun">Ședință Crăciun</option>
+                        <option value="portrete">Portrete/Familie</option>
+                        <option value="altul">Alt Eveniment</option>
+                    </select>
                 </div>
             </div>
             
             <div class="form-group">
-                <label for="packageSummary">Selected Package</label>
-                <textarea id="packageSummary" rows="3" readonly>No services selected yet. Please build your package above.</textarea>
+                <label for="packageSummary">Pachet Selectat</label>
+                <textarea id="packageSummary" rows="3" readonly>Niciun serviciu selectat încă. Te rog să îți creezi pachetul mai întâi.</textarea>
             </div>
             
             <div class="form-group">
-                <label for="additionalNotes">Additional Notes</label>
-                <textarea id="additionalNotes" rows="4" placeholder="Any special requests or details about your session..."></textarea>
+                <label for="additionalNotes">Detalii Adiționale</label>
+                <textarea id="additionalNotes" rows="4" placeholder="Orice informații suplimentare despre evenimentul tău..."></textarea>
             </div>
             
-            <button class="btn" id="submitBooking">Submit Booking Request</button>
-            <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--gray);">Note: Your booking will be confirmed after we review your request and send you a confirmation email with payment details.</p>
+            <button class="btn" id="submitBooking" style="width: 100%; padding: 1.2rem; font-size: 1.1rem;">
+                <i class="fas fa-paper-plane"></i> Trimite Cererea de Rezervare
+            </button>
+            <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--gray); text-align: center;">
+                <i class="fas fa-info-circle"></i> Rezervarea ta va fi confirmată prin email în maxim 24 de ore.
+            </p>
+        </div>
+    </section>
+
+    <!-- Social Media & Contact -->
+    <section class="social-contact" id="contact">
+        <div class="container">
+            <h3>Contactează-mă</h3>
+            <div class="social-buttons">
+                <a href="https://wa.me/40729552767" class="social-btn whatsapp" target="_blank">
+                    <i class="fab fa-whatsapp"></i> WhatsApp: 0729 552 767
+                </a>
+                <a href="https://instagram.com" class="social-btn instagram" target="_blank">
+                    <i class="fab fa-instagram"></i> Instagram
+                </a>
+                <a href="https://facebook.com" class="social-btn facebook" target="_blank">
+                    <i class="fab fa-facebook-f"></i> Facebook
+                </a>
+            </div>
+            <div class="contact-info">
+                <p><i class="fas fa-envelope"></i> contact@danielpopescu.ro</p>
+                <p><i class="fas fa-phone"></i> 0729 552 767</p>
+                <p><i class="fas fa-map-marker-alt"></i> București, România</p>
+                <p style="margin-top: 1.5rem; font-size: 0.95rem; opacity: 0.8;">
+                    Disponibil pentru proiecte în toată țara
+                </p>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer id="contact">
+    <footer>
         <div class="container">
             <div class="footer-content">
                 <div>
                     <div class="footer-logo">
-                        <i class="fas fa-camera"></i>
-                        LensCraft Photography
+                        Daniel <span>Popescu</span>
                     </div>
-                    <p>Capturing life's most precious moments with artistic vision and professional expertise since 2010.</p>
-                    <p style="margin-top: 1rem;">
-                        <i class="fas fa-phone"></i> (555) 123-4567<br>
-                        <i class="fas fa-envelope"></i> info@lenscraftphoto.com
-                    </p>
+                    <p>Fotograf profesionist cu peste 10 ani de experiență în fotografia de eveniment. Transform momentele tale speciale în amintiri de neuitat.</p>
                 </div>
                 
                 <div class="footer-links">
-                    <h4>Quick Links</h4>
+                    <h4>Linkuri Rapide</h4>
                     <ul>
-                        <li><a href="#home">Home</a></li>
-                        <li><a href="#services">Services</a></li>
-                        <li><a href="#package-builder">Package Builder</a></li>
-                        <li><a href="#booking">Book a Session</a></li>
+                        <li><a href="#home">Acasă</a></li>
+                        <li><a href="#services">Servicii</a></li>
+                        <li><a href="#package-builder">Pachete</a></li>
+                        <li><a href="#booking">Rezervă</a></li>
                     </ul>
                 </div>
                 
                 <div class="footer-contact">
-                    <h4>Business Hours</h4>
-                    <p>Monday - Friday: 9am - 6pm</p>
-                    <p>Saturday: 10am - 4pm</p>
-                    <p>Sunday: By appointment only</p>
-                    <div style="margin-top: 1.5rem;">
-                        <h4>Follow Us</h4>
-                        <div style="display: flex; gap: 1rem; font-size: 1.2rem;">
-                            <a href="#" style="color: white;"><i class="fab fa-facebook"></i></a>
-                            <a href="#" style="color: white;"><i class="fab fa-instagram"></i></a>
-                            <a href="#" style="color: white;"><i class="fab fa-pinterest"></i></a>
-                            <a href="#" style="color: white;"><i class="fab fa-twitter"></i></a>
-                        </div>
-                    </div>
+                    <h4>Program de Lucru</h4>
+                    <p>Luni - Vineri: 9:00 - 18:00</p>
+                    <p>Sâmbătă: 10:00 - 16:00</p>
+                    <p>Duminică: Doar evenimente</p>
                 </div>
             </div>
             
             <div class="copyright">
-                &copy; <span id="currentYear">2023</span> LensCraft Photography. All rights reserved.
+                &copy; <span id="currentYear">2024</span> Daniel Popescu Fotograf. Toate drepturile rezervate.
             </div>
         </div>
     </footer>
@@ -948,731 +1504,512 @@
     <div class="modal" id="confirmationModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Booking Request Submitted</h3>
+                <h3>Cerere de Rezervare Trimisă</h3>
                 <button class="close-modal" id="closeModal">&times;</button>
             </div>
             <div class="status-message success">
-                <i class="fas fa-check-circle"></i> Your booking request has been submitted successfully!
+                <i class="fas fa-check-circle"></i> Cererea ta de rezervare a fost trimisă cu succes!
             </div>
-            <p>Thank you for your booking request. Here are your booking details:</p>
-            <div style="background-color: #f5f5f5; padding: 1rem; border-radius: 4px; margin: 1.5rem 0;">
-                <p><strong>Date:</strong> <span id="modalDate"></span></p>
-                <p><strong>Time:</strong> <span id="modalTime"></span></p>
-                <p><strong>Client:</strong> <span id="modalClient"></span></p>
-                <p><strong>Package Total:</strong> $<span id="modalTotal"></span></p>
-                <p><strong>Services:</strong> <span id="modalServices"></span></p>
+            <p>Mulțumesc pentru încredere! Iată detaliile rezervării tale:</p>
+            <div style="background-color: #f8f9fa; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0; border: 1px solid var(--light-gray);">
+                <p><strong><i class="fas fa-calendar"></i> Data:</strong> <span id="modalDate"></span></p>
+                <p><strong><i class="fas fa-clock"></i> Ora:</strong> <span id="modalTime"></span></p>
+                <p><strong><i class="fas fa-user"></i> Client:</strong> <span id="modalClient"></span></p>
+                <p><strong><i class="fas fa-phone"></i> Telefon:</strong> <span id="modalPhone"></span></p>
+                <p><strong><i class="fas fa-tag"></i> Total:</strong> <span id="modalTotal"></span> RON</p>
+                <p><strong><i class="fas fa-camera"></i> Servicii:</strong> <span id="modalServices"></span></p>
             </div>
-            <p>We will review your request and send a confirmation email with payment details within 24 hours. Please check your spam folder if you don't see our email.</p>
-            <p>For any urgent questions, please call us at (555) 123-4567.</p>
-            <button class="btn" id="closeModalBtn" style="margin-top: 1.5rem;">Close</button>
+            <p>Voi revizui cererea ta și voi trimite un email de confirmare cu detalii despre plată în maxim 24 de ore.</p>
+            <p>Pentru întrebări urgente, mă poți suna direct la <strong>0729 552 767</strong>.</p>
+            <button class="btn" id="closeModalBtn" style="margin-top: 1.5rem; width: 100%;">
+                <i class="fas fa-check"></i> Închide
+            </button>
         </div>
     </div>
 
     <script>
-    // Configuration - YOUR GOOGLE SCRIPT URL
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwG60A16z9jKJM3MKMWyycHqJHdh_gSoQfLR8-hCUGXwrjdzzHknoOv0Xh8aQe6UYRw/exec';
-    
-    // Package Builder Functionality
-    let selectedServices = [];
-    let totalPrice = 0;
-    
-    document.querySelectorAll('.service-select').forEach(service => {
-        service.addEventListener('click', function() {
-            const serviceName = this.getAttribute('data-service');
-            const servicePrice = parseInt(this.getAttribute('data-price'));
+        // Package Builder Functionality
+        let selectedServices = [];
+        let totalPrice = 0;
+        
+        document.querySelectorAll('.service-select').forEach(service => {
+            service.addEventListener('click', function() {
+                const serviceName = this.getAttribute('data-service');
+                const servicePrice = parseInt(this.getAttribute('data-price'));
+                
+                if (this.classList.contains('selected')) {
+                    this.classList.remove('selected');
+                    selectedServices = selectedServices.filter(s => s.name !== serviceName);
+                    totalPrice -= servicePrice;
+                } else {
+                    this.classList.add('selected');
+                    selectedServices.push({
+                        name: serviceName,
+                        price: servicePrice,
+                        displayName: this.querySelector('h4').textContent
+                    });
+                    totalPrice += servicePrice;
+                }
+                
+                updatePackageSummary();
+            });
+        });
+
+        function updatePackageSummary() {
+            document.getElementById('totalPrice').textContent = totalPrice;
+            const selectedServicesContainer = document.getElementById('selectedServices');
             
-            if (this.classList.contains('selected')) {
-                this.classList.remove('selected');
-                selectedServices = selectedServices.filter(s => s.name !== serviceName);
-                totalPrice -= servicePrice;
+            if (selectedServices.length === 0) {
+                selectedServicesContainer.innerHTML = '<p style="text-align: center; color: var(--gray); padding: 2rem;">Niciun serviciu selectat încă. Apasă pe serviciile de mai sus pentru a le adăuga în pachetul tău.</p>';
+                document.getElementById('packageSummary').value = 'Niciun serviciu selectat încă. Te rog să îți creezi pachetul mai întâi.';
             } else {
-                this.classList.add('selected');
-                selectedServices.push({
-                    name: serviceName,
-                    price: servicePrice,
-                    displayName: this.querySelector('h4').textContent
+                let servicesHTML = '<h4 style="margin-bottom: 1rem;">Serviciile tale:</h4><ul style="list-style: none; padding: 0;">';
+                let packageSummaryText = '';
+                
+                selectedServices.forEach(service => {
+                    servicesHTML += `<li style="padding: 0.5rem 0; border-bottom: 1px solid var(--light-gray);">
+                        <i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i>
+                        <strong>${service.displayName}</strong> - ${service.price} RON
+                    </li>`;
+                    packageSummaryText += `${service.displayName} (${service.price} RON), `;
                 });
-                totalPrice += servicePrice;
+                
+                servicesHTML += `<li style="font-weight: 700; color: var(--primary); margin-top: 1rem; padding-top: 1rem; border-top: 2px solid var(--gold);">
+                    Total: ${totalPrice} RON
+                </li></ul>`;
+                selectedServicesContainer.innerHTML = servicesHTML;
+                document.getElementById('packageSummary').value = packageSummaryText.slice(0, -2);
+            }
+        }
+
+        // Calendar Functionality
+        let currentDate = new Date();
+        let selectedCalendarDate = null;
+        let selectedTimeSlot = null;
+        
+        // Romanian month names
+        const romanianMonths = [
+            "Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie",
+            "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"
+        ];
+        
+        // Romanian day names
+        const romanianDays = ["Dum", "Lun", "Mar", "Mie", "Joi", "Vin", "Sâm"];
+        
+        // Predefined busy dates for demo
+        const busyDates = [
+            '2024-01-15', '2024-01-20', '2024-01-25',
+            '2024-02-02', '2024-02-10', '2024-02-18'
+        ];
+        
+        // Time slots for each day
+        const timeSlotsData = {
+            '09:00': '9:00 AM - 11:00 AM',
+            '11:00': '11:00 AM - 1:00 PM', 
+            '13:00': '1:00 PM - 3:00 PM',
+            '15:00': '3:00 PM - 5:00 PM',
+            '17:00': '5:00 PM - 7:00 PM'
+        };
+        
+        // Render Calendar
+        function renderCalendar() {
+            const calendarBody = document.getElementById('calendarBody');
+            calendarBody.innerHTML = '';
+            
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            
+            // Update month display
+            document.getElementById('currentMonth').textContent = `${romanianMonths[month]} ${year}`;
+            
+            // Calendar calculations
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            const startingDay = firstDay.getDay();
+            
+            let date = 1;
+            let today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            // Create calendar
+            for (let i = 0; i < 6; i++) {
+                const row = document.createElement('tr');
+                
+                for (let j = 0; j < 7; j++) {
+                    const cell = document.createElement('td');
+                    
+                    if (i === 0 && j < startingDay) {
+                        row.appendChild(cell);
+                    } else if (date > daysInMonth) {
+                        row.appendChild(cell);
+                    } else {
+                        const currentDateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
+                        const cellDate = new Date(year, month, date);
+                        cellDate.setHours(0, 0, 0, 0);
+                        
+                        // Today
+                        const isToday = today.getTime() === cellDate.getTime();
+                        if (isToday) {
+                            cell.classList.add('today');
+                        }
+                        
+                        // Check if past date
+                        const isPastDate = cellDate < today;
+                        
+                        // Check if busy
+                        const isBusyDate = busyDates.includes(currentDateStr);
+                        
+                        if (isBusyDate) {
+                            cell.classList.add('booked');
+                            cell.innerHTML = `
+                                <div class="day-number">${date}</div>
+                                <div class="day-status">Ocupat</div>
+                            `;
+                            cell.title = "Această zi este deja rezervată";
+                        } else if (isPastDate) {
+                            cell.innerHTML = `
+                                <div class="day-number" style="color: #a0aec0;">${date}</div>
+                                <div style="font-size: 0.8rem; color: #a0aec0;">Îndepărtat</div>
+                            `;
+                        } else {
+                            cell.classList.add('available');
+                            cell.innerHTML = `
+                                <div class="day-number">${date}</div>
+                                <div class="day-status">Disponibil</div>
+                            `;
+                            
+                            cell.addEventListener('click', function() {
+                                selectDate(cell, currentDateStr, cellDate);
+                            });
+                            
+                            if (selectedCalendarDate === currentDateStr) {
+                                cell.classList.add('selected');
+                            }
+                        }
+                        
+                        row.appendChild(cell);
+                        date++;
+                    }
+                }
+                
+                calendarBody.appendChild(row);
+                if (date > daysInMonth) break;
+            }
+        }
+        
+        function selectDate(cell, dateStr, dateObj) {
+            // Check if date is busy
+            if (busyDates.includes(dateStr)) {
+                showStatusMessage('Această zi este deja rezervată. Te rog alege altă dată.', 'error');
+                return;
             }
             
-            updatePackageSummary();
-        });
-    });
-
-    function updatePackageSummary() {
-        document.getElementById('totalPrice').textContent = totalPrice;
-        const selectedServicesContainer = document.getElementById('selectedServices');
-        
-        if (selectedServices.length === 0) {
-            selectedServicesContainer.innerHTML = '<p>No services selected yet. Click on services above to add them to your package.</p>';
-            document.getElementById('packageSummary').value = 'No services selected yet.';
-        } else {
-            let servicesHTML = '<h4>Your Selected Services:</h4><ul style="list-style: none; padding: 0;">';
-            let packageSummaryText = '';
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            if (dateObj < today) {
+                showStatusMessage('Nu poți selecta date din trecut.', 'error');
+                return;
+            }
             
-            selectedServices.forEach(service => {
-                servicesHTML += `<li><i class="fas fa-check" style="color: var(--secondary); margin-right: 8px;"></i><strong>${service.displayName}</strong> - $${service.price}</li>`;
-                packageSummaryText += `${service.displayName} ($${service.price}), `;
+            // Remove previous selection
+            document.querySelectorAll('#calendar td').forEach(td => {
+                td.classList.remove('selected');
             });
             
-            servicesHTML += `<li style="font-weight: 700; color: var(--secondary); margin-top: 10px; padding-top: 10px; border-top: 1px dashed #eee;">Total: $${totalPrice}</li></ul>`;
-            selectedServicesContainer.innerHTML = servicesHTML;
-            document.getElementById('packageSummary').value = packageSummaryText.slice(0, -2);
-        }
-    }
-
-    // Calendar with Google Apps Script Integration
-    let currentDate = new Date();
-    let selectedCalendarDate = null;
-    let selectedTimeSlot = null;
-    let busyDatesFromAPI = [];
-    
-    // Function to get busy dates from Google Calendar
-    async function fetchBusyDates(year, month) {
-        try {
-            console.log(`Fetching busy dates for ${year}-${month}`);
-            const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getBusyDates&year=${year}&month=${month}`);
+            // Select new date
+            cell.classList.add('selected');
+            selectedCalendarDate = dateStr;
             
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
+            // Reset time selection
+            selectedTimeSlot = null;
+            document.getElementById('selectedTimeContainer').style.display = 'none';
+            document.getElementById('selectedTimeDisplay').value = '';
+            document.getElementById('selectedTime').value = '';
             
-            const data = await response.json();
-            console.log('Busy dates response:', data);
+            // Update date display
+            const formattedDate = dateObj.toLocaleDateString('ro-RO', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+            });
+            document.getElementById('selectedDate').value = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
             
-            if (data.success && data.busyDates) {
-                return data.busyDates;
-            } else {
-                console.warn('No busy dates in response');
-                return [];
-            }
-        } catch (error) {
-            console.error('Error fetching busy dates:', error);
-            // Return empty array if fetch fails
-            return [];
-        }
-    }
-    
-    // Function to get available time slots
-    async function fetchTimeSlots(dateStr) {
-        try {
-            console.log(`Fetching time slots for ${dateStr}`);
-            
-            // Show loading
+            // Show time slots container
+            document.getElementById('timeSlotsContainer').style.display = 'block';
             document.getElementById('loadingTimeSlots').style.display = 'block';
             document.getElementById('timeSlots').innerHTML = '';
             
-            const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=getTimeSlots&date=${dateStr}`);
+            // Load available time slots
+            setTimeout(() => {
+                loadTimeSlots();
+                document.getElementById('loadingTimeSlots').style.display = 'none';
+            }, 500);
             
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            
-            const data = await response.json();
-            console.log('Time slots response:', data);
-            
-            document.getElementById('loadingTimeSlots').style.display = 'none';
-            
-            if (data.success) {
-                if (data.wholeDayBusy) {
-                    document.getElementById('timeSlots').innerHTML = `
-                        <div style="grid-column: span 2; text-align: center; padding: 30px; background-color: #fff3cd; border-radius: 8px; border: 1px solid #ffeaa7;">
-                            <i class="fas fa-calendar-times" style="font-size: 2rem; color: #f39c12; margin-bottom: 15px;"></i>
-                            <h4 style="color: #e67e22; margin-bottom: 10px;">Day Unavailable</h4>
-                            <p>This day is marked as "Busy" or "Occupied" in the calendar.</p>
-                            <p style="font-size: 0.9rem; color: #7d6608; margin-top: 10px;">Please select another date.</p>
-                        </div>
-                    `;
-                    showStatusMessage('This day is marked as unavailable in the calendar.', 'error');
-                } else if (data.timeSlots && data.timeSlots.length > 0) {
-                    displayTimeSlots(data.timeSlots);
-                } else {
-                    document.getElementById('timeSlots').innerHTML = `
-                        <div style="grid-column: span 2; text-align: center; color: var(--gray); padding: 20px;">
-                            <p>No time slots available for this date.</p>
-                        </div>
-                    `;
-                }
-                return data.timeSlots || [];
-            } else {
-                showStatusMessage(data.error || 'No time slots available for this date.', 'error');
-                return [];
-            }
-        } catch (error) {
-            console.error('Error fetching time slots:', error);
-            document.getElementById('loadingTimeSlots').style.display = 'none';
-            
-            // Show demo time slots for testing
-            displayDemoTimeSlots();
-            return [];
-        }
-    }
-    
-    function displayTimeSlots(slots) {
-        const timeSlotsContainer = document.getElementById('timeSlots');
-        timeSlotsContainer.innerHTML = '';
-        
-        if (slots.length === 0) {
-            timeSlotsContainer.innerHTML = '<p style="grid-column: span 2; text-align: center; color: var(--gray); padding: 20px;">No time slots available for this date.</p>';
-            return;
+            showStatusMessage(`Data selectată: ${formattedDate}. Alege acum intervalul orar.`, 'success');
         }
         
-        let availableCount = 0;
-        
-        slots.forEach(slot => {
-            const slotElement = document.createElement('button');
-            slotElement.type = 'button';
-            slotElement.className = 'time-slot-btn';
-            slotElement.textContent = slot.display;
-            slotElement.dataset.start = slot.start;
-            slotElement.dataset.end = slot.end;
+        function loadTimeSlots() {
+            const timeSlotsContainer = document.getElementById('timeSlots');
+            timeSlotsContainer.innerHTML = '';
             
-            if (slot.available) {
-                slotElement.style.cssText = `
-                    padding: 12px;
-                    border: 2px solid var(--success);
-                    background-color: white;
-                    color: var(--success);
-                    border-radius: 6px;
-                    cursor: pointer;
-                    transition: all 0.3s;
-                    font-weight: 500;
-                    font-family: 'Poppins', sans-serif;
-                `;
-                slotElement.addEventListener('click', () => selectTimeSlot(slotElement, slot));
-                availableCount++;
-            } else {
-                slotElement.style.cssText = `
-                    padding: 12px;
-                    border: 2px solid var(--light-gray);
-                    background-color: #f5f5f5;
-                    color: var(--gray);
-                    border-radius: 6px;
-                    cursor: not-allowed;
-                    opacity: 0.6;
-                    font-family: 'Poppins', sans-serif;
-                `;
-                slotElement.disabled = true;
-                slotElement.title = 'This time slot is already booked';
-            }
-            
-            timeSlotsContainer.appendChild(slotElement);
-        });
-        
-        if (availableCount === 0) {
-            timeSlotsContainer.innerHTML = `
-                <div style="grid-column: span 2; text-align: center; color: var(--danger); padding: 20px;">
-                    <i class="fas fa-clock" style="font-size: 2rem; margin-bottom: 10px;"></i>
-                    <p>All time slots are booked for this date.</p>
-                    <p style="font-size: 0.9rem;">Please select another date.</p>
-                </div>
-            `;
-        }
-    }
-    
-    function displayDemoTimeSlots() {
-        const timeSlotsContainer = document.getElementById('timeSlots');
-        timeSlotsContainer.innerHTML = '';
-        
-        const demoSlots = [
-            { display: "9:00 AM - 11:00 AM", start: "09:00", end: "11:00", available: true },
-            { display: "11:00 AM - 1:00 PM", start: "11:00", end: "13:00", available: true },
-            { display: "1:00 PM - 3:00 PM", start: "13:00", end: "15:00", available: true },
-            { display: "3:00 PM - 5:00 PM", start: "15:00", end: "17:00", available: true }
-        ];
-        
-        demoSlots.forEach(slot => {
-            const slotElement = document.createElement('button');
-            slotElement.type = 'button';
-            slotElement.className = 'time-slot-btn';
-            slotElement.textContent = slot.display;
-            slotElement.dataset.start = slot.start;
-            slotElement.dataset.end = slot.end;
-            
-            slotElement.style.cssText = `
-                padding: 12px;
-                border: 2px solid var(--success);
-                background-color: white;
-                color: var(--success);
-                border-radius: 6px;
-                cursor: pointer;
-                transition: all 0.3s;
-                font-weight: 500;
-                font-family: 'Poppins', sans-serif;
-            `;
-            
-            slotElement.addEventListener('click', () => selectTimeSlot(slotElement, slot));
-            timeSlotsContainer.appendChild(slotElement);
-        });
-    }
-    
-    function selectTimeSlot(element, slot) {
-        // Remove selection from all time slots
-        document.querySelectorAll('.time-slot-btn').forEach(btn => {
-            btn.style.backgroundColor = 'white';
-            btn.style.color = 'var(--success)';
-            btn.style.fontWeight = '500';
-        });
-        
-        // Select this slot
-        element.style.backgroundColor = 'var(--success)';
-        element.style.color = 'white';
-        element.style.fontWeight = '600';
-        
-        selectedTimeSlot = slot.start;
-        
-        // Update display
-        document.getElementById('selectedTimeDisplay').value = `${slot.display}`;
-        document.getElementById('selectedTime').value = slot.start;
-        
-        // Show selected time container
-        document.getElementById('selectedTimeContainer').style.display = 'block';
-        
-        showStatusMessage(`Selected time: ${slot.display}`, 'success');
-    }
-    
-    // Render Calendar
-    async function renderCalendar() {
-        const calendarBody = document.getElementById('calendarBody');
-        calendarBody.innerHTML = '';
-        
-        const year = currentDate.getFullYear();
-        const month = currentDate.getMonth() + 1;
-        
-        // Update month display
-        const monthNames = ["January", "February", "March", "April", "May", "June",
-                            "July", "August", "September", "October", "November", "December"];
-        document.getElementById('currentMonth').textContent = `${monthNames[month - 1]} ${year}`;
-        
-        // Fetch busy dates from Google Calendar (REAL-TIME)
-        busyDatesFromAPI = await fetchBusyDates(year, month);
-        console.log('Real-time busy dates loaded:', busyDatesFromAPI);
-        
-        // Calendar calculations
-        const firstDay = new Date(year, month - 1, 1);
-        const lastDay = new Date(year, month, 0);
-        const daysInMonth = lastDay.getDate();
-        const startingDay = firstDay.getDay();
-        
-        let date = 1;
-        let today = new Date();
-        today.setHours(0, 0, 0, 0);
-        
-        // Create calendar
-        for (let i = 0; i < 6; i++) {
-            const row = document.createElement('tr');
-            
-            for (let j = 0; j < 7; j++) {
-                const cell = document.createElement('td');
+            // Create time slot buttons
+            Object.entries(timeSlotsData).forEach(([startTime, display]) => {
+                const slotElement = document.createElement('button');
+                slotElement.type = 'button';
+                slotElement.className = 'time-slot-btn';
+                slotElement.textContent = display;
+                slotElement.dataset.time = startTime;
                 
-                if (i === 0 && j < startingDay) {
-                    row.appendChild(cell);
-                } else if (date > daysInMonth) {
-                    row.appendChild(cell);
+                // Randomly mark some slots as unavailable for demo
+                const isAvailable = Math.random() > 0.3;
+                
+                if (isAvailable) {
+                    slotElement.addEventListener('click', () => selectTimeSlot(slotElement, startTime, display));
                 } else {
-                    const currentDateStr = `${year}-${String(month).padStart(2, '0')}-${String(date).padStart(2, '0')}`;
-                    const cellDate = new Date(year, month - 1, date);
-                    cellDate.setHours(0, 0, 0, 0);
-                    
-                    // Today
-                    const isToday = today.getTime() === cellDate.getTime();
-                    if (isToday) {
-                        cell.classList.add('today');
-                    }
-                    
-                    // Check if past date
-                    const isPastDate = cellDate < today;
-                    
-                    // Check if busy (from Google Calendar)
-                    const isBusyDate = busyDatesFromAPI.includes(currentDateStr);
-                    
-                    if (isBusyDate) {
-                        cell.classList.add('booked');
-                        cell.innerHTML = `<div class="day-number">${date}</div><div style="font-size: 0.7rem; color: var(--danger);"><i class="fas fa-times"></i> Busy</div>`;
-                        cell.title = "This day is marked as 'Busy' or 'Occupied' in calendar";
-                    } else if (isPastDate) {
-                        cell.innerHTML = `<div class="day-number" style="color: #aaa;">${date}</div><div style="font-size: 0.7rem; color: #aaa;">Past</div>`;
-                    } else {
-                        cell.classList.add('available');
-                        cell.innerHTML = `<div class="day-number">${date}</div><div style="font-size: 0.7rem; color: var(--success);"><i class="fas fa-check"></i> Available</div>`;
-                        
-                        cell.addEventListener('click', function() {
-                            selectDate(cell, currentDateStr, cellDate);
-                        });
-                        
-                        if (selectedCalendarDate === currentDateStr) {
-                            cell.classList.add('selected');
-                        }
-                    }
-                    
-                    // Add today indicator
-                    if (isToday) {
-                        const todayIndicator = document.createElement('div');
-                        todayIndicator.style.cssText = `
-                            position: absolute;
-                            top: 5px;
-                            right: 5px;
-                            width: 6px;
-                            height: 6px;
-                            background-color: var(--secondary);
-                            border-radius: 50%;
-                        `;
-                        cell.style.position = 'relative';
-                        cell.appendChild(todayIndicator);
-                    }
-                    
-                    row.appendChild(cell);
-                    date++;
+                    slotElement.disabled = true;
+                    slotElement.style.opacity = '0.6';
+                    slotElement.style.cursor = 'not-allowed';
+                    slotElement.title = 'Acest interval nu este disponibil';
                 }
-            }
-            
-            calendarBody.appendChild(row);
-            if (date > daysInMonth) break;
+                
+                timeSlotsContainer.appendChild(slotElement);
+            });
         }
         
-        // Update calendar legend with current date
-        updateCalendarLegend(today);
-    }
-    
-    function updateCalendarLegend(today) {
-        const legend = document.querySelector('.calendar-legend');
-        const todayFormatted = today.toLocaleDateString('en-US', { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-        });
-        
-        legend.innerHTML = `
-            <div style="margin-bottom: 1rem;">
-                <p style="color: var(--primary); font-weight: 500; margin-bottom: 0.5rem;">
-                    <i class="fas fa-calendar-alt"></i> Today: ${todayFormatted}
-                </p>
-            </div>
-            <div style="display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
-                <div style="display: flex; align-items: center;">
-                    <div style="width: 20px; height: 20px; background-color: rgba(76, 175, 80, 0.3); margin-right: 8px; border-radius: 4px;"></div>
-                    <span>Selected Date</span>
-                </div>
-                <div style="display: flex; align-items: center;">
-                    <div style="width: 20px; height: 20px; background-color: rgba(244, 67, 54, 0.2); margin-right: 8px; border-radius: 4px;"></div>
-                    <span>Unavailable (Busy/Booked)</span>
-                </div>
-                <div style="display: flex; align-items: center;">
-                    <div style="width: 20px; height: 20px; background-color: rgba(212, 175, 55, 0.1); margin-right: 8px; border-radius: 4px;"></div>
-                    <span>Today</span>
-                </div>
-                <div style="display: flex; align-items: center;">
-                    <div style="width: 20px; height: 20px; background-color: #f5f5f5; margin-right: 8px; border-radius: 4px; border: 1px solid #ddd;"></div>
-                    <span>Past Date</span>
-                </div>
-            </div>
-            <p style="font-size: 0.9rem; color: var(--gray);">
-                <i class="fas fa-info-circle"></i> 
-                Days marked as "Busy", "Occupied", or with photo sessions in your Google Calendar will appear as unavailable.
-            </p>
-        `;
-    }
-    
-    function selectDate(cell, dateStr, dateObj) {
-        // Check if date is busy
-        if (busyDatesFromAPI.includes(dateStr)) {
-            showStatusMessage('This day is marked as "Busy" or "Occupied" in the calendar. Please select another date.', 'error');
-            return;
-        }
-        
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        if (dateObj < today) {
-            showStatusMessage('Cannot select past dates.', 'error');
-            return;
-        }
-        
-        // Remove previous selection
-        document.querySelectorAll('#calendar td').forEach(td => {
-            td.classList.remove('selected');
-        });
-        
-        // Select new date
-        cell.classList.add('selected');
-        selectedCalendarDate = dateStr;
-        
-        // Reset time selection
-        selectedTimeSlot = null;
-        document.getElementById('selectedTimeContainer').style.display = 'none';
-        document.getElementById('selectedTimeDisplay').value = '';
-        document.getElementById('selectedTime').value = '';
-        
-        // Update date display
-        const formattedDate = dateObj.toLocaleDateString('en-US', { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-        });
-        document.getElementById('selectedDate').value = formattedDate;
-        
-        // Show time slots container
-        document.getElementById('timeSlotsContainer').style.display = 'block';
-        
-        // Load available time slots (REAL-TIME from Google Calendar)
-        fetchTimeSlots(dateStr);
-        
-        showStatusMessage(`Selected date: ${formattedDate}. Now choose a time slot.`, 'success');
-    }
-    
-    // Calendar Navigation
-    document.getElementById('prevMonth').addEventListener('click', async function() {
-        currentDate.setMonth(currentDate.getMonth() - 1);
-        await renderCalendar();
-    });
-    
-    document.getElementById('nextMonth').addEventListener('click', async function() {
-        currentDate.setMonth(currentDate.getMonth() + 1);
-        await renderCalendar();
-    });
-    
-    document.getElementById('todayBtn').addEventListener('click', async function() {
-        currentDate = new Date();
-        await renderCalendar();
-    });
-    
-    // Initialize calendar with real-time data
-    renderCalendar();
-    
-    // Auto-refresh calendar every 5 minutes to get latest availability
-    setInterval(async () => {
-        console.log('Auto-refreshing calendar data...');
-        await renderCalendar();
-    }, 300000); // 5 minutes
-    
-    // Booking Submission
-    document.getElementById('submitBooking').addEventListener('click', async function() {
-        const submitBtn = document.getElementById('submitBooking');
-        const originalText = submitBtn.textContent;
-        
-        // Validate required fields
-        if (!selectedCalendarDate) {
-            showStatusMessage('Please select a date from the calendar first.', 'error');
-            return;
-        }
-        
-        if (!selectedTimeSlot) {
-            showStatusMessage('Please select a time slot.', 'error');
-            return;
-        }
-        
-        if (!document.getElementById('clientName').value.trim()) {
-            showStatusMessage('Please enter your full name.', 'error');
-            document.getElementById('clientName').focus();
-            return;
-        }
-        
-        const email = document.getElementById('clientEmail').value.trim();
-        if (!email) {
-            showStatusMessage('Please enter your email address.', 'error');
-            document.getElementById('clientEmail').focus();
-            return;
-        }
-        
-        // Validate email format
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            showStatusMessage('Please enter a valid email address.', 'error');
-            document.getElementById('clientEmail').focus();
-            return;
-        }
-        
-        if (selectedServices.length === 0) {
-            showStatusMessage('Please select at least one service from the package builder.', 'error');
-            return;
-        }
-        
-        // Prepare booking data
-        const bookingData = {
-            action: 'createEvent',
-            clientName: document.getElementById('clientName').value.trim(),
-            clientEmail: email,
-            clientPhone: document.getElementById('clientPhone').value.trim() || 'Not provided',
-            selectedDateISO: selectedCalendarDate,
-            selectedTime: selectedTimeSlot,
-            eventType: document.getElementById('eventType').value.trim() || 'Photo Session',
-            packageSummary: document.getElementById('packageSummary').value,
-            additionalNotes: document.getElementById('additionalNotes').value.trim() || 'No additional notes',
-            totalPrice: totalPrice
-        };
-        
-        // Show loading state
-        submitBtn.textContent = 'Processing...';
-        submitBtn.disabled = true;
-        
-        try {
-            console.log('Sending booking data:', bookingData);
-            
-            // Send to Google Script using POST
-            const response = await fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(bookingData)
+        function selectTimeSlot(element, time, display) {
+            // Remove selection from all time slots
+            document.querySelectorAll('.time-slot-btn').forEach(btn => {
+                btn.classList.remove('selected');
+                btn.style.backgroundColor = '';
+                btn.style.color = '';
+                btn.style.transform = '';
             });
             
-            const result = await response.json();
-            console.log('Booking response:', result);
+            // Select this slot
+            element.classList.add('selected');
+            element.style.backgroundColor = 'var(--blue)';
+            element.style.color = 'white';
+            element.style.borderColor = 'var(--blue)';
             
-            if (result.success) {
-                // Show success modal
+            selectedTimeSlot = time;
+            
+            // Update display
+            document.getElementById('selectedTimeDisplay').value = `${display}`;
+            document.getElementById('selectedTime').value = time;
+            
+            // Show selected time container
+            document.getElementById('selectedTimeContainer').style.display = 'block';
+            
+            showStatusMessage(`Interval selectat: ${display}`, 'success');
+        }
+        
+        // Calendar Navigation
+        document.getElementById('prevMonth').addEventListener('click', function() {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar();
+        });
+        
+        document.getElementById('nextMonth').addEventListener('click', function() {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar();
+        });
+        
+        document.getElementById('todayBtn').addEventListener('click', function() {
+            currentDate = new Date();
+            renderCalendar();
+        });
+        
+        // Initialize calendar
+        renderCalendar();
+        
+        // Booking Submission
+        document.getElementById('submitBooking').addEventListener('click', function() {
+            const submitBtn = document.getElementById('submitBooking');
+            const originalText = submitBtn.innerHTML;
+            
+            // Validate required fields
+            if (!selectedCalendarDate) {
+                showStatusMessage('Te rog selectează o dată din calendar mai întâi.', 'error');
+                return;
+            }
+            
+            if (!selectedTimeSlot) {
+                showStatusMessage('Te rog selectează un interval orar.', 'error');
+                return;
+            }
+            
+            if (!document.getElementById('clientName').value.trim()) {
+                showStatusMessage('Te rog introdu numele tău complet.', 'error');
+                document.getElementById('clientName').focus();
+                return;
+            }
+            
+            const email = document.getElementById('clientEmail').value.trim();
+            if (!email) {
+                showStatusMessage('Te rog introdu adresa de email.', 'error');
+                document.getElementById('clientEmail').focus();
+                return;
+            }
+            
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showStatusMessage('Te rog introdu o adresă de email validă.', 'error');
+                document.getElementById('clientEmail').focus();
+                return;
+            }
+            
+            const phone = document.getElementById('clientPhone').value.trim();
+            if (!phone) {
+                showStatusMessage('Te rog introdu numărul de telefon.', 'error');
+                document.getElementById('clientPhone').focus();
+                return;
+            }
+            
+            const eventType = document.getElementById('eventType').value;
+            if (!eventType) {
+                showStatusMessage('Te rog selectează tipul evenimentului.', 'error');
+                document.getElementById('eventType').focus();
+                return;
+            }
+            
+            if (selectedServices.length === 0) {
+                showStatusMessage('Te rog selectează cel puțin un serviciu din secțiunea Pachete.', 'error');
+                return;
+            }
+            
+            // Show loading state
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Se procesează...';
+            submitBtn.disabled = true;
+            
+            // Simulate API call
+            setTimeout(() => {
+                // Prepare modal content
                 document.getElementById('modalDate').textContent = document.getElementById('selectedDate').value;
                 document.getElementById('modalTime').textContent = document.getElementById('selectedTimeDisplay').value;
-                document.getElementById('modalClient').textContent = bookingData.clientName;
+                document.getElementById('modalClient').textContent = document.getElementById('clientName').value;
+                document.getElementById('modalPhone').textContent = phone;
                 document.getElementById('modalTotal').textContent = totalPrice;
-                document.getElementById('modalServices').textContent = bookingData.packageSummary;
-                
-                // Add to busy dates and refresh calendar (REAL-TIME update)
-                busyDatesFromAPI.push(selectedCalendarDate);
-                await renderCalendar();
+                document.getElementById('modalServices').textContent = document.getElementById('packageSummary').value;
                 
                 // Show success modal
                 document.getElementById('confirmationModal').classList.add('active');
                 
-                // Reset form after successful submission
-                setTimeout(() => {
-                    resetForm();
-                }, 100);
+                // Add to busy dates for demo
+                busyDates.push(selectedCalendarDate);
                 
-            } else {
-                showStatusMessage(result.error || 'Booking failed. Please try again.', 'error');
-            }
+                // Reset form
+                resetForm();
+                
+                // Restore button
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+                
+                // Render calendar to show new busy date
+                renderCalendar();
+                
+            }, 1500);
+        });
+        
+        function showStatusMessage(message, type) {
+            const statusElement = document.getElementById('statusMessage');
+            statusElement.textContent = message;
+            statusElement.className = `status-message ${type}`;
             
-        } catch (error) {
-            console.error('Booking error:', error);
-            showStatusMessage('Network error. Please check your connection and try again.', 'error');
-        } finally {
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
+            // Scroll to message
+            statusElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            // Hide message after 5 seconds
+            setTimeout(() => {
+                statusElement.className = 'status-message';
+            }, 5000);
         }
-    });
-    
-    function showStatusMessage(message, type) {
-        const statusElement = document.getElementById('statusMessage');
-        statusElement.textContent = message;
-        statusElement.className = `status-message ${type}`;
         
-        // Scroll to message
-        statusElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        function resetForm() {
+            // Reset package builder
+            selectedServices = [];
+            totalPrice = 0;
+            document.querySelectorAll('.service-select').forEach(s => s.classList.remove('selected'));
+            updatePackageSummary();
+            
+            // Reset calendar selection
+            selectedCalendarDate = null;
+            selectedTimeSlot = null;
+            document.querySelectorAll('#calendar td').forEach(td => {
+                td.classList.remove('selected');
+            });
+            
+            // Reset form fields
+            document.getElementById('selectedDate').value = '';
+            document.getElementById('selectedTimeDisplay').value = '';
+            document.getElementById('selectedTime').value = '';
+            document.getElementById('clientName').value = '';
+            document.getElementById('clientEmail').value = '';
+            document.getElementById('clientPhone').value = '';
+            document.getElementById('eventType').value = '';
+            document.getElementById('additionalNotes').value = '';
+            
+            // Hide time slots
+            document.getElementById('timeSlotsContainer').style.display = 'none';
+            document.getElementById('selectedTimeContainer').style.display = 'none';
+            document.getElementById('timeSlots').innerHTML = '';
+            
+            // Clear status message
+            document.getElementById('statusMessage').className = 'status-message';
+        }
         
-        // Hide message after 5 seconds
-        setTimeout(() => {
-            statusElement.className = 'status-message';
-        }, 5000);
-    }
-    
-    function resetForm() {
-        // Reset package builder
-        selectedServices = [];
-        totalPrice = 0;
-        document.querySelectorAll('.service-select').forEach(s => s.classList.remove('selected'));
+        // Modal controls
+        document.getElementById('closeModal').addEventListener('click', function() {
+            document.getElementById('confirmationModal').classList.remove('active');
+        });
+        
+        document.getElementById('closeModalBtn').addEventListener('click', function() {
+            document.getElementById('confirmationModal').classList.remove('active');
+        });
+        
+        document.getElementById('confirmationModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Mobile menu
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            document.getElementById('navMenu').classList.toggle('active');
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('#navMenu a').forEach(link => {
+            link.addEventListener('click', function() {
+                document.getElementById('navMenu').classList.remove('active');
+            });
+        });
+        
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        
+        // Initialize package summary
         updatePackageSummary();
-        
-        // Reset calendar selection
-        selectedCalendarDate = null;
-        selectedTimeSlot = null;
-        document.querySelectorAll('#calendar td').forEach(td => {
-            td.classList.remove('selected');
-        });
-        
-        // Reset form fields
-        document.getElementById('selectedDate').value = '';
-        document.getElementById('selectedTimeDisplay').value = '';
-        document.getElementById('selectedTime').value = '';
-        document.getElementById('clientName').value = '';
-        document.getElementById('clientEmail').value = '';
-        document.getElementById('clientPhone').value = '';
-        document.getElementById('eventType').value = '';
-        document.getElementById('additionalNotes').value = '';
-        
-        // Hide time slots
-        document.getElementById('timeSlotsContainer').style.display = 'none';
-        document.getElementById('selectedTimeContainer').style.display = 'none';
-        document.getElementById('timeSlots').innerHTML = '';
-        
-        // Clear status message
-        document.getElementById('statusMessage').className = 'status-message';
-    }
-    
-    // Modal controls
-    document.getElementById('closeModal').addEventListener('click', function() {
-        document.getElementById('confirmationModal').classList.remove('active');
-    });
-    
-    document.getElementById('closeModalBtn').addEventListener('click', function() {
-        document.getElementById('confirmationModal').classList.remove('active');
-    });
-    
-    // Close modal when clicking outside
-    document.getElementById('confirmationModal').addEventListener('click', function(e) {
-        if (e.target === this) {
-            this.classList.remove('active');
-        }
-    });
-    
-    // Smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-            
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                window.scrollTo({
-                    top: targetElement.offsetTop - 80,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-    
-    // Mobile menu
-    document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-        document.getElementById('navMenu').classList.toggle('active');
-    });
-    
-    // Close mobile menu when clicking on a link
-    document.querySelectorAll('#navMenu a').forEach(link => {
-        link.addEventListener('click', function() {
-            document.getElementById('navMenu').classList.remove('active');
-        });
-    });
-    
-    // Set current year in footer
-    document.getElementById('currentYear').textContent = new Date().getFullYear();
-    
-    // Test connection on load
-    console.log('Photography Booking System loaded');
-    console.log('Today:', new Date().toLocaleDateString());
-    console.log('Google Script URL:', GOOGLE_SCRIPT_URL);
-    
-    // Simple test of the Google Script
-    async function testGoogleScript() {
-        try {
-            const response = await fetch(`${GOOGLE_SCRIPT_URL}?action=test`);
-            const data = await response.json();
-            console.log('Google Script test:', data);
-            
-            if (data.success) {
-                showStatusMessage('✅ System connected successfully! Calendar is synced in real-time.', 'success');
-            }
-        } catch (error) {
-            console.warn('Google Script test failed:', error);
-            showStatusMessage('⚠️ Could not connect to booking system. Using demo mode.', 'error');
-        }
-    }
-    
-    // Run test after page loads
-    setTimeout(testGoogleScript, 1000);
-</script>
+    </script>
 </body>
 </html>
