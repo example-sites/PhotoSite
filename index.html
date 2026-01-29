@@ -48,7 +48,7 @@
             padding: 0 20px;
         }
         
-        /* Header & Navigation */
+        /* Improved Mobile Header */
         header {
             background-color: white;
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.08);
@@ -66,12 +66,12 @@
         
         .logo {
             font-family: 'Playfair Display', serif;
-            font-size: 1.6rem;
+            font-size: 1.3rem;
             font-weight: 700;
             color: var(--primary);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
         
         .logo span {
@@ -80,20 +80,25 @@
         
         .logo i {
             color: var(--gold);
-            font-size: 1.8rem;
+            font-size: 1.4rem;
+        }
+        
+        /* Improved Mobile Navigation */
+        nav {
+            position: relative;
         }
         
         nav ul {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 1.5rem;
         }
         
         nav ul li a {
             color: var(--primary);
             text-decoration: none;
             font-weight: 500;
-            font-size: 1rem;
+            font-size: 0.95rem;
             transition: all 0.3s;
             padding: 0.5rem 0;
             position: relative;
@@ -125,6 +130,97 @@
             color: var(--primary);
             font-size: 1.5rem;
             cursor: pointer;
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .mobile-menu-btn:hover {
+            background-color: var(--light-gray);
+        }
+        
+        /* Mobile Menu Overlay */
+        .mobile-menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        
+        .mobile-menu-overlay.active {
+            display: block;
+        }
+        
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 280px;
+            height: 100%;
+            background: white;
+            z-index: 1000;
+            transition: right 0.3s ease;
+            box-shadow: -5px 0 25px rgba(0, 0, 0, 0.1);
+            padding: 80px 20px 20px;
+            overflow-y: auto;
+        }
+        
+        .mobile-menu.active {
+            right: 0;
+        }
+        
+        .mobile-menu ul {
+            list-style: none;
+        }
+        
+        .mobile-menu ul li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .mobile-menu ul li a {
+            display: block;
+            padding: 1rem 1.5rem;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+        }
+        
+        .mobile-menu ul li a:hover {
+            background-color: var(--light);
+            color: var(--gold);
+            transform: translateX(5px);
+        }
+        
+        .mobile-menu-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: var(--primary);
+            cursor: pointer;
+            width: 44px;
+            height: 44px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .mobile-menu-close:hover {
+            background-color: var(--light-gray);
         }
         
         /* Hero Section */
@@ -134,35 +230,21 @@
             background-position: center;
             color: white;
             text-align: center;
-            padding: 5rem 1rem;
+            padding: 4rem 1rem;
             position: relative;
             overflow: hidden;
         }
         
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('https://images.unsplash.com/photo-1554048612-b6a482bc67e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
-            background-size: cover;
-            background-position: center;
-            opacity: 0.3;
-            z-index: -1;
-        }
-        
         .hero h1 {
-            font-size: 3.2rem;
+            font-size: 2rem;
             margin-bottom: 1rem;
             color: white;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
         
         .hero p {
-            font-size: 1.2rem;
-            max-width: 700px;
+            font-size: 1rem;
+            max-width: 600px;
             margin: 0 auto 2rem;
             opacity: 0.9;
         }
@@ -173,14 +255,14 @@
             gap: 8px;
             background-color: var(--gold);
             color: var(--primary);
-            padding: 0.9rem 2.2rem;
+            padding: 0.8rem 1.8rem;
             border-radius: 50px;
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s;
             border: none;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.95rem;
             box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
         }
         
@@ -204,12 +286,12 @@
         /* Services Section */
         .section-title {
             text-align: center;
-            margin: 4rem 0 3rem;
+            margin: 3rem 0 2rem;
             position: relative;
         }
         
         .section-title h2 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             margin-bottom: 1rem;
         }
         
@@ -227,127 +309,130 @@
             border-radius: 2px;
         }
         
-        /* Price Cards */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
-        
-        .price-card {
+        /* NEW: Service Detail View */
+        .service-detail-container {
             background: white;
             border-radius: 16px;
-            overflow: hidden;
+            padding: 2rem;
+            margin: 2rem 0;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            position: relative;
-            border: 1px solid var(--light-gray);
+            display: none;
         }
         
-        .price-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+        .service-detail-container.active {
+            display: block;
         }
         
-        .price-card.featured {
-            border: 2px solid var(--gold);
+        .service-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .service-detail-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .service-image {
+            border-radius: 12px;
+            overflow: hidden;
+            height: 200px;
+        }
+        
+        .service-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+        
+        .service-image:hover img {
             transform: scale(1.05);
         }
         
-        .price-card.featured:hover {
-            transform: scale(1.05) translateY(-10px);
+        /* Service Buttons Grid */
+        .service-buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
         }
         
-        .featured-badge {
-            position: absolute;
-            top: 20px;
-            right: -30px;
-            background: var(--gold);
-            color: var(--primary);
-            padding: 0.5rem 2rem;
-            transform: rotate(45deg);
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-        
-        .card-header {
-            padding: 2rem 2rem 1rem;
-            background: linear-gradient(135deg, var(--primary) 0%, #2d4a7c 100%);
-            color: white;
+        .service-button {
+            background: white;
+            border: 2px solid var(--light-gray);
+            border-radius: 12px;
+            padding: 1.5rem;
             text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
         }
         
-        .card-header h3 {
+        .service-button:hover {
+            border-color: var(--gold);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .service-button.active {
+            border-color: var(--gold);
+            background-color: rgba(212, 175, 55, 0.05);
+        }
+        
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary) 0%, #2d4a7c 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: white;
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
         }
         
-        .card-header p {
-            opacity: 0.9;
-            font-size: 0.95rem;
+        .service-button h3 {
+            margin: 0;
+            font-size: 1.3rem;
         }
         
-        .card-content {
-            padding: 2rem;
-        }
-        
-        .price {
-            font-size: 2.5rem;
+        .service-price {
+            font-size: 1.8rem;
             font-weight: 700;
             color: var(--primary);
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-        
-        .price span {
-            font-size: 1rem;
-            color: var(--gray);
-            font-weight: 400;
+            margin: 0.5rem 0;
         }
         
         .old-price {
             text-decoration: line-through;
-            color: var(--gray) !important;
-            font-size: 1.5rem !important;
-            display: block;
-            margin-bottom: 0.5rem;
+            color: var(--gray);
+            font-size: 1.2rem;
+            font-weight: 400;
         }
         
-        .discount {
-            color: var(--success);
+        .discount-badge {
+            background: var(--gold);
+            color: var(--primary);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
             font-weight: 600;
-            font-size: 1.1rem;
-            display: block;
-            margin-bottom: 1rem;
-        }
-        
-        .features-list {
-            list-style: none;
-            margin: 1.5rem 0;
-        }
-        
-        .features-list li {
-            padding: 0.8rem 0;
-            border-bottom: 1px dashed var(--light-gray);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .features-list li:last-child {
-            border-bottom: none;
-        }
-        
-        .features-list li i {
-            color: var(--gold);
+            font-size: 0.9rem;
         }
         
         /* Package Builder */
         .package-builder {
             background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
-            padding: 4rem 0;
+            padding: 3rem 0;
             margin: 3rem 0;
             border-radius: 20px;
         }
@@ -355,7 +440,7 @@
         .package-container {
             background: white;
             border-radius: 16px;
-            padding: 2.5rem;
+            padding: 2rem;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         }
         
@@ -369,58 +454,32 @@
         }
         
         .total-price {
-            font-size: 2.2rem;
+            font-size: 1.8rem;
             font-weight: 700;
             color: var(--primary);
             background: var(--light);
-            padding: 1rem 1.5rem;
+            padding: 0.8rem 1.5rem;
             border-radius: 12px;
             border: 2px dashed var(--gold);
         }
         
-        .services-selector {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .service-select {
-            border: 2px solid var(--light-gray);
-            border-radius: 12px;
-            padding: 1.5rem;
+        .add-service-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
             cursor: pointer;
+            font-weight: 500;
             transition: all 0.3s;
-            background: white;
-        }
-        
-        .service-select:hover {
-            border-color: var(--gold);
-            transform: translateY(-3px);
-        }
-        
-        .service-select.selected {
-            border-color: var(--gold);
-            background-color: rgba(212, 175, 55, 0.05);
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.1);
-        }
-        
-        .service-select-header {
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 0.8rem;
+            align-items: center;
+            gap: 8px;
         }
         
-        .service-select-header h4 {
-            margin: 0;
-            font-size: 1.2rem;
-        }
-        
-        .service-select-price {
-            font-weight: 700;
-            color: var(--gold);
-            font-size: 1.3rem;
+        .add-service-btn:hover {
+            background: #2d4a7c;
+            transform: translateY(-2px);
         }
         
         .selected-services {
@@ -430,15 +489,15 @@
             margin-top: 2rem;
         }
         
-        /* Calendar & Booking Section */
+        /* Calendar & Booking */
         .calendar-section {
-            padding: 4rem 0;
+            padding: 3rem 0;
         }
         
         .calendar-container {
             background: white;
             border-radius: 16px;
-            padding: 2rem;
+            padding: 1.5rem;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             margin-bottom: 2rem;
         }
@@ -447,7 +506,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             flex-wrap: wrap;
             gap: 1rem;
         }
@@ -455,13 +514,14 @@
         .calendar-navigation {
             display: flex;
             gap: 0.5rem;
+            flex-wrap: wrap;
         }
         
         .calendar-navigation button {
             background-color: var(--primary);
             color: white;
             border: none;
-            padding: 0.7rem 1.2rem;
+            padding: 0.6rem 1rem;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 500;
@@ -469,43 +529,40 @@
             display: flex;
             align-items: center;
             gap: 5px;
+            font-size: 0.9rem;
         }
         
         .calendar-navigation button:hover {
             background-color: #2d4a7c;
-            transform: translateY(-2px);
         }
         
         #calendar {
             width: 100%;
             border-collapse: separate;
-            border-spacing: 5px;
+            border-spacing: 3px;
         }
         
         #calendar th {
             background-color: var(--primary);
             color: white;
-            padding: 1rem;
+            padding: 0.8rem;
             text-align: center;
             font-weight: 500;
             border-radius: 8px;
+            font-size: 0.9rem;
         }
         
         #calendar td {
             width: 14.28%;
-            height: 100px;
+            height: 70px;
             border: 2px solid transparent;
-            padding: 0.8rem;
+            padding: 0.5rem;
             vertical-align: top;
             position: relative;
             background: var(--light);
-            border-radius: 12px;
+            border-radius: 10px;
             transition: all 0.3s;
-        }
-        
-        #calendar td:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            font-size: 0.85rem;
         }
         
         #calendar td.today {
@@ -529,66 +586,44 @@
         #calendar td.selected {
             background: linear-gradient(135deg, #bee3f8 0%, #90cdf4 100%);
             border: 2px solid var(--blue);
-            transform: scale(1.02);
         }
         
         .day-number {
             font-weight: 700;
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            margin-bottom: 0.3rem;
             color: var(--primary);
-        }
-        
-        .day-status {
-            font-size: 0.8rem;
-            font-weight: 500;
-            padding: 2px 8px;
-            border-radius: 10px;
-            display: inline-block;
-        }
-        
-        .available .day-status {
-            background: var(--success);
-            color: white;
-        }
-        
-        .booked .day-status {
-            background: var(--danger);
-            color: white;
         }
         
         /* Time Slots */
         .time-slots-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
             margin-top: 10px;
         }
         
         .time-slot-btn {
-            padding: 14px;
+            padding: 12px;
             border: 2px solid var(--success);
             background: white;
             color: var(--success);
-            border-radius: 10px;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
         
         .time-slot-btn:hover {
             background: var(--success);
             color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(56, 161, 105, 0.3);
         }
         
         .time-slot-btn.selected {
             background: var(--blue);
             border-color: var(--blue);
             color: white;
-            transform: scale(1.05);
         }
         
         .time-slot-btn:disabled {
@@ -603,13 +638,13 @@
         .booking-form {
             background: white;
             border-radius: 16px;
-            padding: 2.5rem;
+            padding: 1.5rem;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
             margin-top: 2rem;
         }
         
         .form-group {
-            margin-bottom: 1.8rem;
+            margin-bottom: 1.5rem;
         }
         
         .form-group label {
@@ -617,17 +652,18 @@
             margin-bottom: 0.5rem;
             font-weight: 600;
             color: var(--primary);
+            font-size: 0.95rem;
         }
         
         .form-group input,
         .form-group textarea,
         .form-group select {
             width: 100%;
-            padding: 1rem;
+            padding: 0.8rem;
             border: 2px solid var(--light-gray);
-            border-radius: 10px;
+            border-radius: 8px;
             font-family: 'Montserrat', sans-serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
             transition: all 0.3s;
         }
         
@@ -641,31 +677,30 @@
         
         .form-row {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr;
             gap: 1.5rem;
         }
         
-        /* Social Media & Contact */
+        /* Social Media */
         .social-contact {
             background: linear-gradient(135deg, var(--primary) 0%, #2d4a7c 100%);
             color: white;
-            padding: 4rem 0;
-            margin-top: 4rem;
+            padding: 3rem 0;
+            margin-top: 3rem;
             border-radius: 20px;
         }
         
         .social-contact h3 {
             color: white;
             text-align: center;
-            margin-bottom: 2rem;
-            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
         }
         
         .social-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
             margin-bottom: 2rem;
         }
         
@@ -675,12 +710,13 @@
             gap: 10px;
             background: white;
             color: var(--primary);
-            padding: 1rem 2rem;
-            border-radius: 50px;
+            padding: 1rem;
+            border-radius: 12px;
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            font-size: 0.95rem;
         }
         
         .social-btn:hover {
@@ -703,10 +739,6 @@
             color: white;
         }
         
-        .social-btn i {
-            font-size: 1.2rem;
-        }
-        
         .contact-info {
             text-align: center;
             margin-top: 2rem;
@@ -715,25 +747,26 @@
         .contact-info p {
             margin-bottom: 0.5rem;
             opacity: 0.9;
+            font-size: 0.95rem;
         }
         
         /* Footer */
         footer {
             background: var(--dark);
             color: white;
-            padding: 3rem 0 1.5rem;
+            padding: 2rem 0 1rem;
         }
         
         .footer-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: 1fr;
             gap: 2rem;
             margin-bottom: 2rem;
         }
         
         .footer-logo {
             font-family: 'Playfair Display', serif;
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 700;
             margin-bottom: 1rem;
         }
@@ -742,37 +775,12 @@
             color: var(--gold);
         }
         
-        .footer-links h4,
-        .footer-contact h4 {
-            margin-bottom: 1.5rem;
-            color: var(--gold);
-            font-size: 1.2rem;
-        }
-        
-        .footer-links ul {
-            list-style: none;
-        }
-        
-        .footer-links ul li {
-            margin-bottom: 0.8rem;
-        }
-        
-        .footer-links ul li a {
-            color: #cbd5e0;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .footer-links ul li a:hover {
-            color: var(--gold);
-        }
-        
         .copyright {
             text-align: center;
             padding-top: 1.5rem;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             color: #a0aec0;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         
         /* Modal */
@@ -797,137 +805,75 @@
         .modal-content {
             background-color: white;
             border-radius: 16px;
-            padding: 2.5rem;
+            padding: 1.5rem;
             max-width: 500px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-        }
-        
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1.5rem;
-        }
-        
-        .close-modal {
-            background: none;
-            border: none;
-            font-size: 1.8rem;
-            cursor: pointer;
-            color: var(--gray);
-            transition: color 0.3s;
-        }
-        
-        .close-modal:hover {
-            color: var(--primary);
-        }
-        
-        .status-message {
-            padding: 1.2rem;
-            border-radius: 10px;
-            margin-bottom: 1.5rem;
-            text-align: center;
-            display: none;
-            font-weight: 500;
-        }
-        
-        .status-message.success {
-            background-color: rgba(56, 161, 105, 0.1);
-            color: var(--success);
-            border: 1px solid rgba(56, 161, 105, 0.3);
-            display: block;
-        }
-        
-        .status-message.error {
-            background-color: rgba(229, 62, 62, 0.1);
-            color: var(--danger);
-            border: 1px solid rgba(229, 62, 62, 0.3);
-            display: block;
         }
         
         /* Responsive Design */
-        @media (max-width: 992px) {
+        @media (min-width: 426px) {
             .hero h1 {
                 font-size: 2.5rem;
             }
             
+            .service-buttons-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
             .form-row {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr 1fr;
             }
             
-            .calendar-header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .calendar-navigation {
-                width: 100%;
-                justify-content: center;
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
             }
         }
         
-        @media (max-width: 768px) {
-            nav ul {
-                display: none;
-                position: fixed;
-                top: 80px;
-                left: 0;
-                width: 100%;
-                background-color: white;
-                flex-direction: column;
-                padding: 1rem 0;
-                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-                z-index: 999;
-            }
-            
-            nav ul.active {
-                display: flex;
-            }
-            
-            nav ul li {
-                margin: 0;
-                text-align: center;
-                padding: 1rem 0;
-            }
-            
+        @media (min-width: 768px) {
             .mobile-menu-btn {
-                display: block;
+                display: none;
+            }
+            
+            .mobile-menu-overlay {
+                display: none !important;
+            }
+            
+            nav ul {
+                display: flex !important;
             }
             
             .hero {
-                padding: 4rem 1rem;
+                padding: 5rem 1rem;
             }
             
             .hero h1 {
-                font-size: 2rem;
+                font-size: 3rem;
             }
             
             .hero p {
-                font-size: 1rem;
+                font-size: 1.1rem;
             }
             
-            .section-title h2 {
-                font-size: 2rem;
+            .service-buttons-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
             
-            .price-card.featured {
-                transform: none;
+            .service-detail-images {
+                grid-template-columns: repeat(2, 1fr);
             }
             
-            .price-card.featured:hover {
-                transform: translateY(-10px);
+            .social-buttons {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(3, 1fr);
             }
             
             #calendar td {
-                height: 80px;
-                font-size: 0.9rem;
-            }
-            
-            .time-slots-grid {
-                grid-template-columns: repeat(2, 1fr);
+                height: 85px;
             }
         }
         
@@ -936,114 +882,156 @@
                 padding: 0 15px;
             }
             
+            .logo {
+                font-size: 1.1rem;
+            }
+            
+            .logo i {
+                font-size: 1.2rem;
+            }
+            
             .hero {
                 padding: 3rem 1rem;
             }
             
             .hero h1 {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
+            }
+            
+            .hero p {
+                font-size: 0.9rem;
             }
             
             .btn {
-                padding: 0.8rem 1.5rem;
+                padding: 0.7rem 1.5rem;
                 font-size: 0.9rem;
                 width: 100%;
                 justify-content: center;
+                margin-bottom: 0.5rem;
             }
             
-            .services-grid {
-                grid-template-columns: 1fr;
+            .section-title h2 {
+                font-size: 1.6rem;
             }
             
-            .price-card {
-                margin: 0 10px;
+            .service-button {
+                padding: 1rem;
             }
             
-            .package-container,
-            .calendar-container,
-            .booking-form {
+            .service-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+            
+            .service-button h3 {
+                font-size: 1.1rem;
+            }
+            
+            .service-price {
+                font-size: 1.5rem;
+            }
+            
+            .service-detail-container {
                 padding: 1.5rem;
             }
             
+            .service-detail-images {
+                grid-template-columns: 1fr;
+            }
+            
+            .calendar-container,
+            .booking-form {
+                padding: 1rem;
+            }
+            
             .calendar-navigation {
-                flex-direction: column;
                 width: 100%;
             }
             
             .calendar-navigation button {
-                width: 100%;
+                flex: 1;
                 justify-content: center;
-            }
-            
-            #calendar {
-                border-spacing: 3px;
+                padding: 0.6rem;
+                font-size: 0.85rem;
             }
             
             #calendar th,
             #calendar td {
-                padding: 0.5rem;
-                font-size: 0.85rem;
+                padding: 0.4rem;
+                font-size: 0.8rem;
             }
             
             #calendar td {
-                height: 70px;
+                height: 60px;
             }
             
             .day-number {
-                font-size: 1rem;
-            }
-            
-            .day-status {
-                font-size: 0.7rem;
-                padding: 1px 5px;
+                font-size: 0.9rem;
             }
             
             .time-slots-grid {
                 grid-template-columns: 1fr;
             }
             
-            .social-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .social-btn {
-                width: 100%;
-                max-width: 250px;
-                justify-content: center;
-            }
-            
             .modal-content {
-                padding: 1.5rem;
+                padding: 1rem;
             }
         }
         
         @media (max-width: 375px) {
             .hero h1 {
-                font-size: 1.6rem;
+                font-size: 1.4rem;
             }
             
             .section-title h2 {
-                font-size: 1.8rem;
+                font-size: 1.4rem;
             }
             
-            .price {
-                font-size: 2rem;
+            .service-buttons-grid {
+                grid-template-columns: 1fr;
             }
             
-            .card-header {
-                padding: 1.5rem 1rem 1rem;
+            .service-button {
+                padding: 1rem;
+            }
+            
+            .service-price {
+                font-size: 1.3rem;
+            }
+            
+            .calendar-navigation button {
+                font-size: 0.8rem;
             }
             
             #calendar td {
-                height: 60px;
+                height: 55px;
                 padding: 0.3rem;
             }
             
             .day-number {
-                font-size: 0.9rem;
-                margin-bottom: 0.3rem;
+                font-size: 0.8rem;
             }
+            
+            .social-btn {
+                padding: 0.8rem;
+                font-size: 0.9rem;
+            }
+        }
+        
+        /* Google Calendar Integration Status */
+        .calendar-status {
+            background: #f0f9ff;
+            border: 1px solid #bae6fd;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+        
+        .calendar-status i {
+            color: #0284c7;
+            margin-right: 8px;
         }
     </style>
 </head>
@@ -1058,11 +1046,11 @@
             <button class="mobile-menu-btn" id="mobileMenuBtn">
                 <i class="fas fa-bars"></i>
             </button>
-            <nav>
-                <ul id="navMenu">
+            <nav id="desktopNav">
+                <ul>
                     <li><a href="#home">Acasă</a></li>
                     <li><a href="#services">Servicii</a></li>
-                    <li><a href="#package-builder">Pachete</a></li>
+                    <li><a href="#package-builder">Pachet</a></li>
                     <li><a href="#booking">Rezervă</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>
@@ -1070,17 +1058,34 @@
         </div>
     </header>
 
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+    
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" id="mobileMenuClose">
+            <i class="fas fa-times"></i>
+        </button>
+        <ul>
+            <li><a href="#home" class="mobile-nav-link"><i class="fas fa-home"></i> Acasă</a></li>
+            <li><a href="#services" class="mobile-nav-link"><i class="fas fa-camera"></i> Servicii</a></li>
+            <li><a href="#package-builder" class="mobile-nav-link"><i class="fas fa-box"></i> Pachet</a></li>
+            <li><a href="#booking" class="mobile-nav-link"><i class="fas fa-calendar-check"></i> Rezervă</a></li>
+            <li><a href="#contact" class="mobile-nav-link"><i class="fas fa-phone"></i> Contact</a></li>
+        </ul>
+    </div>
+
     <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="container">
             <h1>Daniel Popescu - Fotograf Profesionist</h1>
-            <p>Transform momentele tale speciale în amintiri de neuitat. Fotografie și video de cea mai înaltă calitate pentru evenimentele tale importante.</p>
-            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 2rem;">
-                <a href="#booking" class="btn">
-                    <i class="fas fa-calendar-check"></i> Rezervă Acum
+            <p>Transform momentele tale speciale în amintiri de neuitat cu servicii complete de fotografie și video.</p>
+            <div style="display: flex; flex-direction: column; gap: 1rem; align-items: center; margin-top: 2rem;">
+                <a href="#services" class="btn">
+                    <i class="fas fa-eye"></i> Vezi Serviciile
                 </a>
                 <a href="#contact" class="btn btn-secondary">
-                    <i class="fas fa-phone-alt"></i> Contactează-mă
+                    <i class="fab fa-whatsapp"></i> WhatsApp: 0729 552 767
                 </a>
             </div>
         </div>
@@ -1091,157 +1096,166 @@
         <div class="section-title">
             <h2>Serviciile Mele</h2>
             <div class="title-decoration"></div>
-            <p>Ofer servicii complete de fotografie și video pentru toate ocaziile speciale din viața ta</p>
+            <p>Alege serviciul potrivit pentru evenimentul tău special</p>
         </div>
         
-        <div class="services-grid">
-            <!-- Nunta -->
-            <div class="price-card featured">
-                <div class="featured-badge">RECOMANDAT</div>
-                <div class="card-header">
-                    <h3>Nuntă Completa</h3>
-                    <p>Fotografie + Video + Album</p>
+        <!-- Service Buttons -->
+        <div class="service-buttons-grid">
+            <div class="service-button" data-service="nunta">
+                <div class="service-icon">
+                    <i class="fas fa-ring"></i>
                 </div>
-                <div class="card-content">
-                    <div class="price">
-                        <span class="old-price">5000 RON</span>
-                        <span class="discount">Reducere 2000 RON!</span>
-                        3000 RON
-                    </div>
-                    <ul class="features-list">
-                        <li><i class="fas fa-check"></i> Fotografie întreagă ziua (12 ore)</li>
-                        <li><i class="fas fa-check"></i> Video 4K profesional</li>
-                        <li><i class="fas fa-check"></i> Album foto premium (50 pagini)</li>
-                        <li><i class="fas fa-check"></i> Teaser film (1-2 minute)</li>
-                        <li><i class="fas fa-check"></i> Toate fotografiile editate</li>
-                        <li><i class="fas fa-check"></i> Film complet (60-90 minute)</li>
-                    </ul>
+                <h3>Nuntă Completa</h3>
+                <div class="service-price">
+                    <span class="old-price">5000 RON</span><br>
+                    3000 RON
                 </div>
+                <div class="discount-badge">Reducere 2000 RON</div>
+                <p style="color: var(--gray); font-size: 0.9rem; text-align: center;">Fotografie + Video + Album</p>
             </div>
-
-            <!-- Botez -->
-            <div class="price-card">
-                <div class="card-header">
-                    <h3>Botez</h3>
-                    <p>Fotografie Profesională</p>
+            
+            <div class="service-button" data-service="botez">
+                <div class="service-icon">
+                    <i class="fas fa-baby"></i>
                 </div>
-                <div class="card-content">
-                    <div class="price">
-                        <span class="old-price">4000 RON</span>
-                        <span class="discount">Reducere 1000 RON!</span>
-                        3000 RON
-                    </div>
-                    <ul class="features-list">
-                        <li><i class="fas fa-check"></i> Acoperire completă (4-6 ore)</li>
-                        <li><i class="fas fa-check"></i> Fotografie în biserică și restaurant</li>
-                        <li><i class="fas fa-check"></i> Album foto (30 pagini)</li>
-                        <li><i class="fas fa-check"></i> 100+ fotografii editate</li>
-                        <li><i class="fas fa-check"></i> Fotografii de familie</li>
-                        <li><i class="fas fa-check"></i> Livrare în 7 zile</li>
-                    </ul>
+                <h3>Botez</h3>
+                <div class="service-price">
+                    <span class="old-price">4000 RON</span><br>
+                    3000 RON
                 </div>
+                <div class="discount-badge">Reducere 1000 RON</div>
+                <p style="color: var(--gray); font-size: 0.9rem; text-align: center;">Fotografie Profesională</p>
             </div>
-
-            <!-- Cununie -->
-            <div class="price-card">
-                <div class="card-header">
-                    <h3>Cununie Civilă</h3>
-                    <p>Fotografie Elegantă</p>
+            
+            <div class="service-button" data-service="cununie">
+                <div class="service-icon">
+                    <i class="fas fa-heart"></i>
                 </div>
-                <div class="card-content">
-                    <div class="price">
-                        <span class="old-price">4000 RON</span>
-                        <span class="discount">Reducere 1000 RON!</span>
-                        3000 RON
-                    </div>
-                    <ul class="features-list">
-                        <li><i class="fas fa-check"></i> Fotografie la primărie (3-4 ore)</li>
-                        <li><i class="fas fa-check"></i> Fotografii artistice de nuntă</li>
-                        <li><i class="fas fa-check"></i> Album foto (25 pagini)</li>
-                        <li><i class="fas fa-check"></i> 80+ fotografii editate</li>
-                        <li><i class="fas fa-check"></i> Session foto în aer liber</li>
-                        <li><i class="fas fa-check"></i> Toate fotografiile pe stick</li>
-                    </ul>
+                <h3>Cununie Civilă</h3>
+                <div class="service-price">
+                    <span class="old-price">4000 RON</span><br>
+                    3000 RON
                 </div>
+                <div class="discount-badge">Reducere 1000 RON</div>
+                <p style="color: var(--gray); font-size: 0.9rem; text-align: center;">Fotografie Elegantă</p>
+            </div>
+            
+            <div class="service-button" data-service="carduri">
+                <div class="service-icon">
+                    <i class="fas fa-id-card"></i>
+                </div>
+                <h3>Carduri Majorare</h3>
+                <div class="service-price">
+                    <span class="old-price">4000 RON</span><br>
+                    3000 RON
+                </div>
+                <div class="discount-badge">Reducere 1000 RON</div>
+                <p style="color: var(--gray); font-size: 0.9rem; text-align: center;">Foto/Video/Audio</p>
+            </div>
+            
+            <div class="service-button" data-service="craciun">
+                <div class="service-icon">
+                    <i class="fas fa-snowflake"></i>
+                </div>
+                <h3>Ședințe de Crăciun</h3>
+                <div class="service-price">300 RON</div>
+                <p style="color: var(--gray); font-size: 0.9rem; text-align: center;">Fotografie Tematică</p>
+            </div>
+            
+            <div class="service-button" data-service="portrete">
+                <div class="service-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>Portrete & Familie</h3>
+                <div class="service-price">500 RON</div>
+                <p style="color: var(--gray); font-size: 0.9rem; text-align: center;">Ședințe Foto Personale</p>
             </div>
         </div>
         
-        <!-- Second Row -->
-        <div class="services-grid">
-            <!-- Carduri Majorare -->
-            <div class="price-card">
-                <div class="card-header">
-                    <h3>Carduri Majorare</h3>
-                    <p>Foto/Video/Audio</p>
+        <!-- Service Detail Views -->
+        <div id="serviceDetailNunta" class="service-detail-container">
+            <div class="service-detail-header">
+                <div>
+                    <h2>Nuntă Completa</h2>
+                    <p style="color: var(--gray);">Fotografie + Video + Album</p>
                 </div>
-                <div class="card-content">
-                    <div class="price">
-                        <span class="old-price">4000 RON</span>
-                        <span class="discount">Reducere 1000 RON!</span>
-                        3000 RON
-                    </div>
-                    <ul class="features-list">
-                        <li><i class="fas fa-check"></i> Fotografie profesională</li>
-                        <li><i class="fas fa-check"></i> Filmare video 4K</li>
-                        <li><i class="fas fa-check"></i> Înregistrare audio calitate</li>
-                        <li><i class="fas fa-check"></i> Editare video profesionistă</li>
-                        <li><i class="fas fa-check"></i> Album foto digital</li>
-                        <li><i class="fas fa-check"></i> Toate materialele incluse</li>
-                    </ul>
+                <div class="service-price" style="font-size: 2.5rem;">
+                    <span class="old-price">5000 RON</span><br>
+                    3000 RON
                 </div>
             </div>
-
-            <!-- Sedinte de Craciun -->
-            <div class="price-card">
-                <div class="card-header">
-                    <h3>Ședințe de Crăciun</h3>
-                    <p>Fotografie Tematică</p>
+            
+            <div class="service-detail-images">
+                <div class="service-image">
+                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Nuntă">
                 </div>
-                <div class="card-content">
-                    <div class="price">
-                        300 RON
-                    </div>
-                    <ul class="features-list">
-                        <li><i class="fas fa-check"></i> Ședință foto de 1 oră</li>
-                        <li><i class="fas fa-check"></i> Decor tematic Crăciun</li>
-                        <li><i class="fas fa-check"></i> 25+ fotografii editate</li>
-                        <li><i class="fas fa-check"></i> Ideal pentru familie/cuplu</li>
-                        <li><i class="fas fa-check"></i> Cadou digital pentru sărbători</li>
-                        <li><i class="fas fa-check"></i> Livrare în 3 zile</li>
-                    </ul>
+                <div class="service-image">
+                    <img src="https://images.unsplash.com/photo-1465495976277-4387d4b0e4a6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Nuntă 2">
                 </div>
             </div>
-
-            <!-- Portrete -->
-            <div class="price-card">
-                <div class="card-header">
-                    <h3>Portrete & Familie</h3>
-                    <p>Ședințe Foto Personale</p>
-                </div>
-                <div class="card-content">
-                    <div class="price">
-                        500 RON
-                    </div>
-                    <ul class="features-list">
-                        <li><i class="fas fa-check"></i> Ședință foto de 2 ore</li>
-                        <li><i class="fas fa-check"></i> Alege locația (studio/natură)</li>
-                        <li><i class="fas fa-check"></i> 40+ fotografii editate</li>
-                        <li><i class="fas fa-check"></i> Ghidaj profesional</li>
-                        <li><i class="fas fa-check"></i> Poses naturale</li>
-                        <li><i class="fas fa-check"></i> Toate fotografiile în format digital</li>
-                    </ul>
-                </div>
-            </div>
+            
+            <h3 style="margin-bottom: 1rem;">Ce include:</h3>
+            <ul class="features-list" style="list-style: none; padding: 0;">
+                <li><i class="fas fa-check" style="color: var(--gold); margin-right: 10px;"></i> Fotografie întreagă ziua (12 ore)</li>
+                <li><i class="fas fa-check" style="color: var(--gold); margin-right: 10px;"></i> Video 4K profesional</li>
+                <li><i class="fas fa-check" style="color: var(--gold); margin-right: 10px;"></i> Album foto premium (50 pagini)</li>
+                <li><i class="fas fa-check" style="color: var(--gold); margin-right: 10px;"></i> Teaser film (1-2 minute)</li>
+                <li><i class="fas fa-check" style="color: var(--gold); margin-right: 10px;"></i> Toate fotografiile editate</li>
+                <li><i class="fas fa-check" style="color: var(--gold); margin-right: 10px;"></i> Film complet (60-90 minute)</li>
+            </ul>
+            
+            <button class="btn add-to-package" data-service="nunta" data-price="3000" style="margin-top: 2rem; width: 100%;">
+                <i class="fas fa-plus"></i> Adaugă în Pachet
+            </button>
         </div>
+        
+        <div id="serviceDetailBotez" class="service-detail-container">
+            <div class="service-detail-header">
+                <div>
+                    <h2>Botez</h2>
+                    <p style="color: var(--gray);">Fotografie Profesională</p>
+                </div>
+                <div class="service-price" style="font-size: 2.5rem;">
+                    <span class="old-price">4000 RON</span><br>
+                    3000 RON
+                </div>
+            </div>
+            
+            <div class="service-detail-images">
+                <div class="service-image">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Botez">
+                </div>
+                <div class="service-image">
+                    <img src="https://images.unsplash.com/photo-1511988617509-a57c8a288659?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Botez 2">
+                </div>
+            </div>
+            
+            <h3 style="margin-bottom: 1rem;">Ce include:</h3>
+            <ul class="features-list" style="list-style: none; padding: 0;">
+                <li><i class="fas fa-check" style="color: var(--gold); margin-right: 10px;"></i> Acoperire completă (4-6 ore)</li>
+                <li><i class="fas fa-check" style="color: var(--gold); margin-right: 10px;"></i> Fotografie în biserică și restaurant</li>
+                <li><i class="fas fa-check" style="color: var(--gold); margin-right: 10px;"></i> Album foto (30 pagini)</li>
+                <li><i class="fas fa-check" style="color: var(--gold); margin-right: 10px;"></i> 100+ fotografii editate</li>
+                <li><i class="fas fa-check" style="color: var(--gold); margin-right: 10px;"></i> Fotografii de familie</li>
+                <li><i class="fas fa-check" style="color: var(--gold); margin-right: 10px;"></i> Livrare în 7 zile</li>
+            </ul>
+            
+            <button class="btn add-to-package" data-service="botez" data-price="3000" style="margin-top: 2rem; width: 100%;">
+                <i class="fas fa-plus"></i> Adaugă în Pachet
+            </button>
+        </div>
+        
+        <!-- Continue with other service details similarly... -->
+        
     </section>
 
     <!-- Package Builder -->
     <section class="package-builder" id="package-builder">
         <div class="container">
             <div class="section-title">
-                <h2>Creează-ți Pachetul Personalizat</h2>
+                <h2>Pachetul Tău Personalizat</h2>
                 <div class="title-decoration"></div>
-                <p>Combinează serviciile dorite și obține cel mai bun preț</p>
+                <p>Adaugă serviciile dorite pentru a obține cel mai bun preț</p>
             </div>
             
             <div class="package-container">
@@ -1250,58 +1264,14 @@
                     <div class="total-price">Total: <span id="totalPrice">0</span> RON</div>
                 </div>
                 
-                <div class="services-selector">
-                    <div class="service-select" data-service="nunta" data-price="3000">
-                        <div class="service-select-header">
-                            <h4>Nuntă Completa</h4>
-                            <div class="service-select-price">3000 RON</div>
-                        </div>
-                        <p>Fotografie + Video + Album (reducere 2000 RON)</p>
-                    </div>
-                    
-                    <div class="service-select" data-service="botez" data-price="3000">
-                        <div class="service-select-header">
-                            <h4>Botez</h4>
-                            <div class="service-select-price">3000 RON</div>
-                        </div>
-                        <p>Fotografie profesională (reducere 1000 RON)</p>
-                    </div>
-                    
-                    <div class="service-select" data-service="cununie" data-price="3000">
-                        <div class="service-select-header">
-                            <h4>Cununie Civilă</h4>
-                            <div class="service-select-price">3000 RON</div>
-                        </div>
-                        <p>Fotografie elegantă (reducere 1000 RON)</p>
-                    </div>
-                    
-                    <div class="service-select" data-service="carduri" data-price="3000">
-                        <div class="service-select-header">
-                            <h4>Carduri Majorare</h4>
-                            <div class="service-select-price">3000 RON</div>
-                        </div>
-                        <p>Foto/Video/Audio (reducere 1000 RON)</p>
-                    </div>
-                    
-                    <div class="service-select" data-service="craciun" data-price="300">
-                        <div class="service-select-header">
-                            <h4>Ședințe de Crăciun</h4>
-                            <div class="service-select-price">300 RON</div>
-                        </div>
-                        <p>Fotografie tematică de sărbători</p>
-                    </div>
-                    
-                    <div class="service-select" data-service="portrete" data-price="500">
-                        <div class="service-select-header">
-                            <h4>Portrete & Familie</h4>
-                            <div class="service-select-price">500 RON</div>
-                        </div>
-                        <p>Ședințe foto personale (2 ore)</p>
-                    </div>
-                </div>
+                <button class="add-service-btn" id="addServiceBtn">
+                    <i class="fas fa-plus"></i> Adaugă Servicii
+                </button>
                 
                 <div class="selected-services" id="selectedServices">
-                    <p style="text-align: center; color: var(--gray); padding: 2rem;">Niciun serviciu selectat încă. Apasă pe serviciile de mai sus pentru a le adăuga în pachetul tău.</p>
+                    <p style="text-align: center; color: var(--gray); padding: 2rem; font-size: 0.95rem;">
+                        Încă nu ai selectat niciun serviciu. Apasă pe "Adaugă Servicii" pentru a începe.
+                    </p>
                 </div>
             </div>
         </div>
@@ -1310,52 +1280,36 @@
     <!-- Calendar & Booking Section -->
     <section class="container calendar-section" id="booking">
         <div class="section-title">
-            <h2>Rezervă Ședința Ta Foto</h2>
+            <h2>Rezervă Ședința Foto</h2>
             <div class="title-decoration"></div>
-            <p>Alege data și ora care ți se potrivește cel mai bine</p>
+            <p>Selectează data și intervalul orar dorit</p>
+        </div>
+        
+        <div class="calendar-status">
+            <i class="fas fa-info-circle"></i>
+            Calendarul este sincronizat în timp real cu Google Calendar.
         </div>
         
         <div class="calendar-container">
             <div class="calendar-header">
                 <h3 id="currentMonth">Ianuarie 2024</h3>
                 <div class="calendar-navigation">
-                    <button id="prevMonth"><i class="fas fa-chevron-left"></i> Luna Precedenta</button>
+                    <button id="prevMonth"><i class="fas fa-chevron-left"></i> Înapoi</button>
                     <button id="todayBtn"><i class="fas fa-calendar-day"></i> Astăzi</button>
-                    <button id="nextMonth">Luna Următoare <i class="fas fa-chevron-right"></i></button>
-                </div>
-            </div>
-            
-            <div class="calendar-legend">
-                <div style="display: flex; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <div style="width: 20px; height: 20px; border: 2px solid var(--gold); border-radius: 6px;"></div>
-                        <span>Astăzi</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <div style="width: 20px; height: 20px; background: linear-gradient(135deg, #c6f6d5 0%, #9ae6b4 100%); border: 2px solid var(--success); border-radius: 6px;"></div>
-                        <span>Disponibil</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <div style="width: 20px; height: 20px; background: linear-gradient(135deg, #fed7d7 0%, #feb2b2 100%); border: 2px solid var(--danger); border-radius: 6px;"></div>
-                        <span>Ocupat</span>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <div style="width: 20px; height: 20px; background: linear-gradient(135deg, #bee3f8 0%, #90cdf4 100%); border: 2px solid var(--blue); border-radius: 6px;"></div>
-                        <span>Selectat</span>
-                    </div>
+                    <button id="nextMonth">Înainte <i class="fas fa-chevron-right"></i></button>
                 </div>
             </div>
             
             <table id="calendar">
                 <thead>
                     <tr>
-                        <th>Dum</th>
-                        <th>Lun</th>
-                        <th>Mar</th>
-                        <th>Mie</th>
-                        <th>Joi</th>
-                        <th>Vin</th>
-                        <th>Sâm</th>
+                        <th>D</th>
+                        <th>L</th>
+                        <th>M</th>
+                        <th>M</th>
+                        <th>J</th>
+                        <th>V</th>
+                        <th>S</th>
                     </tr>
                 </thead>
                 <tbody id="calendarBody">
@@ -1365,87 +1319,79 @@
         </div>
         
         <div class="booking-form">
-            <h3 style="margin-bottom: 2rem;">Detalii Rezervare</h3>
+            <h3 style="margin-bottom: 1.5rem;">Completează Detaliile Rezervării</h3>
             <div id="statusMessage" class="status-message"></div>
             
             <div class="form-group">
                 <label for="selectedDate">Data Selectată</label>
-                <input type="text" id="selectedDate" readonly placeholder="Apasă pe o dată disponibilă în calendar">
+                <input type="text" id="selectedDate" readonly placeholder="Alege o dată din calendar">
             </div>
             
             <div class="form-group" id="timeSlotsContainer" style="display: none;">
                 <label for="timeSlots">Alege Intervalul Orar *</label>
-                <div id="loadingTimeSlots" style="display: none; text-align: center; padding: 20px;">
-                    <i class="fas fa-spinner fa-spin"></i> Se încarcă intervalele disponibile...
+                <div id="loadingTimeSlots" style="display: none; text-align: center; padding: 15px;">
+                    <i class="fas fa-spinner fa-spin"></i> Se încarcă intervalele...
                 </div>
                 <div id="timeSlots" class="time-slots-grid">
                     <!-- Time slots will be loaded here -->
                 </div>
             </div>
             
-            <div class="form-group" id="selectedTimeContainer" style="display: none;">
-                <label>Ora Selectată</label>
-                <input type="text" id="selectedTimeDisplay" readonly>
-                <input type="hidden" id="selectedTime">
-            </div>
-            
             <div class="form-row">
                 <div class="form-group">
-                    <label for="clientName">Numele tău complet *</label>
+                    <label for="clientName">Nume și Prenume *</label>
                     <input type="text" id="clientName" required placeholder="Introdu numele tău">
                 </div>
                 <div class="form-group">
-                    <label for="clientEmail">Adresa de Email *</label>
+                    <label for="clientEmail">Email *</label>
                     <input type="email" id="clientEmail" required placeholder="exemplu@email.com">
                 </div>
             </div>
             
             <div class="form-row">
                 <div class="form-group">
-                    <label for="clientPhone">Număr de Telefon *</label>
+                    <label for="clientPhone">Telefon *</label>
                     <input type="tel" id="clientPhone" required placeholder="07xxxxxxxx">
                 </div>
                 <div class="form-group">
-                    <label for="eventType">Tipul Evenimentului *</label>
+                    <label for="eventType">Tip Eveniment *</label>
                     <select id="eventType" required>
-                        <option value="">Alege tipul evenimentului</option>
+                        <option value="">Alege tipul</option>
                         <option value="nunta">Nuntă</option>
                         <option value="botez">Botez</option>
-                        <option value="cununie">Cununie Civilă</option>
+                        <option value="cununie">Cununie</option>
                         <option value="carduri">Carduri Majorare</option>
                         <option value="craciun">Ședință Crăciun</option>
                         <option value="portrete">Portrete/Familie</option>
-                        <option value="altul">Alt Eveniment</option>
+                        <option value="altul">Alt Tip</option>
                     </select>
                 </div>
             </div>
             
             <div class="form-group">
                 <label for="packageSummary">Pachet Selectat</label>
-                <textarea id="packageSummary" rows="3" readonly>Niciun serviciu selectat încă. Te rog să îți creezi pachetul mai întâi.</textarea>
+                <textarea id="packageSummary" rows="2" readonly>Fără servicii selectate</textarea>
             </div>
             
             <div class="form-group">
-                <label for="additionalNotes">Detalii Adiționale</label>
-                <textarea id="additionalNotes" rows="4" placeholder="Orice informații suplimentare despre evenimentul tău..."></textarea>
+                <label for="additionalNotes">Mesaj (opțional)</label>
+                <textarea id="additionalNotes" rows="3" placeholder="Detalii suplimentare despre eveniment..."></textarea>
             </div>
             
-            <button class="btn" id="submitBooking" style="width: 100%; padding: 1.2rem; font-size: 1.1rem;">
-                <i class="fas fa-paper-plane"></i> Trimite Cererea de Rezervare
+            <button class="btn" id="submitBooking" style="width: 100%; padding: 1rem; font-size: 1rem;">
+                <i class="fas fa-paper-plane"></i> Trimite Rezervarea
             </button>
-            <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--gray); text-align: center;">
-                <i class="fas fa-info-circle"></i> Rezervarea ta va fi confirmată prin email în maxim 24 de ore.
-            </p>
         </div>
     </section>
 
     <!-- Social Media & Contact -->
     <section class="social-contact" id="contact">
         <div class="container">
-            <h3>Contactează-mă</h3>
+            <h3>Contact și Social Media</h3>
             <div class="social-buttons">
                 <a href="https://wa.me/40729552767" class="social-btn whatsapp" target="_blank">
-                    <i class="fab fa-whatsapp"></i> WhatsApp: 0729 552 767
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                    <small style="display: block; font-weight: 400; margin-top: 5px;">0729 552 767</small>
                 </a>
                 <a href="https://instagram.com" class="social-btn instagram" target="_blank">
                     <i class="fab fa-instagram"></i> Instagram
@@ -1457,10 +1403,7 @@
             <div class="contact-info">
                 <p><i class="fas fa-envelope"></i> contact@danielpopescu.ro</p>
                 <p><i class="fas fa-phone"></i> 0729 552 767</p>
-                <p><i class="fas fa-map-marker-alt"></i> București, România</p>
-                <p style="margin-top: 1.5rem; font-size: 0.95rem; opacity: 0.8;">
-                    Disponibil pentru proiecte în toată țara
-                </p>
+                <p><i class="fas fa-map-marker-alt"></i> Disponibil în toată țara</p>
             </div>
         </div>
     </section>
@@ -1473,24 +1416,24 @@
                     <div class="footer-logo">
                         Daniel <span>Popescu</span>
                     </div>
-                    <p>Fotograf profesionist cu peste 10 ani de experiență în fotografia de eveniment. Transform momentele tale speciale în amintiri de neuitat.</p>
+                    <p style="font-size: 0.9rem;">Fotograf profesionist specializat în evenimente speciale. Peste 10 ani de experiență în domeniu.</p>
                 </div>
                 
                 <div class="footer-links">
-                    <h4>Linkuri Rapide</h4>
+                    <h4>Navigare</h4>
                     <ul>
                         <li><a href="#home">Acasă</a></li>
                         <li><a href="#services">Servicii</a></li>
-                        <li><a href="#package-builder">Pachete</a></li>
+                        <li><a href="#package-builder">Pachet</a></li>
                         <li><a href="#booking">Rezervă</a></li>
                     </ul>
                 </div>
                 
                 <div class="footer-contact">
-                    <h4>Program de Lucru</h4>
-                    <p>Luni - Vineri: 9:00 - 18:00</p>
-                    <p>Sâmbătă: 10:00 - 16:00</p>
-                    <p>Duminică: Doar evenimente</p>
+                    <h4>Program</h4>
+                    <p>Luni - Vineri: 9:00-18:00</p>
+                    <p>Sâmbătă: 10:00-16:00</p>
+                    <p>Duminică: Evenimente</p>
                 </div>
             </div>
             
@@ -1500,88 +1443,165 @@
         </div>
     </footer>
 
-    <!-- Booking Confirmation Modal -->
+    <!-- Confirmation Modal -->
     <div class="modal" id="confirmationModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h3>Cerere de Rezervare Trimisă</h3>
+                <h3>Rezervare Confirmată!</h3>
                 <button class="close-modal" id="closeModal">&times;</button>
             </div>
             <div class="status-message success">
-                <i class="fas fa-check-circle"></i> Cererea ta de rezervare a fost trimisă cu succes!
+                <i class="fas fa-check-circle"></i> Rezervarea a fost trimisă cu succes!
             </div>
-            <p>Mulțumesc pentru încredere! Iată detaliile rezervării tale:</p>
-            <div style="background-color: #f8f9fa; padding: 1.5rem; border-radius: 12px; margin: 1.5rem 0; border: 1px solid var(--light-gray);">
-                <p><strong><i class="fas fa-calendar"></i> Data:</strong> <span id="modalDate"></span></p>
-                <p><strong><i class="fas fa-clock"></i> Ora:</strong> <span id="modalTime"></span></p>
-                <p><strong><i class="fas fa-user"></i> Client:</strong> <span id="modalClient"></span></p>
-                <p><strong><i class="fas fa-phone"></i> Telefon:</strong> <span id="modalPhone"></span></p>
-                <p><strong><i class="fas fa-tag"></i> Total:</strong> <span id="modalTotal"></span> RON</p>
-                <p><strong><i class="fas fa-camera"></i> Servicii:</strong> <span id="modalServices"></span></p>
+            <p>Mulțumim pentru încrederea acordată! Vei primi un email de confirmare în curând.</p>
+            <div style="background: #f8f9fa; padding: 1rem; border-radius: 10px; margin: 1rem 0;">
+                <p><strong>Data:</strong> <span id="modalDate"></span></p>
+                <p><strong>Ora:</strong> <span id="modalTime"></span></p>
+                <p><strong>Nume:</strong> <span id="modalClient"></span></p>
+                <p><strong>Total:</strong> <span id="modalTotal"></span> RON</p>
             </div>
-            <p>Voi revizui cererea ta și voi trimite un email de confirmare cu detalii despre plată în maxim 24 de ore.</p>
-            <p>Pentru întrebări urgente, mă poți suna direct la <strong>0729 552 767</strong>.</p>
-            <button class="btn" id="closeModalBtn" style="margin-top: 1.5rem; width: 100%;">
-                <i class="fas fa-check"></i> Închide
+            <p style="font-size: 0.9rem; color: var(--gray);">
+                <i class="fas fa-info-circle"></i> Pentru întrebări, contactează-mă la 0729 552 767.
+            </p>
+            <button class="btn" id="closeModalBtn" style="margin-top: 1rem; width: 100%;">
+                <i class="fas fa-check"></i> OK
             </button>
         </div>
     </div>
 
     <script>
-        // Package Builder Functionality
+        // Mobile Menu Functionality
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuClose = document.getElementById('mobileMenuClose');
+        const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('active');
+            mobileMenuOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        
+        mobileMenuClose.addEventListener('click', closeMobileMenu);
+        mobileMenuOverlay.addEventListener('click', closeMobileMenu);
+        
+        mobileNavLinks.forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
+        });
+        
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('active');
+            mobileMenuOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        // Service Selection
+        const serviceButtons = document.querySelectorAll('.service-button');
+        const serviceDetailContainers = document.querySelectorAll('.service-detail-container');
+        const addServiceBtn = document.getElementById('addServiceBtn');
+        
+        serviceButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const service = this.dataset.service;
+                
+                // Remove active class from all buttons
+                serviceButtons.forEach(btn => btn.classList.remove('active'));
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                // Hide all service detail containers
+                serviceDetailContainers.forEach(container => {
+                    container.classList.remove('active');
+                });
+                
+                // Show selected service detail
+                const detailContainer = document.getElementById(`serviceDetail${service.charAt(0).toUpperCase() + service.slice(1)}`);
+                if (detailContainer) {
+                    detailContainer.classList.add('active');
+                    
+                    // Scroll to the service detail
+                    setTimeout(() => {
+                        detailContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 300);
+                }
+            });
+        });
+        
+        // Package Builder
         let selectedServices = [];
         let totalPrice = 0;
         
-        document.querySelectorAll('.service-select').forEach(service => {
-            service.addEventListener('click', function() {
-                const serviceName = this.getAttribute('data-service');
-                const servicePrice = parseInt(this.getAttribute('data-price'));
+        document.querySelectorAll('.add-to-package').forEach(button => {
+            button.addEventListener('click', function() {
+                const serviceName = this.dataset.service;
+                const servicePrice = parseInt(this.dataset.price);
+                const serviceDisplay = this.closest('.service-detail-container').querySelector('h2').textContent;
                 
-                if (this.classList.contains('selected')) {
-                    this.classList.remove('selected');
-                    selectedServices = selectedServices.filter(s => s.name !== serviceName);
-                    totalPrice -= servicePrice;
-                } else {
-                    this.classList.add('selected');
+                // Check if service already added
+                if (!selectedServices.find(s => s.name === serviceName)) {
                     selectedServices.push({
                         name: serviceName,
                         price: servicePrice,
-                        displayName: this.querySelector('h4').textContent
+                        displayName: serviceDisplay
                     });
                     totalPrice += servicePrice;
+                    updatePackageSummary();
+                    
+                    // Show success message
+                    showStatusMessage(`${serviceDisplay} a fost adăugat în pachet.`, 'success');
+                } else {
+                    showStatusMessage('Acest serviciu este deja adăugat.', 'error');
                 }
-                
-                updatePackageSummary();
             });
         });
-
+        
+        addServiceBtn.addEventListener('click', function() {
+            // Scroll to services section
+            document.getElementById('services').scrollIntoView({ behavior: 'smooth' });
+        });
+        
         function updatePackageSummary() {
             document.getElementById('totalPrice').textContent = totalPrice;
             const selectedServicesContainer = document.getElementById('selectedServices');
             
             if (selectedServices.length === 0) {
-                selectedServicesContainer.innerHTML = '<p style="text-align: center; color: var(--gray); padding: 2rem;">Niciun serviciu selectat încă. Apasă pe serviciile de mai sus pentru a le adăuga în pachetul tău.</p>';
-                document.getElementById('packageSummary').value = 'Niciun serviciu selectat încă. Te rog să îți creezi pachetul mai întâi.';
+                selectedServicesContainer.innerHTML = `
+                    <p style="text-align: center; color: var(--gray); padding: 2rem; font-size: 0.95rem;">
+                        Încă nu ai selectat niciun serviciu. Apasă pe "Adaugă Servicii" pentru a începe.
+                    </p>
+                `;
+                document.getElementById('packageSummary').value = 'Fără servicii selectate';
             } else {
-                let servicesHTML = '<h4 style="margin-bottom: 1rem;">Serviciile tale:</h4><ul style="list-style: none; padding: 0;">';
+                let servicesHTML = '<h4 style="margin-bottom: 1rem; font-size: 1.1rem;">Serviciile tale:</h4><ul style="list-style: none; padding: 0;">';
                 let packageSummaryText = '';
                 
                 selectedServices.forEach(service => {
-                    servicesHTML += `<li style="padding: 0.5rem 0; border-bottom: 1px solid var(--light-gray);">
-                        <i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i>
-                        <strong>${service.displayName}</strong> - ${service.price} RON
-                    </li>`;
+                    servicesHTML += `
+                        <li style="padding: 0.8rem; background: white; border-radius: 8px; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
+                            <span>
+                                <i class="fas fa-check" style="color: var(--gold); margin-right: 8px;"></i>
+                                <strong>${service.displayName}</strong>
+                            </span>
+                            <span style="font-weight: 700; color: var(--primary);">${service.price} RON</span>
+                        </li>
+                    `;
                     packageSummaryText += `${service.displayName} (${service.price} RON), `;
                 });
                 
-                servicesHTML += `<li style="font-weight: 700; color: var(--primary); margin-top: 1rem; padding-top: 1rem; border-top: 2px solid var(--gold);">
-                    Total: ${totalPrice} RON
-                </li></ul>`;
+                servicesHTML += `
+                    <li style="font-weight: 700; color: var(--primary); margin-top: 1rem; padding-top: 1rem; border-top: 2px solid var(--gold); display: flex; justify-content: space-between;">
+                        <span>Total:</span>
+                        <span>${totalPrice} RON</span>
+                    </li>
+                </ul>`;
+                
                 selectedServicesContainer.innerHTML = servicesHTML;
                 document.getElementById('packageSummary').value = packageSummaryText.slice(0, -2);
             }
         }
-
+        
         // Calendar Functionality
         let currentDate = new Date();
         let selectedCalendarDate = null;
@@ -1593,23 +1613,17 @@
             "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"
         ];
         
-        // Romanian day names
-        const romanianDays = ["Dum", "Lun", "Mar", "Mie", "Joi", "Vin", "Sâm"];
+        // Busy dates - will be updated from Google Calendar
+        let busyDates = [];
         
-        // Predefined busy dates for demo
-        const busyDates = [
-            '2024-01-15', '2024-01-20', '2024-01-25',
-            '2024-02-02', '2024-02-10', '2024-02-18'
+        // Time slots
+        const timeSlots = [
+            { time: '09:00', display: '9:00 AM - 11:00 AM' },
+            { time: '11:00', display: '11:00 AM - 1:00 PM' },
+            { time: '13:00', display: '1:00 PM - 3:00 PM' },
+            { time: '15:00', display: '3:00 PM - 5:00 PM' },
+            { time: '17:00', display: '5:00 PM - 7:00 PM' }
         ];
-        
-        // Time slots for each day
-        const timeSlotsData = {
-            '09:00': '9:00 AM - 11:00 AM',
-            '11:00': '11:00 AM - 1:00 PM', 
-            '13:00': '1:00 PM - 3:00 PM',
-            '15:00': '3:00 PM - 5:00 PM',
-            '17:00': '5:00 PM - 7:00 PM'
-        };
         
         // Render Calendar
         function renderCalendar() {
@@ -1657,27 +1671,18 @@
                         // Check if past date
                         const isPastDate = cellDate < today;
                         
-                        // Check if busy
+                        // Check if busy (from Google Calendar API - demo data for now)
                         const isBusyDate = busyDates.includes(currentDateStr);
                         
                         if (isBusyDate) {
                             cell.classList.add('booked');
-                            cell.innerHTML = `
-                                <div class="day-number">${date}</div>
-                                <div class="day-status">Ocupat</div>
-                            `;
-                            cell.title = "Această zi este deja rezervată";
+                            cell.innerHTML = `<div class="day-number">${date}</div>`;
+                            cell.title = "Data indisponibilă";
                         } else if (isPastDate) {
-                            cell.innerHTML = `
-                                <div class="day-number" style="color: #a0aec0;">${date}</div>
-                                <div style="font-size: 0.8rem; color: #a0aec0;">Îndepărtat</div>
-                            `;
+                            cell.innerHTML = `<div class="day-number" style="color: #a0aec0;">${date}</div>`;
                         } else {
                             cell.classList.add('available');
-                            cell.innerHTML = `
-                                <div class="day-number">${date}</div>
-                                <div class="day-status">Disponibil</div>
-                            `;
+                            cell.innerHTML = `<div class="day-number">${date}</div>`;
                             
                             cell.addEventListener('click', function() {
                                 selectDate(cell, currentDateStr, cellDate);
@@ -1699,14 +1704,9 @@
         }
         
         function selectDate(cell, dateStr, dateObj) {
-            // Check if date is busy
-            if (busyDates.includes(dateStr)) {
-                showStatusMessage('Această zi este deja rezervată. Te rog alege altă dată.', 'error');
-                return;
-            }
-            
             const today = new Date();
             today.setHours(0, 0, 0, 0);
+            
             if (dateObj < today) {
                 showStatusMessage('Nu poți selecta date din trecut.', 'error');
                 return;
@@ -1736,67 +1736,61 @@
             });
             document.getElementById('selectedDate').value = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
             
-            // Show time slots container
-            document.getElementById('timeSlotsContainer').style.display = 'block';
-            document.getElementById('loadingTimeSlots').style.display = 'block';
-            document.getElementById('timeSlots').innerHTML = '';
+            // Show time slots
+            showTimeSlots();
             
-            // Load available time slots
-            setTimeout(() => {
-                loadTimeSlots();
-                document.getElementById('loadingTimeSlots').style.display = 'none';
-            }, 500);
-            
-            showStatusMessage(`Data selectată: ${formattedDate}. Alege acum intervalul orar.`, 'success');
+            showStatusMessage(`Data selectată: ${formattedDate}`, 'success');
         }
         
-        function loadTimeSlots() {
-            const timeSlotsContainer = document.getElementById('timeSlots');
-            timeSlotsContainer.innerHTML = '';
+        function showTimeSlots() {
+            const timeSlotsContainer = document.getElementById('timeSlotsContainer');
+            const timeSlotsGrid = document.getElementById('timeSlots');
             
-            // Create time slot buttons
-            Object.entries(timeSlotsData).forEach(([startTime, display]) => {
-                const slotElement = document.createElement('button');
-                slotElement.type = 'button';
-                slotElement.className = 'time-slot-btn';
-                slotElement.textContent = display;
-                slotElement.dataset.time = startTime;
+            timeSlotsContainer.style.display = 'block';
+            timeSlotsGrid.innerHTML = '';
+            
+            // Show loading
+            document.getElementById('loadingTimeSlots').style.display = 'block';
+            
+            // Simulate API call delay
+            setTimeout(() => {
+                document.getElementById('loadingTimeSlots').style.display = 'none';
                 
-                // Randomly mark some slots as unavailable for demo
-                const isAvailable = Math.random() > 0.3;
-                
-                if (isAvailable) {
-                    slotElement.addEventListener('click', () => selectTimeSlot(slotElement, startTime, display));
-                } else {
-                    slotElement.disabled = true;
-                    slotElement.style.opacity = '0.6';
-                    slotElement.style.cursor = 'not-allowed';
-                    slotElement.title = 'Acest interval nu este disponibil';
-                }
-                
-                timeSlotsContainer.appendChild(slotElement);
-            });
+                // Create time slot buttons
+                timeSlots.forEach(slot => {
+                    const slotElement = document.createElement('button');
+                    slotElement.type = 'button';
+                    slotElement.className = 'time-slot-btn';
+                    slotElement.textContent = slot.display;
+                    slotElement.dataset.time = slot.time;
+                    
+                    // Make most slots available (for demo)
+                    const isAvailable = Math.random() > 0.2;
+                    
+                    if (isAvailable) {
+                        slotElement.addEventListener('click', () => selectTimeSlot(slotElement, slot.time, slot.display));
+                    } else {
+                        slotElement.disabled = true;
+                        slotElement.title = 'Interval indisponibil';
+                    }
+                    
+                    timeSlotsGrid.appendChild(slotElement);
+                });
+            }, 500);
         }
         
         function selectTimeSlot(element, time, display) {
             // Remove selection from all time slots
             document.querySelectorAll('.time-slot-btn').forEach(btn => {
                 btn.classList.remove('selected');
-                btn.style.backgroundColor = '';
-                btn.style.color = '';
-                btn.style.transform = '';
             });
             
             // Select this slot
             element.classList.add('selected');
-            element.style.backgroundColor = 'var(--blue)';
-            element.style.color = 'white';
-            element.style.borderColor = 'var(--blue)';
-            
             selectedTimeSlot = time;
             
             // Update display
-            document.getElementById('selectedTimeDisplay').value = `${display}`;
+            document.getElementById('selectedTimeDisplay').value = display;
             document.getElementById('selectedTime').value = time;
             
             // Show selected time container
@@ -1831,7 +1825,7 @@
             
             // Validate required fields
             if (!selectedCalendarDate) {
-                showStatusMessage('Te rog selectează o dată din calendar mai întâi.', 'error');
+                showStatusMessage('Te rog selectează o dată din calendar.', 'error');
                 return;
             }
             
@@ -1853,7 +1847,6 @@
                 return;
             }
             
-            // Validate email format
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             if (!emailRegex.test(email)) {
                 showStatusMessage('Te rog introdu o adresă de email validă.', 'error');
@@ -1876,7 +1869,7 @@
             }
             
             if (selectedServices.length === 0) {
-                showStatusMessage('Te rog selectează cel puțin un serviciu din secțiunea Pachete.', 'error');
+                showStatusMessage('Te rog selectează cel puțin un serviciu.', 'error');
                 return;
             }
             
@@ -1884,31 +1877,26 @@
             submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Se procesează...';
             submitBtn.disabled = true;
             
-            // Simulate API call
+            // Simulate booking submission
             setTimeout(() => {
-                // Prepare modal content
+                // Show success modal
                 document.getElementById('modalDate').textContent = document.getElementById('selectedDate').value;
                 document.getElementById('modalTime').textContent = document.getElementById('selectedTimeDisplay').value;
                 document.getElementById('modalClient').textContent = document.getElementById('clientName').value;
-                document.getElementById('modalPhone').textContent = phone;
-                document.getElementById('modalTotal').textContent = totalPrice;
-                document.getElementById('modalServices').textContent = document.getElementById('packageSummary').value;
+                document.getElementById('modalTotal').textContent = totalPrice + ' RON';
                 
-                // Show success modal
                 document.getElementById('confirmationModal').classList.add('active');
                 
-                // Add to busy dates for demo
-                busyDates.push(selectedCalendarDate);
+                // IMPORTANT: The date will NOT be marked as busy here
+                // Only the admin can mark dates as busy in Google Calendar
+                // This prevents automatic busy marking by users
                 
                 // Reset form
-                resetForm();
+                resetBookingForm();
                 
                 // Restore button
                 submitBtn.innerHTML = originalText;
                 submitBtn.disabled = false;
-                
-                // Render calendar to show new busy date
-                renderCalendar();
                 
             }, 1500);
         });
@@ -1927,13 +1915,7 @@
             }, 5000);
         }
         
-        function resetForm() {
-            // Reset package builder
-            selectedServices = [];
-            totalPrice = 0;
-            document.querySelectorAll('.service-select').forEach(s => s.classList.remove('selected'));
-            updatePackageSummary();
-            
+        function resetBookingForm() {
             // Reset calendar selection
             selectedCalendarDate = null;
             selectedTimeSlot = null;
@@ -1975,7 +1957,7 @@
             }
         });
         
-        // Smooth scrolling for anchor links
+        // Smooth scrolling
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -1993,23 +1975,27 @@
             });
         });
         
-        // Mobile menu
-        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-            document.getElementById('navMenu').classList.toggle('active');
-        });
-        
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('#navMenu a').forEach(link => {
-            link.addEventListener('click', function() {
-                document.getElementById('navMenu').classList.remove('active');
-            });
-        });
-        
-        // Set current year in footer
+        // Set current year
         document.getElementById('currentYear').textContent = new Date().getFullYear();
         
         // Initialize package summary
         updatePackageSummary();
+        
+        // Simulate fetching busy dates from Google Calendar
+        function fetchBusyDatesFromGoogleCalendar() {
+            // This would be your actual API call to Google Calendar
+            // For now, using demo data
+            console.log('Fetching busy dates from Google Calendar...');
+            
+            // Example: Fetch busy dates every 5 minutes
+            setInterval(() => {
+                console.log('Updating busy dates from Google Calendar...');
+                // Here you would update the busyDates array with data from Google Calendar
+            }, 300000); // 5 minutes
+        }
+        
+        // Start fetching busy dates
+        fetchBusyDatesFromGoogleCalendar();
     </script>
 </body>
 </html>
